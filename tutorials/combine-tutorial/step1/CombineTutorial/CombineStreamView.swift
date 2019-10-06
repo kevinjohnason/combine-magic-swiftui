@@ -18,7 +18,7 @@ struct CombineStreamView: View {
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            TunnelView(streamValues: $streamValues)
+            TunnelView(streamValues: $streamValues)            
             HStack {
                 Button("Subscribe") {
                     self.cancellable = self.invervalValuePublisher()
@@ -26,11 +26,14 @@ struct CombineStreamView: View {
                             self.streamValues.append($0)
                     }
                 }
-                Button("Cancel") {
-                    self.cancellable?.cancel()
-                }
-                Button("Clear") {
-                    self.streamValues.removeAll()
+                if self.cancellable != nil {
+                    Button("Cancel") {
+                        self.cancellable = nil
+                    }
+                } else {
+                    Button("Clear") {
+                        self.streamValues.removeAll()
+                    }
                 }
             }
             Spacer()
@@ -39,7 +42,7 @@ struct CombineStreamView: View {
     
     func invervalValuePublisher() -> AnyPublisher<String, Never> {
         let publishers = (1...5).map { String($0) }
-        .map { Just($0).delay(for: .seconds(1), scheduler: DispatchQueue.main).eraseToAnyPublisher() }        
+            .map { Just($0).delay(for: .seconds(1), scheduler: DispatchQueue.main).eraseToAnyPublisher() }
         return publishers[1...].reduce(publishers[0]) {
             Publishers.Concatenate(prefix: $0, suffix: $1).eraseToAnyPublisher()
         }
