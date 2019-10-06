@@ -22,9 +22,11 @@ struct CombineStreamView: View {
             HStack {
                 Button("Subscribe") {
                     self.cancellable = self.invervalValuePublisher()
-                        .sink {
+                        .sink(receiveCompletion: { _ in
+                            self.cancellable = nil
+                        }, receiveValue: {
                             self.streamValues.append($0)
-                    }
+                        })
                 }
                 if self.cancellable != nil {
                     Button("Cancel") {
