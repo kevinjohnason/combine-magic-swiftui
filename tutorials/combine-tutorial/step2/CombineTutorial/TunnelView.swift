@@ -22,7 +22,7 @@ struct TunnelView: View {
         HStack(spacing: verticalPadding) {
             ForEach(streamValues.reversed(), id: \.self) { value in
                 CircularTextView(text: value)
-                    .transition(.slide)
+                .transition(.slide)
             }
         }.padding([.leading, .trailing], 5)
         .frame(maxWidth: .infinity, minHeight: 44, alignment: .trailing)
