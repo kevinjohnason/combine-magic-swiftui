@@ -12,7 +12,7 @@ struct StreamView: View {
     
     @State var streamValues: [String] = []
     
-    @State var nextValue = 0
+    @State private var nextValue = 0
     
     var body: some View {
         VStack(spacing: 30) {

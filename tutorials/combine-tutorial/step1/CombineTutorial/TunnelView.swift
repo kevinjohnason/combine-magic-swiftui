@@ -21,7 +21,7 @@ struct TunnelView: View {
             ForEach(streamValues.reversed(), id: \.self) { value in
                 CircularTextView(text: value)
             }
-        }.padding([.leading, .trailing], 5)
+        }.padding(.horizontal, 5)
         .frame(maxWidth: .infinity, minHeight: 50, alignment: .trailing)
         .padding([.top, .bottom], verticalPadding)
         .background(tunnelColor)
@@ -30,6 +30,10 @@ struct TunnelView: View {
 
 struct TunnelView_Previews: PreviewProvider {
     static var previews: some View {
-        TunnelView(streamValues: .constant([]))
+        Section {
+            TunnelView(streamValues: .constant(["1"]))
+            TunnelView(streamValues: .constant(["1", "2"]))
+            TunnelView(streamValues: .constant(["1", "2", "3"]))
+        }.previewLayout(.sizeThatFits)
     }
 }
