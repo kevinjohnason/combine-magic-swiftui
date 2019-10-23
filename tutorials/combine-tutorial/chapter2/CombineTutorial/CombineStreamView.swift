@@ -11,40 +11,31 @@ import Combine
 
 struct CombineStreamView: View {
     
-    @State private var stream1Values: [String] = []
+    @State var streamValues: [String] = []
     
-    @State private var stream2Values: [String] = []
-    
-    @State private var disposables = Set<AnyCancellable>()
-        
+    @State var cancellable: AnyCancellable?
     
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            TunnelView(streamValues: $stream1Values)
-            
-            TunnelView(streamValues: $stream2Values)
-            
+            TunnelView(streamValues: $streamValues)            
             HStack {
                 Button("Subscribe") {
-                    let publisher = self.invervalValuePublisher()
-                    publisher.sink {
-                        self.stream1Values.append($0)
-                    }.store(in: &self.disposables)
-                    
-                    let publisher2 = publisher.map { (Int($0) ?? 0) * 2 }.map { String($0) }.eraseToAnyPublisher()
-                    publisher2.sink {
-                        self.stream2Values.append($0)
-                    }.store(in: &self.disposables)
+                    self.cancellable?.cancel()
+                    self.cancellable = self.invervalValuePublisher()
+                        .sink(receiveCompletion: { _ in
+                            self.cancellable = nil
+                        }, receiveValue: {
+                            self.streamValues.append($0)
+                        })
                 }
-                if self.disposables.count > 0 {
+                if self.cancellable != nil {
                     Button("Cancel") {
-                        self.disposables.removeAll()
+                        self.cancellable = nil
                     }
                 } else {
                     Button("Clear") {
-                        self.stream1Values.removeAll()
-                        self.stream2Values.removeAll()
+                        self.streamValues.removeAll()
                     }
                 }
             }

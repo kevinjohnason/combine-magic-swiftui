@@ -11,7 +11,7 @@ import Combine
 
 struct ContentView: View {
     var body: some View {
-        CombineStreamView()
+        CombineScanStreamView()        
     }
 }
 
