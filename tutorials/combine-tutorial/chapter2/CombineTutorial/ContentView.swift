@@ -10,24 +10,23 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-    var body: some View {
-        CombineScanStreamView()
-//        NavigationView {
-//            List {
-//                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Map", description: ".map { $0 * 2 }", comparingPublisher: self.mapPublisher)) {
-//                    Text("Map")
-//                }
-//                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Scan", description: ".scan(0) { $0 + $1 }", comparingPublisher: self.scanPublisher)) {
-//                    Text("Scan")
-//                }
-//                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Filter", description: ".filter { $0 != 2 }", comparingPublisher: self.filterPublisher)) {
-//                    Text("Filter")
-//                }
-//                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Drop", description: ".dropFirst(2)", comparingPublisher: self.dropPublisher)) {
-//                    Text("Drop")
-//                }
-//            }.navigationBarTitle("Combine Operators")
-//        }
+    var body: some View {        
+        NavigationView {
+            List {
+                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Map", description: ".map { $0 * 2 }", comparingPublisher: self.mapPublisher)) {
+                    Text("Map")
+                }
+                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Scan", description: ".scan(0) { $0 + $1 }", comparingPublisher: self.scanPublisher)) {
+                    Text("Scan")
+                }
+                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Filter", description: ".filter { $0 != 2 }", comparingPublisher: self.filterPublisher)) {
+                    Text("Filter")
+                }
+                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Drop", description: ".dropFirst(2)", comparingPublisher: self.dropPublisher)) {
+                    Text("Drop")
+                }
+            }.navigationBarTitle("Combine Operators")
+        }
     }
         
     func mapPublisher(publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
