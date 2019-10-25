@@ -22,7 +22,7 @@ struct TunnelView: View {
                 CircularTextView(text: value)                    
             }
         }.padding(.horizontal, 5).padding(.vertical, 5)
-        .frame(maxWidth: .infinity, minHeight: 50, alignment: .trailing)
+        .frame(maxWidth: .infinity, minHeight: 60, alignment: .trailing)
         .padding([.top, .bottom], verticalPadding)
         .background(tunnelColor)
     }
