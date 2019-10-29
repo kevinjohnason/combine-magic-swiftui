@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Combine
-struct CombineDoubleStreamView: View {
+struct DoublePublisherStreamView: View {
     
     @State private var stream1Values: [String] = []
     
@@ -40,12 +40,12 @@ struct CombineDoubleStreamView: View {
                         $0.cancel()
                     }
                     self.disposables.removeAll()
-                    let publisher = self.invervalValuePublisher(array: ["1", "2", "3", "4", "5"])
+                    let publisher = self.invervalValuePublisher(array: ["1", "2", "3", "4"])
                     publisher.sink {
                         self.stream1Values.append($0)
                     }.store(in: &self.disposables)
                     
-                    let publisher2 = self.invervalValuePublisher(array: ["A", "B", "C", "D", "E"])
+                    let publisher2 = self.invervalValuePublisher(array: ["A", "B", "C", "D"])
                     publisher2.sink {
                         self.stream2Values.append($0)
                     }.store(in: &self.disposables)
@@ -80,9 +80,10 @@ struct CombineDoubleStreamView: View {
     }
 }
 
-struct CombineDoubleStreamView_Previews: PreviewProvider {
-    static var previews: some View {
-        CombineDoubleStreamView(navigationBarTitle: "Merge", description: "fdasfdsaf") { (publisher1, publisher2) -> (AnyPublisher<String, Never>) in
+struct DoublePublisherStreamView_Previews: PreviewProvider {
+    static var previews: some View {                
+        
+        DoublePublisherStreamView(navigationBarTitle: "Merge", description: "fdasfdsaf") { (publisher1, publisher2) -> (AnyPublisher<String, Never>) in
             Publishers.Merge(publisher1, publisher2).eraseToAnyPublisher()
         }
     }

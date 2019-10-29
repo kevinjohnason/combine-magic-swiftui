@@ -10,7 +10,7 @@
 		3114843A236007670082620C /* CombineStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31148439236007670082620C /* CombineStreamView.swift */; };
 		3114843C23600D4C0082620C /* CombineScanStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843B23600D4C0082620C /* CombineScanStreamView.swift */; };
 		3114843E236014FF0082620C /* GenericCombineStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843D236014FF0082620C /* GenericCombineStreamView.swift */; };
-		31148440236672300082620C /* CombineDoubleStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843F236672300082620C /* CombineDoubleStreamView.swift */; };
+		31148440236672300082620C /* DoublePublisherStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843F236672300082620C /* DoublePublisherStreamView.swift */; };
 		31944F53234927BC00684DFD /* StreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31944F52234927BC00684DFD /* StreamView.swift */; };
 		31A5758C233AE64E00C0C6CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5758B233AE64E00C0C6CE /* AppDelegate.swift */; };
 		31A5758E233AE64E00C0C6CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5758D233AE64E00C0C6CE /* SceneDelegate.swift */; };
@@ -27,7 +27,7 @@
 		31148439236007670082620C /* CombineStreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineStreamView.swift; sourceTree = "<group>"; };
 		3114843B23600D4C0082620C /* CombineScanStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineScanStreamView.swift; sourceTree = "<group>"; };
 		3114843D236014FF0082620C /* GenericCombineStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericCombineStreamView.swift; sourceTree = "<group>"; };
-		3114843F236672300082620C /* CombineDoubleStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineDoubleStreamView.swift; sourceTree = "<group>"; };
+		3114843F236672300082620C /* DoublePublisherStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublePublisherStreamView.swift; sourceTree = "<group>"; };
 		31944F52234927BC00684DFD /* StreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamView.swift; sourceTree = "<group>"; };
 		31944F5423497BEB00684DFD /* CombineMapStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineMapStreamView.swift; sourceTree = "<group>"; };
 		31A57588233AE64E00C0C6CE /* CombineTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CombineTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,7 +82,7 @@
 				31944F5423497BEB00684DFD /* CombineMapStreamView.swift */,
 				3114843B23600D4C0082620C /* CombineScanStreamView.swift */,
 				3114843D236014FF0082620C /* GenericCombineStreamView.swift */,
-				3114843F236672300082620C /* CombineDoubleStreamView.swift */,
+				3114843F236672300082620C /* DoublePublisherStreamView.swift */,
 				31A57591233AE65000C0C6CE /* Assets.xcassets */,
 				31A57596233AE65000C0C6CE /* LaunchScreen.storyboard */,
 				31A57599233AE65000C0C6CE /* Info.plist */,
@@ -171,7 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31A5758C233AE64E00C0C6CE /* AppDelegate.swift in Sources */,
-				31148440236672300082620C /* CombineDoubleStreamView.swift in Sources */,
+				31148440236672300082620C /* DoublePublisherStreamView.swift in Sources */,
 				31B9CCFD235EBBD900026624 /* CombineMapStreamView.swift in Sources */,
 				3114843E236014FF0082620C /* GenericCombineStreamView.swift in Sources */,
 				31A5758E233AE64E00C0C6CE /* SceneDelegate.swift in Sources */,

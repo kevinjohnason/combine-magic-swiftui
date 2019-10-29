@@ -13,44 +13,24 @@ struct ContentView: View {
     var body: some View {        
         NavigationView {
             List {
-                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Map", description: ".map { $0 * 2 }", comparingPublisher: self.mapPublisher)) {
-                    Text("Map")
-                }
-                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Scan", description: ".scan(0) { $0 + $1 }", comparingPublisher: self.scanPublisher)) {
-                    Text("Scan")
-                }
-                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Filter", description: ".filter { $0 != 2 }", comparingPublisher: self.filterPublisher)) {
-                    Text("Filter")
-                }
-                NavigationLink(destination: GenericCombineStreamView(navigationBarTitle: "Drop", description: ".dropFirst(2)", comparingPublisher: self.dropPublisher)) {
-                    Text("Drop")
-                }
-                NavigationLink(destination: CombineDoubleStreamView(navigationBarTitle: "Merge", description: "Merge(publisher1, publisher2)", comparingPublisher: mergePublisher)) {
+                NavigationLink(destination: DoublePublisherStreamView(navigationBarTitle: "Merge", description: "Publishers.Merge(publisher1, publisher2)", comparingPublisher: self.mergePublisher)) {
                     Text("Merge")
+                }
+                NavigationLink(destination: DoublePublisherStreamView(navigationBarTitle: "Append", description: "publisher1.append(publisher2)", comparingPublisher: appendPublisher)) {
+                    Text("Append")
                 }
             }.navigationBarTitle("Combine Operators")
         }
     }
-        
-    func mapPublisher(publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        publisher.map { (Int($0) ?? 0) * 2 }.map { String($0) }.eraseToAnyPublisher()
-    }
     
-    func scanPublisher(publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        publisher.map { Int($0) ?? 0 }.scan(0) { $0 + $1 }.map { String($0) }.eraseToAnyPublisher()
-    }
-    
-    func filterPublisher(publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        publisher.filter { $0 != "2" }.eraseToAnyPublisher()
-    }
-    
-    func dropPublisher(publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        publisher.dropFirst(2).eraseToAnyPublisher()
-    }
-    
-    func mergePublisher(publisher1: AnyPublisher<String, Never>,
-                        publisher2: AnyPublisher<String, Never>) -> AnyPublisher<String, Never>{
+    func mergePublisher(_ publisher1: AnyPublisher<String, Never>,
+                        _ publisher2: AnyPublisher<String, Never>) -> AnyPublisher<String, Never>{
         Publishers.Merge(publisher1, publisher2).eraseToAnyPublisher()
+    }
+    
+    func appendPublisher(_ publisher1: AnyPublisher<String, Never>,
+                         _ publisher2: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
+        publisher1.append(publisher2).eraseToAnyPublisher()
     }
 }
 
