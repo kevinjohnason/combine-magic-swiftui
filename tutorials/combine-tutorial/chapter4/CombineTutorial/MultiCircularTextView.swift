@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-
 struct MultiCircularTextView: View {
     
     var texts: [String]
