@@ -4,21 +4,20 @@ struct TunnelView: View {
     @Binding var streamValues: [[String]]
     
     let verticalPadding: CGFloat = 5
-     
+    
     let tunnelColor: Color = Color(red: 242/255.0, green: 242/255.0, blue: 242/255.0)
     
-    var body: some View {
-        HStack(spacing: verticalPadding) {
-            Spacer()
-            ForEach(streamValues.reversed(), id: \.self) { texts in
+    var body: some View {        
+        HStack(spacing: self.verticalPadding) {
+            ForEach(self.streamValues.reversed(), id: \.self) { texts in
                 CircularTextArrayView(texts: texts)
             }
-        }.animation(.easeInOut)
-        .padding(.horizontal, 5).padding(.vertical, 5)
+        }
+        .animation(.easeInOut)
         .frame(maxWidth: .infinity, minHeight: 60, alignment: .trailing)
-        .padding([.top, .bottom], verticalPadding)
-        .background(tunnelColor)
-    }   
+        .padding([.top, .bottom], self.verticalPadding)
+        .background(self.tunnelColor)
+    }
 }
 
 struct TunnelView_Previews: PreviewProvider {

@@ -19,5 +19,4 @@ struct ButtonModifier: ViewModifier {
         .background(backgroundColor)
         .cornerRadius(12)
     }
-    
 }

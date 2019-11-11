@@ -5,7 +5,7 @@ struct CircularTextArrayView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(texts, id: \.self) { value in
+            ForEach(self.texts, id: \.self) { value in
                 CircularTextView(text: value)
             }
         }
