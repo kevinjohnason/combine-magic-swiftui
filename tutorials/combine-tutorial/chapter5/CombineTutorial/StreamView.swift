@@ -14,10 +14,10 @@ struct StreamView: View {
                 Button("Add") {
                     self.nextValue += 1
                     self.streamValues.append([String(self.nextValue)])
-                }
+                }.modifier(ButtonModifier(backgroundColor: Color.blue))
                 Button("Remove") {
                     self.streamValues.remove(at: 0)
-                }
+                }.modifier(ButtonModifier(backgroundColor: Color.red))
             }
             Spacer()
         }

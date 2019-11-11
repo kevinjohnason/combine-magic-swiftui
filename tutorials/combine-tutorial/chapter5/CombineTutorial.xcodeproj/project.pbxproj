@@ -12,6 +12,8 @@
 		3114843E236014FF0082620C /* GenericCombineStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843D236014FF0082620C /* GenericCombineStreamView.swift */; };
 		31148440236672300082620C /* DoublePublisherStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843F236672300082620C /* DoublePublisherStreamView.swift */; };
 		314BDA7E236A3EF8002ADB7F /* CircularTextArrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314BDA7D236A3EF8002ADB7F /* CircularTextArrayView.swift */; };
+		318567B2237646D400A99AAD /* ButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318567B1237646D400A99AAD /* ButtonModifier.swift */; };
+		318567B423764D1E00A99AAD /* DescriptiveTunnelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318567B323764D1E00A99AAD /* DescriptiveTunnelView.swift */; };
 		31944F53234927BC00684DFD /* StreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31944F52234927BC00684DFD /* StreamView.swift */; };
 		31A5758C233AE64E00C0C6CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5758B233AE64E00C0C6CE /* AppDelegate.swift */; };
 		31A5758E233AE64E00C0C6CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5758D233AE64E00C0C6CE /* SceneDelegate.swift */; };
@@ -30,6 +32,8 @@
 		3114843D236014FF0082620C /* GenericCombineStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericCombineStreamView.swift; sourceTree = "<group>"; };
 		3114843F236672300082620C /* DoublePublisherStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublePublisherStreamView.swift; sourceTree = "<group>"; };
 		314BDA7D236A3EF8002ADB7F /* CircularTextArrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTextArrayView.swift; sourceTree = "<group>"; };
+		318567B1237646D400A99AAD /* ButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonModifier.swift; sourceTree = "<group>"; };
+		318567B323764D1E00A99AAD /* DescriptiveTunnelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveTunnelView.swift; sourceTree = "<group>"; };
 		31944F52234927BC00684DFD /* StreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamView.swift; sourceTree = "<group>"; };
 		31944F5423497BEB00684DFD /* CombineMapStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineMapStreamView.swift; sourceTree = "<group>"; };
 		31A57588233AE64E00C0C6CE /* CombineTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CombineTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +84,7 @@
 				31A5759F233AE66600C0C6CE /* CircularTextView.swift */,
 				314BDA7D236A3EF8002ADB7F /* CircularTextArrayView.swift */,
 				31A575A1233AE76700C0C6CE /* TunnelView.swift */,
+				318567B323764D1E00A99AAD /* DescriptiveTunnelView.swift */,
 				31944F52234927BC00684DFD /* StreamView.swift */,
 				31148439236007670082620C /* CombineStreamView.swift */,
 				31944F5423497BEB00684DFD /* CombineMapStreamView.swift */,
@@ -90,6 +95,7 @@
 				31A57596233AE65000C0C6CE /* LaunchScreen.storyboard */,
 				31A57599233AE65000C0C6CE /* Info.plist */,
 				31A57593233AE65000C0C6CE /* Preview Content */,
+				318567B1237646D400A99AAD /* ButtonModifier.swift */,
 			);
 			path = CombineTutorial;
 			sourceTree = "<group>";
@@ -179,8 +185,10 @@
 				3114843E236014FF0082620C /* GenericCombineStreamView.swift in Sources */,
 				31A5758E233AE64E00C0C6CE /* SceneDelegate.swift in Sources */,
 				3114843C23600D4C0082620C /* CombineScanStreamView.swift in Sources */,
+				318567B2237646D400A99AAD /* ButtonModifier.swift in Sources */,
 				31A575A0233AE66600C0C6CE /* CircularTextView.swift in Sources */,
 				31A57590233AE64E00C0C6CE /* ContentView.swift in Sources */,
+				318567B423764D1E00A99AAD /* DescriptiveTunnelView.swift in Sources */,
 				31944F53234927BC00684DFD /* StreamView.swift in Sources */,
 				3114843A236007670082620C /* CombineStreamView.swift in Sources */,
 				314BDA7E236A3EF8002ADB7F /* CircularTextArrayView.swift in Sources */,

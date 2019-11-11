@@ -1,13 +1,5 @@
-//
-//  MultiCircularTextView.swift
-//  CombineTutorial
-//
-//  Created by Kevin Cheng on 10/30/19.
-//  Copyright © 2019 Kevin-Cheng. All rights reserved.
-//
-
 import SwiftUI
-struct MultiCircularTextView: View {
+struct CircularTextArrayView: View {
     
     var texts: [String]
     
@@ -22,6 +14,6 @@ struct MultiCircularTextView: View {
 
 struct MultiCircularTextView_Previews: PreviewProvider {
     static var previews: some View {
-        MultiCircularTextView(texts: ["1", "2"])
+        CircularTextArrayView(texts: ["1", "2"]).previewLayout(.sizeThatFits)
     }
 }

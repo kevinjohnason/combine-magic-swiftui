@@ -1,5 +1,5 @@
 //
-//  GenericCombineStreamView.swift
+//  CombineScanStreamView.swift
 //  CombineTutorial
 //
 //  Created by Kevin Cheng on 10/22/19.
@@ -9,27 +9,16 @@
 import SwiftUI
 import Combine
 
-struct GenericCombineStreamView: View {
-    
+struct CombineScanStreamView: View {
     @State private var stream1Values: [[String]] = []
     
     @State private var stream2Values: [[String]] = []
     
     @State private var disposables = Set<AnyCancellable>()
-    
-    var navigationBarTitle: String?
-    
-    var description: String?
-    
-    var comparingPublisher: (AnyPublisher<String, Never>) -> (AnyPublisher<String, Never>)
-    
+            
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            
-            Text(description ?? "")
-            .font(.system(.headline, design: .monospaced))
-            .lineLimit(nil).padding()            
             TunnelView(streamValues: $stream1Values)
             TunnelView(streamValues: $stream2Values)
             HStack {
@@ -37,13 +26,12 @@ struct GenericCombineStreamView: View {
                     self.disposables.forEach {
                         $0.cancel()
                     }
-                    self.disposables.removeAll()
                     let publisher = self.invervalValuePublisher()
                     publisher.sink {
                         self.stream1Values.append([$0])
                     }.store(in: &self.disposables)
-                    let comparingPublisher = self.comparingPublisher(publisher)
-                    comparingPublisher.sink {
+                    let scanPublisher = publisher.map { Int($0) ?? 0 }.scan(0) { $0 + $1 }.map { String($0) }
+                    scanPublisher.sink {
                         self.stream2Values.append([$0])
                     }.store(in: &self.disposables)
                 }
@@ -59,7 +47,7 @@ struct GenericCombineStreamView: View {
                 }
             }
             Spacer()
-        }.navigationBarTitle(navigationBarTitle ?? "")
+        }
     }
     
     func invervalValuePublisher() -> AnyPublisher<String, Never> {
@@ -71,10 +59,8 @@ struct GenericCombineStreamView: View {
     }
 }
 
-struct GenericCombineStreamView_Previews: PreviewProvider {
+struct CombineScanStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        GenericCombineStreamView {
-            $0.map { (Int($0) ?? 0) * 2 }.map { String($0) }.eraseToAnyPublisher()
-        }
+        CombineScanStreamView()
     }
 }

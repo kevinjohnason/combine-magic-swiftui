@@ -9,10 +9,12 @@ struct TunnelView: View {
     
     var body: some View {
         HStack(spacing: verticalPadding) {
+            Spacer()
             ForEach(streamValues.reversed(), id: \.self) { texts in
                 CircularTextArrayView(texts: texts)
             }
-        }.padding(.horizontal, 5).padding(.vertical, 5)
+        }.animation(.easeInOut)
+        .padding(.horizontal, 5).padding(.vertical, 5)
         .frame(maxWidth: .infinity, minHeight: 60, alignment: .trailing)
         .padding([.top, .bottom], verticalPadding)
         .background(tunnelColor)
