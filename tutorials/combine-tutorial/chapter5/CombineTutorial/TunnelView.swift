@@ -7,16 +7,21 @@ struct TunnelView: View {
     
     let tunnelColor: Color = Color(red: 242/255.0, green: 242/255.0, blue: 242/255.0)
     
-    var body: some View {        
-        HStack(spacing: self.verticalPadding) {
-            ForEach(self.streamValues.reversed(), id: \.self) { texts in
-                CircularTextArrayView(texts: texts)
+    var body: some View {
+        GeometryReader { reader in
+            HStack(spacing: self.verticalPadding) {
+                ForEach(self.streamValues.reversed(), id: \.self) { texts in
+                    CircularTextArrayView(texts: texts)
+                        .transition(.asymmetric(insertion: .offset(x: -reader.size.width, y: 0),
+                                                removal: .offset(x: reader.size.width, y: 0)))
+                }
             }
-        }
-        .animation(.easeInOut)
-        .frame(maxWidth: .infinity, minHeight: 60, alignment: .trailing)
-        .padding([.top, .bottom], self.verticalPadding)
-        .background(self.tunnelColor)
+            .frame(width: reader.size.width, alignment: .trailing)
+        }.animation(.easeInOut(duration: 2))
+            .padding([.top, .bottom], self.verticalPadding)
+            .frame(minHeight: 60)
+            .background(self.tunnelColor)
+        
     }
 }
 
