@@ -3,25 +3,36 @@ struct TunnelView: View {
     
     @Binding var streamValues: [[String]]
     
-    let verticalPadding: CGFloat = 5
+    let spacing: CGFloat = 5
     
     let tunnelColor: Color = Color(red: 242/255.0, green: 242/255.0, blue: 242/255.0)
+            
+    let radius: CGFloat = 50
     
     var body: some View {
         GeometryReader { reader in
-            HStack(spacing: self.verticalPadding) {
+            HStack(spacing: self.spacing) {
                 ForEach(self.streamValues.reversed(), id: \.self) { texts in
                     CircularTextArrayView(texts: texts)
                         .transition(.asymmetric(insertion: .offset(x: -reader.size.width, y: 0),
                                                 removal: .offset(x: reader.size.width, y: 0)))
                 }
             }
-            .frame(width: reader.size.width, alignment: .trailing)
-        }.animation(.easeInOut(duration: 2))
-            .padding([.top, .bottom], self.verticalPadding)
-            .frame(minHeight: 60)
+            .frame(width: self.tunnelWidth(with: reader.size.width), alignment: .trailing)
+            .offset(x: self.tunnelOffset(with: reader.size.width))
+            
+        }.animation(.easeInOut(duration: 1))
+            .padding([.top, .bottom], self.spacing)
+            .frame(height: 60)
             .background(self.tunnelColor)
-        
+    }
+    
+    func tunnelWidth(with screenWidth: CGFloat) -> CGFloat {
+        max(screenWidth, (radius * 2 + spacing) * CGFloat(streamValues.count))
+    }
+    
+    func tunnelOffset(with screenWidth: CGFloat) -> CGFloat {
+        (tunnelWidth(with: screenWidth) - screenWidth) / 2
     }
 }
 

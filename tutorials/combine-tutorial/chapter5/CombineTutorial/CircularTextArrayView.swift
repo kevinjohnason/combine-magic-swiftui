@@ -3,10 +3,12 @@ struct CircularTextArrayView: View {
     
     var texts: [String]
     
+    var radius: CGFloat = 50
+    
     var body: some View {
         HStack(spacing: 0) {
             ForEach(self.texts, id: \.self) { value in
-                CircularTextView(text: value)
+                CircularTextView(text: value, radius: self.radius)
             }
         }
     }
