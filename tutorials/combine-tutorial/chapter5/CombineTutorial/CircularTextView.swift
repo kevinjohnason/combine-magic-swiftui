@@ -1,9 +1,20 @@
+//
+//  CircularTextView.swift
+//  CombineTutorial
+//
+//  Created by kevin.cheng on 9/24/19.
+//  Copyright © 2019 Kevin-Cheng. All rights reserved.
+//
+
 import SwiftUI
+
 struct CircularTextView: View {
     
     @State var text: String        
     
+
     var radius: CGFloat = 50
+
 
     var body: some View {
         Text(text)

@@ -1,3 +1,10 @@
+//
+//  StreamView.swift
+//  CombineTutorial
+//
+//  Created by kevin.cheng on 9/25/19.
+//  Copyright © 2019 Kevin-Cheng. All rights reserved.
+//
 import SwiftUI
 import Combine
 struct StreamView: View {

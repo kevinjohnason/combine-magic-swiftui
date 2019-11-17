@@ -36,8 +36,7 @@ struct CombineStreamView: View {
                 } else {
                     Button("Clear") {
                         self.streamValues.removeAll()
-                    }.modifier(ButtonModifier(backgroundColor: Color.red))
-                }
+                    }.modifier(ButtonModifier(backgroundColor: Color.red))                }
             }
             Spacer()
         }

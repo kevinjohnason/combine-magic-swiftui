@@ -39,8 +39,7 @@ struct GenericCombineStreamView: View {
                     }
                     self.disposables.removeAll()
                     let publisher = self.invervalValuePublisher()
-                    publisher.sink {
-                        self.stream1Values.append([$0])
+                    publisher.sink {                        self.stream1Values.append([$0])
                     }.store(in: &self.disposables)
                     let comparingPublisher = self.comparingPublisher(publisher)
                     comparingPublisher.sink {
