@@ -22,17 +22,17 @@ struct TunnelView: View {
             .offset(x: self.tunnelOffset(with: reader.size.width))
             
         }.animation(.easeInOut(duration: 1))
-            .padding([.top, .bottom], self.spacing)
-            .frame(height: 60)
-            .background(self.tunnelColor)
+        .padding([.top, .bottom], self.spacing)
+        .frame(height: 60)
+        .background(self.tunnelColor)
     }
     
-    func tunnelWidth(with screenWidth: CGFloat) -> CGFloat {
-        max(screenWidth, (radius * 2 + spacing) * CGFloat(streamValues.count))
+    func tunnelWidth(with containerWidth: CGFloat) -> CGFloat {
+        max(containerWidth, (radius * 2 + spacing) * CGFloat(streamValues.count))
     }
     
-    func tunnelOffset(with screenWidth: CGFloat) -> CGFloat {
-        (tunnelWidth(with: screenWidth) - screenWidth) / 2
+    func tunnelOffset(with containerWidth: CGFloat) -> CGFloat {
+        (tunnelWidth(with: containerWidth) - containerWidth) / 2
     }
 }
 
