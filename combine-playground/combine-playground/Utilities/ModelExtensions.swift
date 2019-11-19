@@ -67,19 +67,19 @@ extension StreamItem where T == String {
     }
 }
 
-extension GroupOperationType {
+extension UnifyOparator {
     func applyPublishers(_ publishers: [AnyPublisher<String, Never>]) -> AnyPublisher<String, Never> {
         switch self {
-        case .merge:
+        case .merge(_):
             return Publishers.MergeMany(publishers).eraseToAnyPublisher()
-        case .flatMap:
+        case .flatMap(_):
             let initialPublisher: AnyPublisher<String, Never> = Just("").eraseToAnyPublisher()
             return publishers.reduce(initialPublisher) { (initial, next) -> AnyPublisher<String, Never> in
                 initial.flatMap { _ in
                      next
                 }.eraseToAnyPublisher()
             }
-        case .append:
+        case .append(_):
             guard let initialPublisher = publishers.first else {
                 return Empty().eraseToAnyPublisher()
             }

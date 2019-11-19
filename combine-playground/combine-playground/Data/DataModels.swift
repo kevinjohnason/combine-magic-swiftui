@@ -33,15 +33,6 @@ struct StreamItem<T: Codable>: Codable {
     var operatorItem: Operator?
 }
 
-enum OperatorType: String, Codable {
-    case delay
-    case filter
-    case drop
-    case map
-    case scan
-}
-
-
 struct OperationStreamModel: Codable, Identifiable {
     var id: UUID
     var name: String?
@@ -50,23 +41,17 @@ struct OperationStreamModel: Codable, Identifiable {
     var operatorItem: Operator
 }
 
-enum GroupOperationType: String, Codable {
-    case merge
-    case flatMap
-    case append
-}
-
 enum CombineGroupOperationType: String, Codable {
     case zip
     case combineLatest
 }
 
-struct GroupOperationStreamModel: Codable, Identifiable {
+struct UnifyingOperationStreamModel: Codable, Identifiable {
     var id: UUID
     var name: String?
     var description: String?
     var streamModelIds: [UUID]
-    var operationType: GroupOperationType
+    var operatorItem: UnifyOparator
 }
 
 struct CombineGroupOperationStreamModel: Codable, Identifiable {
@@ -75,6 +60,49 @@ struct CombineGroupOperationStreamModel: Codable, Identifiable {
     var description: String?
     var streamModelIds: [UUID]
     var operatorType: CombineGroupOperationType
+}
+
+enum UnifyOparator: Codable {
+    case merge(next: Operator?)
+    case flatMap(next: Operator?)
+    case append(next: Operator?)
+
+    enum CodingKeys: CodingKey {
+        case merge
+        case flatMap
+        case append
+    }
+
+    enum CodingError: Error { case decoding(String) }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let mergeNext = try container.decodeIfPresent((Operator?).self, forKey: .merge) {
+            self = .merge(next: mergeNext)
+        } else if let flatMapNext = try container.decodeIfPresent((Operator?).self, forKey: .flatMap) {
+            self = .flatMap(next: flatMapNext)
+        } else if let appendMapNext = try container.decodeIfPresent((Operator?).self, forKey: .append) {
+            self = .append(next: appendMapNext)
+        }
+        throw CodingError.decoding("Decoding Failed. \(dump(container))")
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .merge(let next):
+            try container.encode(next, forKey: .merge)
+        case .flatMap(let next):
+            try container.encode(next, forKey: .flatMap)
+        case .append(let next):
+            try container.encode(next, forKey: .append)
+        }
+    }
+}
+
+indirect enum JoinOparator {
+    case zip
+    case combineLatest
 }
 
 indirect enum Operator: Codable {

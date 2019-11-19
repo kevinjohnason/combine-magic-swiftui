@@ -36,7 +36,7 @@ struct MultiStreamView: View {
     }
         
     init(streamTitle: String, stream1Model: StreamModel<String>, stream2Model: StreamModel<String>,
-         groupStreamModel: GroupOperationStreamModel) {
+         unifyingStreamModel: UnifyingOperationStreamModel) {
         self.streamTitle = streamTitle
         let stream1ViewModel = StreamViewModel(title: stream1Model.name ?? "",
                                                description: stream1Model.sequenceDescription,
@@ -46,10 +46,10 @@ struct MultiStreamView: View {
                                                description: stream2Model.sequenceDescription,
             publisher: stream2Model.toPublisher()).toArrayViewModel()
             
-        let operatorPublisher = groupStreamModel.operationType.applyPublishers([stream1Model.toPublisher(), stream2Model.toPublisher()])
+        let operatorPublisher = unifyingStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(), stream2Model.toPublisher()])
         
-        let resultViewModel = StreamViewModel(title: groupStreamModel.name ?? "",
-                                              description: groupStreamModel.description ?? "",
+        let resultViewModel = StreamViewModel(title: unifyingStreamModel.name ?? "",
+                                              description: unifyingStreamModel.description ?? "",
             publisher: operatorPublisher).toArrayViewModel()
         streamViewModels = [stream1ViewModel, stream2ViewModel, resultViewModel]
                     

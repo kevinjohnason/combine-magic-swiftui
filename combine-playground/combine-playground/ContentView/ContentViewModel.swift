@@ -16,8 +16,8 @@ class ContentViewModel: ObservableObject {
     @Published var storedStreams: [StreamModel<String>] = DataService.shared.storedStreams
     
     @Published var storedOperationStreams: [OperationStreamModel] = DataService.shared.storedOperationStreams
-             
-    @Published var storedGroupOperationStreams: [GroupOperationStreamModel] = DataService.shared.storedGroupOperationStreams
+
+    @Published var storedUnifyingOperationStreams: [UnifyingOperationStreamModel] = DataService.shared.storedUnifyingOperationStreams
     
     @Published var storedCombineGroupOperationStreams: [CombineGroupOperationStreamModel] = DataService.shared.storedCombineGroupOperationStreams
     
@@ -52,8 +52,8 @@ class ContentViewModel: ObservableObject {
             self.storedOperationStreams = newStream
         }.store(in: &disposables)
         
-        DataService.shared.storedGroupOperationStreamUpdated.sink { (newStream) in
-            self.storedGroupOperationStreams = newStream
+        DataService.shared.storedUnifyingOperationStreamUpdated.sink { (newStream) in
+            self.storedUnifyingOperationStreams = newStream
         }.store(in: &disposables)
         
         DataService.shared.storedCombineGroupOperationStreamUpdated.sink { (newStream) in
