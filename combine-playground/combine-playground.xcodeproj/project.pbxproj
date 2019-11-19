@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593902384B802007F52A5 /* OperatorExtensions.swift */; };
 		31CD20A1237490D6001793FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A0237490D6001793FC /* AppDelegate.swift */; };
 		31CD20A3237490D6001793FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A2237490D6001793FC /* SceneDelegate.swift */; };
 		31CD20A7237490D8001793FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31CD20A6237490D8001793FC /* Assets.xcassets */; };
@@ -19,8 +20,8 @@
 		31CD2105237491D8001793FC /* UpdateStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20BA237491D7001793FC /* UpdateStreamViewModel.swift */; };
 		31CD2106237491D8001793FC /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20BC237491D7001793FC /* DataService.swift */; };
 		31CD2107237491D8001793FC /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20BD237491D7001793FC /* DataModels.swift */; };
-		31CD2108237491D9001793FC /* GroupOperationListStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20BE237491D7001793FC /* GroupOperationListStreamView.swift */; };
-		31CD2129237491D9001793FC /* CombineGroupOperationListStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20EC237491D8001793FC /* CombineGroupOperationListStreamView.swift */; };
+		31CD2108237491D9001793FC /* UnifyingOperationListStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20BE237491D7001793FC /* UnifyingOperationListStreamView.swift */; };
+		31CD2129237491D9001793FC /* JoinOperationListStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20EC237491D8001793FC /* JoinOperationListStreamView.swift */; };
 		31CD212A237491D9001793FC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20EE237491D8001793FC /* ContentViewModel.swift */; };
 		31CD212B237491D9001793FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20EF237491D8001793FC /* ContentView.swift */; };
 		31CD212C237491D9001793FC /* MenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20F1237491D8001793FC /* MenuRow.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		313593902384B802007F52A5 /* OperatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorExtensions.swift; sourceTree = "<group>"; };
 		31CD209D237490D6001793FC /* combine-playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "combine-playground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CD20A0237490D6001793FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31CD20A2237490D6001793FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,8 +56,8 @@
 		31CD20BA237491D7001793FC /* UpdateStreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateStreamViewModel.swift; sourceTree = "<group>"; };
 		31CD20BC237491D7001793FC /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		31CD20BD237491D7001793FC /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
-		31CD20BE237491D7001793FC /* GroupOperationListStreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOperationListStreamView.swift; sourceTree = "<group>"; };
-		31CD20EC237491D8001793FC /* CombineGroupOperationListStreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineGroupOperationListStreamView.swift; sourceTree = "<group>"; };
+		31CD20BE237491D7001793FC /* UnifyingOperationListStreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnifyingOperationListStreamView.swift; sourceTree = "<group>"; };
+		31CD20EC237491D8001793FC /* JoinOperationListStreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinOperationListStreamView.swift; sourceTree = "<group>"; };
 		31CD20EE237491D8001793FC /* ContentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		31CD20EF237491D8001793FC /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		31CD20F1237491D8001793FC /* MenuRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuRow.swift; sourceTree = "<group>"; };
@@ -109,20 +111,20 @@
 				31CD20A6237490D8001793FC /* Assets.xcassets */,
 				31CD20AB237490D8001793FC /* LaunchScreen.storyboard */,
 				31CD20AE237490D8001793FC /* Info.plist */,
-				31CD20EC237491D8001793FC /* CombineGroupOperationListStreamView.swift */,
-				31CD20ED237491D8001793FC /* ContentView */,
 				31CD20BB237491D7001793FC /* Data */,
-				31CD20BE237491D7001793FC /* GroupOperationListStreamView.swift */,
+				31CD20ED237491D8001793FC /* ContentView */,
+				31CD20B4237491D7001793FC /* StreamListView.swift */,
+				31CD20F4237491D8001793FC /* OperationStreamListView.swift */,
+				31CD20BE237491D7001793FC /* UnifyingOperationListStreamView.swift */,
+				31CD20EC237491D8001793FC /* JoinOperationListStreamView.swift */,
 				31CD20F0237491D8001793FC /* Menu */,
 				31CD20F5237491D8001793FC /* MultiBallViews */,
-				31CD20F4237491D8001793FC /* OperationStreamListView.swift */,
 				31CD20F9237491D8001793FC /* SingleBallViews */,
 				31CD20FD237491D8001793FC /* SingleStreamView */,
 				31CD2193237494BB001793FC /* MultiStreamViews */,
-				31CD20B4237491D7001793FC /* StreamListView.swift */,
 				31CD20B5237491D7001793FC /* Styles */,
 				31CD20B8237491D7001793FC /* UpdateStreamView */,
-				31CD20F2237491D8001793FC /* Utilities */,
+				31CD20F2237491D8001793FC /* Extensions */,
 				31CD20A8237490D8001793FC /* Preview Content */,
 			);
 			path = "combine-playground";
@@ -180,12 +182,13 @@
 			path = Menu;
 			sourceTree = "<group>";
 		};
-		31CD20F2237491D8001793FC /* Utilities */ = {
+		31CD20F2237491D8001793FC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				31CD20F3237491D8001793FC /* ModelExtensions.swift */,
+				313593902384B802007F52A5 /* OperatorExtensions.swift */,
 			);
-			path = Utilities;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		31CD20F5237491D8001793FC /* MultiBallViews */ = {
@@ -303,7 +306,7 @@
 				31CD212B237491D9001793FC /* ContentView.swift in Sources */,
 				31CD2137237491D9001793FC /* StreamViewModel.swift in Sources */,
 				31CD2106237491D8001793FC /* DataService.swift in Sources */,
-				31CD2129237491D9001793FC /* CombineGroupOperationListStreamView.swift in Sources */,
+				31CD2129237491D9001793FC /* JoinOperationListStreamView.swift in Sources */,
 				31CD2136237491D9001793FC /* SingleStreamView.swift in Sources */,
 				31CD2135237491D9001793FC /* DataStreamViewModel.swift in Sources */,
 				31CD2103237491D8001793FC /* CombineDemoButton.swift in Sources */,
@@ -316,7 +319,7 @@
 				31CD2197237494BB001793FC /* MultiStreamView.swift in Sources */,
 				31CD2104237491D8001793FC /* UpdateStreamView.swift in Sources */,
 				31CD20A3237490D6001793FC /* SceneDelegate.swift in Sources */,
-				31CD2108237491D9001793FC /* GroupOperationListStreamView.swift in Sources */,
+				31CD2108237491D9001793FC /* UnifyingOperationListStreamView.swift in Sources */,
 				31CD2101237491D8001793FC /* StreamListView.swift in Sources */,
 				31CD2133237491D9001793FC /* CircularTextView.swift in Sources */,
 				31CD2134237491D9001793FC /* CircularTextViewModel.swift in Sources */,
@@ -325,6 +328,7 @@
 				31CD2107237491D8001793FC /* DataModels.swift in Sources */,
 				31CD2102237491D8001793FC /* ButtonModifier.swift in Sources */,
 				31CD212C237491D9001793FC /* MenuRow.swift in Sources */,
+				313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

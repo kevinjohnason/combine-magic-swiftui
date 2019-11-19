@@ -18,15 +18,11 @@ struct ContentView: View {
                 List {
                     StreamListView(storedStreams: $viewModel.storedStreams)
                     OperationStreamListView(storedOperationStreams: $viewModel.storedOperationStreams, storedStreams: $viewModel.storedStreams)
-
-                    
-
-                    GroupOperationListStreamView(storedUnifyingOperationStreams: $viewModel.storedUnifyingOperationStreams,
+                    UnifyingOperationListStreamView(storedUnifyingOperationStreams: $viewModel.storedUnifyingOperationStreams,
                                                  storedStreams: $viewModel.storedStreams)
-                    CombineGroupOperationListStreamView(storedCombineGroupOperationStreams: $viewModel.storedCombineGroupOperationStreams,
+                    JoinOperationListStreamView(storedCombineGroupOperationStreams: $viewModel.storedCombineGroupOperationStreams,
                                                         storedStreams: $viewModel.storedStreams)
-                }
-                
+                }                
                 Button("Reset") {
                     DataService.shared.resetStoredStream()
                 }.frame(maxWidth: .infinity, maxHeight: 25)

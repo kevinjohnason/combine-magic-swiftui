@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct GroupOperationListStreamView: View {
+struct UnifyingOperationListStreamView: View {
     
     @Binding var storedUnifyingOperationStreams: [UnifyingOperationStreamModel]
     
@@ -36,6 +36,6 @@ struct GroupOperationListStreamView: View {
 
 struct GroupOperationListStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupOperationListStreamView(storedUnifyingOperationStreams: .constant([]), storedStreams: .constant([]))
+        UnifyingOperationListStreamView(storedUnifyingOperationStreams: .constant([]), storedStreams: .constant([]))
     }
 }

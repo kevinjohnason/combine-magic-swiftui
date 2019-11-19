@@ -8,12 +8,12 @@
 
 import SwiftUI
 
-struct CombineGroupOperationListStreamView: View {
-    @Binding var storedCombineGroupOperationStreams: [CombineGroupOperationStreamModel]
+struct JoinOperationListStreamView: View {
+    @Binding var storedCombineGroupOperationStreams: [JoinOperationStreamModel]
     
     @Binding var storedStreams: [StreamModel<String>]
         
-    func streamView(streamModel: CombineGroupOperationStreamModel) -> some View {
+    func streamView(streamModel: JoinOperationStreamModel) -> some View {
         let sourceStreams = storedStreams.filter { $0.isDefault }
         guard sourceStreams.count > 1 else {
             return AnyView(EmptyView())
@@ -36,8 +36,8 @@ struct CombineGroupOperationListStreamView: View {
     }
 }
 
-struct CombineGroupOperationListStreamView_Previews: PreviewProvider {
+struct JoinOperationListStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        CombineGroupOperationListStreamView(storedCombineGroupOperationStreams: .constant([]), storedStreams: .constant([]))
+        JoinOperationListStreamView(storedCombineGroupOperationStreams: .constant([]), storedStreams: .constant([]))
     }
 }

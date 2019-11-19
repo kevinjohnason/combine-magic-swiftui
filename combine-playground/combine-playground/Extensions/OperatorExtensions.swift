@@ -1,96 +1,48 @@
 //
-//  CombineService.swift
-//  CombineDemo
+//  OperatorExtensions.swift
+//  combine-playground
 //
-//  Created by Kevin Minority on 7/31/19.
-//  Copyright © 2019 Kevin Cheng. All rights reserved.
+//  Created by Kevin Cheng on 11/19/19.
+//  Copyright © 2019 Kevin-Cheng. All rights reserved.
 //
 
 import Foundation
 import Combine
 
-extension StreamModel {
-    
-    func toArrayStreamModel() -> StreamModel<[T]> {
-        StreamModel<[T]>.init(id: self.id, name: self.name, description: self.description,
-                              stream: self.stream.map { StreamItem(value: [$0.value], operatorItem: $0.operatorItem) },
-                              isDefault: self.isDefault)
-    }
-    
-}
-
-extension StreamModel where T == String {
-    
-    var sequenceDescription: String {
-        var desc = self.stream.reduce("Sequence(") {
-            "\($0)\($1.value), "
-        }
-        guard let finalDotIndex = desc.lastIndex(of: ",") else {
-            return "Empty()"
-        }
-        desc.removeSubrange(finalDotIndex..<desc.endIndex)
-        desc.append(")")
-        return desc
-    }
-    
-    func toPublisher()  -> AnyPublisher<String, Never> {
-        let intervalPublishers =
-            self.stream.map { $0.toPublisher() }
-        
-        var publisher: AnyPublisher<String, Never>?
-        
-        for intervalPublisher in intervalPublishers {
-            if publisher == nil {
-                publisher = intervalPublisher
-                continue
-            }
-            publisher = publisher?.append(intervalPublisher).eraseToAnyPublisher()
-        }
-        
-        return publisher ?? Empty().eraseToAnyPublisher()
-    }
-    
-}
-
-extension StreamItem where T == String {
-    func toPublisher()  -> AnyPublisher<String, Never> {
-        var publisher: AnyPublisher<String, Never> = Just(value).eraseToAnyPublisher()
-        var currentOperator = self.operatorItem
-        while currentOperator != nil {
-            guard let loopOperator = currentOperator else {
-                break
-            }
-            publisher = loopOperator.applyPublisher(publisher)
-            currentOperator = loopOperator.next
-        }
-        return publisher
-    }
-}
-
 extension UnifyOparator {
     func applyPublishers(_ publishers: [AnyPublisher<String, Never>]) -> AnyPublisher<String, Never> {
+        let appliedPublisher: AnyPublisher<String, Never>
+        var nextOperator: Operator?
         switch self {
-        case .merge(_):
-            return Publishers.MergeMany(publishers).eraseToAnyPublisher()
-        case .flatMap(_):
+        case .merge(let next):
+            nextOperator = next
+            appliedPublisher = Publishers.MergeMany(publishers).eraseToAnyPublisher()
+        case .flatMap(let next):
+            nextOperator = next
             let initialPublisher: AnyPublisher<String, Never> = Just("").eraseToAnyPublisher()
-            return publishers.reduce(initialPublisher) { (initial, next) -> AnyPublisher<String, Never> in
+            appliedPublisher = publishers.reduce(initialPublisher) { (initial, next) -> AnyPublisher<String, Never> in
                 initial.flatMap { _ in
                      next
                 }.eraseToAnyPublisher()
             }
-        case .append(_):
-            guard let initialPublisher = publishers.first else {
-                return Empty().eraseToAnyPublisher()
-            }
-            return publishers[1...].reduce(initialPublisher) {
-                $0.append($1).eraseToAnyPublisher()
+        case .append(let next):
+            nextOperator = next
+            if let initialPublisher = publishers.first {
+                appliedPublisher = publishers[1...].reduce(initialPublisher) {
+                    $0.append($1).eraseToAnyPublisher()
+                }
+            } else {
+                appliedPublisher = Empty().eraseToAnyPublisher()
             }
         }
+        if let nextOperator = nextOperator {
+            return nextOperator.applyPublisher(appliedPublisher)
+        }
+        return appliedPublisher
     }
 }
 
-extension CombineGroupOperationType {
+extension JoinOperator {
     func applyPublishers(_ publishers: [AnyPublisher<String, Never>]) -> AnyPublisher<[String], Never> {
         guard publishers.count > 1 else {
             return Empty().eraseToAnyPublisher()

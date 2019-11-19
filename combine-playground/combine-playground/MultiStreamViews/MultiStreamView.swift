@@ -56,11 +56,11 @@ struct MultiStreamView: View {
     }
     
     init(streamTitle: String, stream1Model: StreamModel<String>,
-         stream2Model: StreamModel<String>, combineStreamModel: CombineGroupOperationStreamModel) {
+         stream2Model: StreamModel<String>, combineStreamModel: JoinOperationStreamModel) {
         self.streamTitle = streamTitle
         let stream1ViewModel: StreamViewModel<String> = DataStreamViewModel(streamModel: stream1Model)
         let stream2ViewModel: StreamViewModel<String> = DataStreamViewModel(streamModel: stream2Model)
-        let operatorPublisher = combineStreamModel.operatorType.applyPublishers([stream1Model.toPublisher(), stream2Model.toPublisher()])
+        let operatorPublisher = combineStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(), stream2Model.toPublisher()])
         let resultStreamViewModel = StreamViewModel(title: combineStreamModel.description ?? "",
                                                 description: combineStreamModel.description ?? "", publisher: operatorPublisher)
         

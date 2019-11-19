@@ -74,12 +74,12 @@ class DataService {
         }
     }
     
-    var storedCombineGroupOperationStreams: [CombineGroupOperationStreamModel] {
+    var storedCombineGroupOperationStreams: [JoinOperationStreamModel] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedCombineGroupOperationStreams") else {
                 return self.appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [])
             }
-            guard let streams = try? JSONDecoder().decode([CombineGroupOperationStreamModel].self, from: data) else {
+            guard let streams = try? JSONDecoder().decode([JoinOperationStreamModel].self, from: data) else {
                 return self.appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [])
             }
             return self.appendDefaultCombineGroupOperationStreamsIfNeeded(streams: streams)
@@ -92,7 +92,7 @@ class DataService {
     let storedStreamUpdated: PassthroughSubject<[StreamModel<String>], Never> = PassthroughSubject()
     let storedOperationStreamUpdated: PassthroughSubject<[OperationStreamModel], Never> = PassthroughSubject()
     let storedUnifyingOperationStreamUpdated: PassthroughSubject<[UnifyingOperationStreamModel], Never> = PassthroughSubject()
-    let storedCombineGroupOperationStreamUpdated: PassthroughSubject<[CombineGroupOperationStreamModel], Never> = PassthroughSubject()
+    let storedCombineGroupOperationStreamUpdated: PassthroughSubject<[JoinOperationStreamModel], Never> = PassthroughSubject()
     func loadStream(id: UUID) -> StreamModel<String> {
         guard let stream = DataService.shared.storedStreams.first(where: {
             $0.id == id
@@ -182,7 +182,7 @@ class DataService {
         return [mergeStreamModel, flatMapStreamModel, appendStreamModel]
     }
 
-    func appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [CombineGroupOperationStreamModel]) -> [CombineGroupOperationStreamModel] {
+    func appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [JoinOperationStreamModel]) -> [JoinOperationStreamModel] {
         guard streams.count == 0 else {
             return streams
         }
@@ -192,16 +192,16 @@ class DataService {
         guard let sourceStream2 = storedStreams.last(where: { $0.isDefault }) else {
             return streams
         }
-        let zipStreamModel = CombineGroupOperationStreamModel(id: UUID(),
+        let zipStreamModel = JoinOperationStreamModel(id: UUID(),
                                                               name: "Zip Stream", description: "Publishers.Zip(A, B)",
                                                               streamModelIds:
-            [sourceStream1.id, sourceStream2.id], operatorType: .zip)
-        let combineLatestStreamModel = CombineGroupOperationStreamModel(id: UUID(),
+            [sourceStream1.id, sourceStream2.id], operatorItem: .zip)
+        let combineLatestStreamModel = JoinOperationStreamModel(id: UUID(),
                                                                         name: "CombineLatest Stream",
                                                                         description: "Publishers.CombineLatest(A, B)",
                                                                         streamModelIds: [sourceStream1.id,
                                                                                          sourceStream2.id],
-                                                                        operatorType: .combineLatest)
+                                                                        operatorItem: .combineLatest)
         return [zipStreamModel, combineLatestStreamModel]
     }
     func resetStoredStream() {

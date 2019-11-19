@@ -19,7 +19,7 @@ class ContentViewModel: ObservableObject {
 
     @Published var storedUnifyingOperationStreams: [UnifyingOperationStreamModel] = DataService.shared.storedUnifyingOperationStreams
     
-    @Published var storedCombineGroupOperationStreams: [CombineGroupOperationStreamModel] = DataService.shared.storedCombineGroupOperationStreams
+    @Published var storedCombineGroupOperationStreams: [JoinOperationStreamModel] = DataService.shared.storedCombineGroupOperationStreams
     
     var streamAModel: StreamModel<String> {
         storedStreams.first(where: { $0.isDefault }) ?? StreamModel<String>.new()

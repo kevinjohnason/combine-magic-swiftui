@@ -41,10 +41,7 @@ struct OperationStreamModel: Codable, Identifiable {
     var operatorItem: Operator
 }
 
-enum CombineGroupOperationType: String, Codable {
-    case zip
-    case combineLatest
-}
+
 
 struct UnifyingOperationStreamModel: Codable, Identifiable {
     var id: UUID
@@ -52,14 +49,6 @@ struct UnifyingOperationStreamModel: Codable, Identifiable {
     var description: String?
     var streamModelIds: [UUID]
     var operatorItem: UnifyOparator
-}
-
-struct CombineGroupOperationStreamModel: Codable, Identifiable {
-    var id: UUID
-    var name: String?
-    var description: String?
-    var streamModelIds: [UUID]
-    var operatorType: CombineGroupOperationType
 }
 
 enum UnifyOparator: Codable {
@@ -98,11 +87,6 @@ enum UnifyOparator: Codable {
             try container.encode(next, forKey: .append)
         }
     }
-}
-
-indirect enum JoinOparator {
-    case zip
-    case combineLatest
 }
 
 indirect enum Operator: Codable {
@@ -173,5 +157,18 @@ indirect enum Operator: Codable {
             try container.encode(ExpressionParameters(expression: expression, next: next), forKey: .scan)
         }
     }
-    
+        
+}
+
+struct JoinOperationStreamModel: Codable, Identifiable {
+    var id: UUID
+    var name: String?
+    var description: String?
+    var streamModelIds: [UUID]
+    var operatorItem: JoinOperator
+}
+
+enum JoinOperator: String, Codable {
+    case zip
+    case combineLatest
 }
