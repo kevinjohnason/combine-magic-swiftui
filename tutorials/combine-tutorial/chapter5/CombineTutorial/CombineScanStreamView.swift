@@ -10,17 +10,17 @@ import SwiftUI
 import Combine
 
 struct CombineScanStreamView: View {
-    @State private var stream1Values: [String] = []
+    @State private var stream1Values: [[String]] = []
     
-    @State private var stream2Values: [String] = []
+    @State private var stream2Values: [[String]] = []
     
     @State private var disposables = Set<AnyCancellable>()
             
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
-            //TunnelView(streamValues: $stream1Values)
-            //TunnelView(streamValues: $stream2Values)
+            TunnelView(streamValues: $stream1Values)
+            TunnelView(streamValues: $stream2Values)
             HStack {
                 Button("Subscribe") {
                     self.disposables.forEach {
@@ -28,11 +28,11 @@ struct CombineScanStreamView: View {
                     }
                     let publisher = self.invervalValuePublisher()
                     publisher.sink {
-                        self.stream1Values.append($0)
+                        self.stream1Values.append([$0])
                     }.store(in: &self.disposables)
                     let scanPublisher = publisher.map { Int($0) ?? 0 }.scan(0) { $0 + $1 }.map { String($0) }
                     scanPublisher.sink {
-                        self.stream2Values.append($0)
+                        self.stream2Values.append([$0])
                     }.store(in: &self.disposables)
                 }
                 if self.disposables.count > 0 {

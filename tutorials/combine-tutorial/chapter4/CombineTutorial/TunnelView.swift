@@ -1,11 +1,3 @@
-//
-//  TunnelView.swift
-//  CombineTutorial
-//
-//  Created by kevin.cheng on 9/24/19.
-//  Copyright © 2019 Kevin-Cheng. All rights reserved.
-//
-
 import SwiftUI
 struct TunnelView: View {
     
@@ -18,7 +10,7 @@ struct TunnelView: View {
     var body: some View {
         HStack(spacing: verticalPadding) {
             ForEach(streamValues.reversed(), id: \.self) { texts in
-                MultiCircularTextView(texts: texts)
+                CircularTextArrayView(texts: texts)
             }
         }.padding(.horizontal, 5).padding(.vertical, 5)
         .frame(maxWidth: .infinity, minHeight: 60, alignment: .trailing)

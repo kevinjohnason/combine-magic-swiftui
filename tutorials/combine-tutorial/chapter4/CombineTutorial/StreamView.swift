@@ -1,11 +1,3 @@
-//
-//  StreamView.swift
-//  CombineTutorial
-//
-//  Created by kevin.cheng on 9/25/19.
-//  Copyright © 2019 Kevin-Cheng. All rights reserved.
-//
-
 import SwiftUI
 import Combine
 struct StreamView: View {
@@ -34,6 +26,6 @@ struct StreamView: View {
 
 struct StreamView_Previews: PreviewProvider {
     static var previews: some View {
-        StreamView(streamValues: [["1", "B"]])
+        StreamView(streamValues: [["1", "A"], ["2", "B"]]).previewLayout(.sizeThatFits)
     }
 }

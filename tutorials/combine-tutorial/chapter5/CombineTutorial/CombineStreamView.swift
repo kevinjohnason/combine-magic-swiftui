@@ -28,16 +28,15 @@ struct CombineStreamView: View {
                         }, receiveValue: {
                             self.streamValues.append([$0])
                         })
-                }
+                }.modifier(ButtonModifier(backgroundColor: Color.blue))
                 if self.cancellable != nil {
                     Button("Cancel") {
                         self.cancellable = nil
-                    }
+                    }.modifier(ButtonModifier(backgroundColor: Color.red))
                 } else {
                     Button("Clear") {
                         self.streamValues.removeAll()
-                    }
-                }
+                    }.modifier(ButtonModifier(backgroundColor: Color.red))                }
             }
             Spacer()
         }
@@ -54,6 +53,6 @@ struct CombineStreamView: View {
 
 struct CombineStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        CombineStreamView()
+        CombineStreamView().previewLayout(.sizeThatFits)
     }
 }

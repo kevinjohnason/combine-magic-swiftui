@@ -5,7 +5,6 @@
 //  Created by kevin.cheng on 9/25/19.
 //  Copyright © 2019 Kevin-Cheng. All rights reserved.
 //
-
 import SwiftUI
 import Combine
 struct StreamView: View {
@@ -22,10 +21,10 @@ struct StreamView: View {
                 Button("Add") {
                     self.nextValue += 1
                     self.streamValues.append([String(self.nextValue)])
-                }
+                }.modifier(ButtonModifier(backgroundColor: Color.blue))
                 Button("Remove") {
                     self.streamValues.remove(at: 0)
-                }
+                }.modifier(ButtonModifier(backgroundColor: Color.red))
             }
             Spacer()
         }
@@ -34,6 +33,6 @@ struct StreamView: View {
 
 struct StreamView_Previews: PreviewProvider {
     static var previews: some View {
-        StreamView(streamValues: [["1", "B"]])
+        StreamView(streamValues: [["1", "A"], ["2", "B"]]).previewLayout(.sizeThatFits)
     }
 }

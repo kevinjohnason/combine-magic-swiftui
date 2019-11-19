@@ -4,7 +4,7 @@
 
 ### About
 
-Visual examps  using *SwiftUI* to demonstrate the behaviors of *Combine Operators*.  
+Visual examples using *SwiftUI* to demonstrate the behaviors of *Combine*.  
 
 
 ### Combine Playground

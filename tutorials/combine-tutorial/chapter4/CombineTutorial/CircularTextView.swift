@@ -1,13 +1,4 @@
-//
-//  CircularTextView.swift
-//  CombineTutorial
-//
-//  Created by kevin.cheng on 9/24/19.
-//  Copyright © 2019 Kevin-Cheng. All rights reserved.
-//
-
 import SwiftUI
-
 struct CircularTextView: View {
     
     @State var text: String        
@@ -27,6 +18,8 @@ struct CircularTextView: View {
 
 struct CircularTextView_Previews: PreviewProvider {
     static var previews: some View {
-        CircularTextView(text: "A")
+        Section {
+            CircularTextView(text: "A")
+        }.previewLayout(.sizeThatFits)
     }
 }

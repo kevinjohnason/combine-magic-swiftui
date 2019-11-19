@@ -11,9 +11,9 @@ import Combine
 
 struct GenericCombineStreamView: View {
     
-    @State private var stream1Values: [String] = []
+    @State private var stream1Values: [[String]] = []
     
-    @State private var stream2Values: [String] = []
+    @State private var stream2Values: [[String]] = []
     
     @State private var disposables = Set<AnyCancellable>()
     
@@ -29,10 +29,9 @@ struct GenericCombineStreamView: View {
             
             Text(description ?? "")
             .font(.system(.headline, design: .monospaced))
-            .lineLimit(nil).padding()
-            
-            //TunnelView(streamValues: $stream1Values)
-            //TunnelView(streamValues: $stream2Values)
+            .lineLimit(nil).padding()            
+            TunnelView(streamValues: $stream1Values)
+            TunnelView(streamValues: $stream2Values)
             HStack {
                 Button("Subscribe") {
                     self.disposables.forEach {
@@ -41,11 +40,11 @@ struct GenericCombineStreamView: View {
                     self.disposables.removeAll()
                     let publisher = self.invervalValuePublisher()
                     publisher.sink {
-                        self.stream1Values.append($0)
+                        self.stream1Values.append([$0])
                     }.store(in: &self.disposables)
                     let comparingPublisher = self.comparingPublisher(publisher)
                     comparingPublisher.sink {
-                        self.stream2Values.append($0)
+                        self.stream2Values.append([$0])
                     }.store(in: &self.disposables)
                 }
                 if self.disposables.count > 0 {

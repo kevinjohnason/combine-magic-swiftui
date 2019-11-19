@@ -27,12 +27,9 @@ struct DoublePublisherStreamView: View {
         ScrollView {
         VStack(spacing: 30) {
             Spacer()
-            Text(description ?? "")
-                .font(.system(.headline, design: .monospaced))
-                .lineLimit(nil).padding()
-            TunnelView(streamValues: $stream1Values)
-            TunnelView(streamValues: $stream2Values)
-            TunnelView(streamValues: $streamResultValues)
+            DescriptiveTunnelView(streamValues: $stream1Values, description: "[1, 2, 3, 4]")
+            DescriptiveTunnelView(streamValues: $stream2Values, description: "[A, B, C, D]")
+            DescriptiveTunnelView(streamValues: $streamResultValues, description: description ?? "")
             HStack {
                 Button("Subscribe") {
                     self.disposables.forEach {
@@ -53,17 +50,17 @@ struct DoublePublisherStreamView: View {
                     comparingPublisher.sink {
                         self.streamResultValues.append([$0.0, $0.1])
                     }.store(in: &self.disposables)
-                }
+                }.modifier(ButtonModifier(backgroundColor: Color.blue))
                 if self.disposables.count > 0 {
                     Button("Cancel") {
                         self.disposables.removeAll()
-                    }
+                    }.modifier(ButtonModifier(backgroundColor: Color.red))
                 } else {
                     Button("Clear") {
                         self.stream1Values.removeAll()
                         self.stream2Values.removeAll()
                         self.streamResultValues.removeAll()
-                    }
+                    }.modifier(ButtonModifier(backgroundColor: Color.red))
                 }
             }
             Spacer()
