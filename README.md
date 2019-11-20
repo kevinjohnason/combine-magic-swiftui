@@ -19,4 +19,6 @@ Visual examples using *SwiftUI* to demonstrate the behaviors of *Combine*.
     -   [Source Code](tutorials/combine-tutorial/chapter3)
 4. [Visualize Combine Magic with SwiftUI Part 4](https://medium.com/@kevinminority/visualize-combine-magic-with-swiftui-part-4-6d0c5678f89e)
     -   [Source Code](tutorials/combine-tutorial/chapter4)
+5. [Visualize Combine Magic with SwiftUI Part 5](https://medium.com/flawless-app-stories/visualize-combine-magic-with-swiftui-part-5-2783adddbd1d)
+    -   [Source Code](tutorials/combine-tutorial/chapter5)
 
