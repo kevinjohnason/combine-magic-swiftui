@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593902384B802007F52A5 /* OperatorExtensions.swift */; };
-		31383ABB2385C1BF00EC9A95 /* CombineExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31383AB92385C1B600EC9A95 /* CombineExtensions.framework */; };
 		31CD20A1237490D6001793FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A0237490D6001793FC /* AppDelegate.swift */; };
 		31CD20A3237490D6001793FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A2237490D6001793FC /* SceneDelegate.swift */; };
 		31CD20A7237490D8001793FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31CD20A6237490D8001793FC /* Assets.xcassets */; };
@@ -41,19 +40,9 @@
 		31CD2197237494BB001793FC /* MultiStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD2195237494BB001793FC /* MultiStreamView.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		31383AB82385C1B600EC9A95 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 31383A9D2385BE4700EC9A95;
-			remoteInfo = CombineExtensions;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		313593902384B802007F52A5 /* OperatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorExtensions.swift; sourceTree = "<group>"; };
-		31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CombineExtensions.xcodeproj; path = "../../combine-extensions/CombineExtensions.xcodeproj"; sourceTree = "<group>"; };
+		31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CombineExtensions.xcodeproj; path = "../combine-extensions/CombineExtensions.xcodeproj"; sourceTree = "<group>"; };
 		31CD209D237490D6001793FC /* combine-playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "combine-playground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CD20A0237490D6001793FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31CD20A2237490D6001793FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,7 +82,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31383ABB2385C1BF00EC9A95 /* CombineExtensions.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,14 +99,6 @@
 			path = StreamListViews;
 			sourceTree = "<group>";
 		};
-		31383AB52385C1B600EC9A95 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				31383AB92385C1B600EC9A95 /* CombineExtensions.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		31383ABA2385C1BF00EC9A95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +109,7 @@
 		31CD2094237490D6001793FC = {
 			isa = PBXGroup;
 			children = (
+				31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */,
 				31CD209F237490D6001793FC /* combine-playground */,
 				31CD209E237490D6001793FC /* Products */,
 				31383ABA2385C1BF00EC9A95 /* Frameworks */,
@@ -146,7 +127,6 @@
 		31CD209F237490D6001793FC /* combine-playground */ = {
 			isa = PBXGroup;
 			children = (
-				31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */,
 				31CD20A0237490D6001793FC /* AppDelegate.swift */,
 				31CD20A2237490D6001793FC /* SceneDelegate.swift */,
 				31CD20A6237490D8001793FC /* Assets.xcassets */,
@@ -315,28 +295,12 @@
 			mainGroup = 31CD2094237490D6001793FC;
 			productRefGroup = 31CD209E237490D6001793FC /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 31383AB52385C1B600EC9A95 /* Products */;
-					ProjectRef = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				31CD209C237490D6001793FC /* combine-playground */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		31383AB92385C1B600EC9A95 /* CombineExtensions.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CombineExtensions.framework;
-			remoteRef = 31383AB82385C1B600EC9A95 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		31CD209B237490D6001793FC /* Resources */ = {
