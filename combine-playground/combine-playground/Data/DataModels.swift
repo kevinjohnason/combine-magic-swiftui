@@ -8,6 +8,7 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
 struct StreamModel<T: Codable>: Codable, Identifiable {
     var id: UUID
     var name: String?
@@ -15,7 +16,8 @@ struct StreamModel<T: Codable>: Codable, Identifiable {
     var stream: [StreamItem<T>]
     var isDefault: Bool
     
-    init(id: UUID = UUID(), name: String? = nil, description: String? = nil, stream: [StreamItem<T>] = [], isDefault: Bool = false) {
+    init(id: UUID = UUID(), name: String? = nil, description: String? = nil,
+         stream: [StreamItem<T>] = [], isDefault: Bool = false) {
         self.id = id
         self.name = name
         self.description = description
@@ -40,8 +42,6 @@ struct OperationStreamModel: Codable, Identifiable {
     var streamModelId: UUID
     var operatorItem: Operator
 }
-
-
 
 struct UnifyingOperationStreamModel: Codable, Identifiable {
     var id: UUID
@@ -90,19 +90,19 @@ enum UnifyOparator: Codable {
 }
 
 indirect enum Operator: Codable {
-    
+
     private struct DelayParameters: Codable {
         let seconds: Double
         let next: Operator?
     }
     case delay(seconds: Double, next: Operator?)
-    
+
     private struct ExpressionParameters: Codable {
            let expression: String
            let next: Operator?
     }
     case filter(expression: String, next: Operator?)
-    
+
     private struct DropFirstParameters: Codable {
         let count: Int
         let next: Operator?
@@ -110,9 +110,9 @@ indirect enum Operator: Codable {
     case dropFirst(count: Int, next: Operator?)
 
     case map(expression: String, next: Operator?)
-    
+
     case scan(expression: String, next: Operator?)
-    
+
     enum CodingKeys: CodingKey {
         case delay
         case filter
@@ -120,9 +120,9 @@ indirect enum Operator: Codable {
         case map
         case scan
     }
-    
+
     enum CodingError: Error { case decoding(String) }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let delayParameters = try? container.decodeIfPresent(DelayParameters.self, forKey: .delay) {
@@ -131,7 +131,8 @@ indirect enum Operator: Codable {
         } else if let filterParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .filter) {
             self = .filter(expression: filterParameters.expression, next: filterParameters.next)
           return
-        } else if let dropFirstParameters = try? container.decodeIfPresent(DropFirstParameters.self, forKey: .dropFirst) {
+        } else if let dropFirstParameters =
+            try? container.decodeIfPresent(DropFirstParameters.self, forKey: .dropFirst) {
             self = .dropFirst(count: dropFirstParameters.count, next: dropFirstParameters.next)
           return
         } else if let mapParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .map) {
@@ -141,7 +142,7 @@ indirect enum Operator: Codable {
         }
         throw CodingError.decoding("Decoding Failed. \(dump(container))")
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
@@ -157,7 +158,7 @@ indirect enum Operator: Codable {
             try container.encode(ExpressionParameters(expression: expression, next: next), forKey: .scan)
         }
     }
-        
+
 }
 
 struct JoinOperationStreamModel: Codable, Identifiable {
