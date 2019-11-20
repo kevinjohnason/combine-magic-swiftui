@@ -6,6 +6,7 @@
 
 Visual examples using *SwiftUI* to demonstrate the behaviors of *Combine*.  
 
+![quick demo](Previes/combine-zip.fig)
 
 ### Combine Playground
 [SwiftUI App Source Code](combine-playground)
