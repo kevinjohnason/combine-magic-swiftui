@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Combine
 // swiftlint:disable identifier_name
 struct StreamModel<T: Codable>: Codable, Identifiable {
     var id: UUID

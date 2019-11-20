@@ -75,7 +75,7 @@ extension Operator {
             return ".scan(0) { \(expression) }"
         }
     }
-    
+
     func applyPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
         switch self {
         case .delay(let seconds, _):
@@ -99,7 +99,7 @@ extension Operator {
                 .map { String($0) }.eraseToAnyPublisher()
         }
     }
-    
+
     var next: Operator? {
         switch self {
         case .delay(_, let next):

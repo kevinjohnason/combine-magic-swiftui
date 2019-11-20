@@ -9,23 +9,7 @@
 import Foundation
 import Combine
 class DataService {
-    static let shared = DataService()    
-    var currentStream: StreamModel<String> {
-        get {
-            let defaullModel = StreamModel<String>(id: UUID(), name: "default stream", description: nil, stream: [])
-            guard let data = UserDefaults.standard.data(forKey: "currentStream") else {
-                return defaullModel
-            }
-            guard let model = try? JSONDecoder().decode(StreamModel<String>.self, from: data) else {
-                return defaullModel
-            }
-            return model
-        } set {
-            // swiftlint:disable:next force_try
-            UserDefaults.standard.set(try! JSONEncoder().encode(newValue), forKey: "currentStream")
-        }
-    }
-    
+    static let shared = DataService()
     var storedStreams: [StreamModel<String>] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedStreams") else {
@@ -41,7 +25,7 @@ class DataService {
             storedStreamUpdated.send(newValue)
         }
     }
-    
+
     var storedOperationStreams: [OperationStreamModel] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedOperationStreams") else {
@@ -57,7 +41,7 @@ class DataService {
             storedOperationStreamUpdated.send(newValue)
         }
     }
-    
+
     var storedUnifyingOperationStreams: [UnifyingOperationStreamModel] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedUnifyingOperationStreams") else {
@@ -91,8 +75,10 @@ class DataService {
     }
     let storedStreamUpdated: PassthroughSubject<[StreamModel<String>], Never> = PassthroughSubject()
     let storedOperationStreamUpdated: PassthroughSubject<[OperationStreamModel], Never> = PassthroughSubject()
-    let storedUnifyingOperationStreamUpdated: PassthroughSubject<[UnifyingOperationStreamModel], Never> = PassthroughSubject()
-    let storedCombineGroupOperationStreamUpdated: PassthroughSubject<[JoinOperationStreamModel], Never> = PassthroughSubject()
+    let storedUnifyingOperationStreamUpdated: PassthroughSubject<[UnifyingOperationStreamModel], Never>
+        = PassthroughSubject()
+    let storedCombineGroupOperationStreamUpdated: PassthroughSubject<[JoinOperationStreamModel], Never>
+        = PassthroughSubject()
     // swiftlint:disable identifier_name
     func loadStream(id: UUID) -> StreamModel<String> {
         guard let stream = DataService.shared.storedStreams.first(where: {

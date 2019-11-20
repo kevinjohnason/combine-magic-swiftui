@@ -12,10 +12,10 @@ struct UnifyingOperationListStreamView: View {
     
     @Binding var storedUnifyingOperationStreams: [UnifyingOperationStreamModel]
     
-    @Binding var storedStreams: [StreamModel<String>]
+    @EnvironmentObject var streamStore: StreamStore
         
     func streamView(streamModel: UnifyingOperationStreamModel) -> some View {
-        let sourceStreams = storedStreams.filter { $0.isDefault }
+        let sourceStreams = streamStore.streams.filter { $0.isDefault }
         guard sourceStreams.count > 1 else {
             return AnyView(EmptyView())
         }
@@ -36,6 +36,6 @@ struct UnifyingOperationListStreamView: View {
 
 struct GroupOperationListStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        UnifyingOperationListStreamView(storedUnifyingOperationStreams: .constant([]), storedStreams: .constant([]))
+        UnifyingOperationListStreamView(storedUnifyingOperationStreams: .constant([]))
     }
 }

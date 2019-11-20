@@ -12,10 +12,10 @@ struct OperationStreamListView: View {
     
     @Binding var storedOperationStreams: [OperationStreamModel]
     
-    @Binding var storedStreams: [StreamModel<String>]
+    @EnvironmentObject var streamStore: StreamStore
     
     func sourceStream(with id: UUID) -> StreamModel<String>? {
-        storedStreams.first(where: { $0.id == id })
+        self.streamStore.streams.first(where: { $0.id == id })
     }
         
     func streamView(streamModel: OperationStreamModel) -> some View {
@@ -38,7 +38,6 @@ struct OperationStreamListView: View {
 
 struct OperationStreamListView_Previews: PreviewProvider {
     static var previews: some View {
-        OperationStreamListView(storedOperationStreams: .constant([]),
-                                storedStreams: .constant([]))
+        OperationStreamListView(storedOperationStreams: .constant([]))
     }
 }
