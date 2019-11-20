@@ -11,6 +11,8 @@
 		3114843C23600D4C0082620C /* CombineScanStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843B23600D4C0082620C /* CombineScanStreamView.swift */; };
 		3114843E236014FF0082620C /* GenericCombineStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843D236014FF0082620C /* GenericCombineStreamView.swift */; };
 		31148440236672300082620C /* DoublePublisherStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3114843F236672300082620C /* DoublePublisherStreamView.swift */; };
+		31383AB12385BEE100EC9A95 /* CombineExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31383AAF2385BEB900EC9A95 /* CombineExtensions.framework */; };
+		31383AB22385BEE100EC9A95 /* CombineExtensions.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 31383AAF2385BEB900EC9A95 /* CombineExtensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		314BDA7E236A3EF8002ADB7F /* CircularTextArrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314BDA7D236A3EF8002ADB7F /* CircularTextArrayView.swift */; };
 		318567B2237646D400A99AAD /* ButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318567B1237646D400A99AAD /* ButtonModifier.swift */; };
 		318567B423764D1E00A99AAD /* DescriptiveTunnelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318567B323764D1E00A99AAD /* DescriptiveTunnelView.swift */; };
@@ -26,11 +28,36 @@
 		31B9CCFD235EBBD900026624 /* CombineMapStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31944F5423497BEB00684DFD /* CombineMapStreamView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		31383AAE2385BEB900EC9A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31383AAA2385BEB900EC9A95 /* CombineExtensions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31383A9D2385BE4700EC9A95;
+			remoteInfo = CombineExtensions;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31383AB32385BEE100EC9A95 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				31383AB22385BEE100EC9A95 /* CombineExtensions.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		31148439236007670082620C /* CombineStreamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineStreamView.swift; sourceTree = "<group>"; };
 		3114843B23600D4C0082620C /* CombineScanStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineScanStreamView.swift; sourceTree = "<group>"; };
 		3114843D236014FF0082620C /* GenericCombineStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericCombineStreamView.swift; sourceTree = "<group>"; };
 		3114843F236672300082620C /* DoublePublisherStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublePublisherStreamView.swift; sourceTree = "<group>"; };
+		31383AAA2385BEB900EC9A95 /* CombineExtensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CombineExtensions.xcodeproj; path = "../../../combine-extensions/CombineExtensions.xcodeproj"; sourceTree = "<group>"; };
 		314BDA7D236A3EF8002ADB7F /* CircularTextArrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTextArrayView.swift; sourceTree = "<group>"; };
 		318567B1237646D400A99AAD /* ButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonModifier.swift; sourceTree = "<group>"; };
 		318567B323764D1E00A99AAD /* DescriptiveTunnelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveTunnelView.swift; sourceTree = "<group>"; };
@@ -53,17 +80,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31383AB12385BEE100EC9A95 /* CombineExtensions.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31383AAB2385BEB900EC9A95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31383AAF2385BEB900EC9A95 /* CombineExtensions.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		31383AB02385BEE100EC9A95 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		31A5757F233AE64E00C0C6CE = {
 			isa = PBXGroup;
 			children = (
+				31383AAA2385BEB900EC9A95 /* CombineExtensions.xcodeproj */,
 				31A5758A233AE64E00C0C6CE /* CombineTutorial */,
 				31A57589233AE64E00C0C6CE /* Products */,
+				31383AB02385BEE100EC9A95 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,6 +163,7 @@
 				31A57584233AE64E00C0C6CE /* Sources */,
 				31A57585233AE64E00C0C6CE /* Frameworks */,
 				31A57586233AE64E00C0C6CE /* Resources */,
+				31383AB32385BEE100EC9A95 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -154,12 +200,28 @@
 			mainGroup = 31A5757F233AE64E00C0C6CE;
 			productRefGroup = 31A57589233AE64E00C0C6CE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 31383AAB2385BEB900EC9A95 /* Products */;
+					ProjectRef = 31383AAA2385BEB900EC9A95 /* CombineExtensions.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				31A57587233AE64E00C0C6CE /* CombineTutorial */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		31383AAF2385BEB900EC9A95 /* CombineExtensions.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CombineExtensions.framework;
+			remoteRef = 31383AAE2385BEB900EC9A95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		31A57586233AE64E00C0C6CE /* Resources */ = {

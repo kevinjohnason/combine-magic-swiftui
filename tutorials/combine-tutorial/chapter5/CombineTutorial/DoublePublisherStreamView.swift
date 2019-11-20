@@ -32,10 +32,7 @@ struct DoublePublisherStreamView: View {
             DescriptiveTunnelView(streamValues: $streamResultValues, description: description ?? "")
             HStack {
                 Button("Subscribe") {
-                    self.disposables.forEach {
-                        $0.cancel()
-                    }
-                    self.disposables.removeAll()
+                    self.disposables.cancelAll()
                     let publisher = self.invervalValuePublisher(array: ["1", "2", "3", "4"])
                     publisher.sink {
                         self.stream1Values.append([$0])

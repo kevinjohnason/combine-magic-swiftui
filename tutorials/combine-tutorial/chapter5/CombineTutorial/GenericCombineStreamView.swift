@@ -34,10 +34,7 @@ struct GenericCombineStreamView: View {
             TunnelView(streamValues: $stream2Values)
             HStack {
                 Button("Subscribe") {
-                    self.disposables.forEach {
-                        $0.cancel()
-                    }
-                    self.disposables.removeAll()
+                    self.disposables.cancelAll()
                     let publisher = self.invervalValuePublisher()
                     publisher.sink {                        self.stream1Values.append([$0])
                     }.store(in: &self.disposables)
