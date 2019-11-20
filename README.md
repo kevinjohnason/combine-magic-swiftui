@@ -1,12 +1,10 @@
 ## `Combine Magic with SwiftUI`
 
-![swiftui](Previews/swiftui-96x96_2x.png)
+![quick demo](Previews/combine-zip.gif)
 
 ### About
 
 Visual examples using *SwiftUI* to demonstrate the behaviors of *Combine*.  
-
-![quick demo](Previews/combine-zip.gif)
 
 ### Combine Playground
 [SwiftUI App Source Code](combine-playground)
