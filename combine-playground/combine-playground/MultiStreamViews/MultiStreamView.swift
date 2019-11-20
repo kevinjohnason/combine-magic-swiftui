@@ -12,7 +12,7 @@ import Combine
 struct MultiStreamView: View {
     let streamViewModels: [StreamViewModel<[String]>]
     let streamTitle: String
-            
+
     init(streamTitle: String, sourceStreamModel: StreamModel<String>, operatorItem: Operator) {
         self.streamTitle = streamTitle
 
@@ -42,22 +42,22 @@ struct MultiStreamView: View {
         let stream1ViewModel = StreamViewModel(title: stream1Model.name ?? "",
                                                description: stream1Model.sequenceDescription,
             publisher: stream1Model.toPublisher()).toArrayViewModel()
-            
+
         let stream2ViewModel = StreamViewModel(title: stream2Model.name ?? "",
                                                description: stream2Model.sequenceDescription,
             publisher: stream2Model.toPublisher()).toArrayViewModel()
-            
+
         let operatorPublisher =
             unifyingStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(),
                                                               stream2Model.toPublisher()])
-        
+
         let resultViewModel = StreamViewModel(title: unifyingStreamModel.name ?? "",
                                               description: unifyingStreamModel.description ?? "",
             publisher: operatorPublisher).toArrayViewModel()
         streamViewModels = [stream1ViewModel, stream2ViewModel, resultViewModel]
-                    
+
     }
-    
+
     init(streamTitle: String, stream1Model: StreamModel<String>,
          stream2Model: StreamModel<String>, combineStreamModel: JoinOperationStreamModel) {
         self.streamTitle = streamTitle

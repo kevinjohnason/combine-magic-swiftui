@@ -87,6 +87,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		313593932384BC34007F52A5 /* StreamListViews */ = {
+			isa = PBXGroup;
+			children = (
+				31CD20B4237491D7001793FC /* StreamListView.swift */,
+				31CD20F4237491D8001793FC /* OperationStreamListView.swift */,
+				31CD20BE237491D7001793FC /* UnifyingOperationListStreamView.swift */,
+				31CD20EC237491D8001793FC /* JoinOperationListStreamView.swift */,
+			);
+			path = StreamListViews;
+			sourceTree = "<group>";
+		};
 		31CD2094237490D6001793FC = {
 			isa = PBXGroup;
 			children = (
@@ -113,10 +124,7 @@
 				31CD20AE237490D8001793FC /* Info.plist */,
 				31CD20BB237491D7001793FC /* Data */,
 				31CD20ED237491D8001793FC /* ContentView */,
-				31CD20B4237491D7001793FC /* StreamListView.swift */,
-				31CD20F4237491D8001793FC /* OperationStreamListView.swift */,
-				31CD20BE237491D7001793FC /* UnifyingOperationListStreamView.swift */,
-				31CD20EC237491D8001793FC /* JoinOperationListStreamView.swift */,
+				313593932384BC34007F52A5 /* StreamListViews */,
 				31CD20F0237491D8001793FC /* Menu */,
 				31CD20F5237491D8001793FC /* MultiBallViews */,
 				31CD20F9237491D8001793FC /* SingleBallViews */,

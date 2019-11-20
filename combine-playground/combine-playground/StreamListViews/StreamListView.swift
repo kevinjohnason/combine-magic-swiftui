@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct StreamListView: View {
-    
+
     @Binding var storedStreams: [StreamModel<String>]
-    
+
     @State var deleteAlertInDisplay: Bool = false
-        
+
     func streamView(streamModel: StreamModel<String>) -> some View {
         return AnyView(SingleStreamView(viewModel: DataStreamViewModel(streamModel: streamModel)))
     }
-    
+
     var body: some View {
         ForEach(storedStreams) { stream in
             NavigationLink(destination: self.streamView(streamModel: stream)) {
@@ -37,7 +37,8 @@ struct StreamListView: View {
             storedStreams.move(fromOffsets: source, toOffset: destination)
             self.storedStreams = storedStreams
         }.alert(isPresented: $deleteAlertInDisplay) { () -> Alert in
-            Alert(title: Text("Don't do that"), message: Text("You can't delete default streams"), dismissButton: .cancel())
+            Alert(title: Text("Don't do that"),
+                  message: Text("You can't delete default streams"), dismissButton: .cancel())
         }
     }
 }

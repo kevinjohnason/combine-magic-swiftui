@@ -73,7 +73,7 @@ class DataService {
             storedUnifyingOperationStreamUpdated.send(newValue)
         }
     }
-    
+
     var storedCombineGroupOperationStreams: [JoinOperationStreamModel] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedCombineGroupOperationStreams") else {
@@ -93,6 +93,7 @@ class DataService {
     let storedOperationStreamUpdated: PassthroughSubject<[OperationStreamModel], Never> = PassthroughSubject()
     let storedUnifyingOperationStreamUpdated: PassthroughSubject<[UnifyingOperationStreamModel], Never> = PassthroughSubject()
     let storedCombineGroupOperationStreamUpdated: PassthroughSubject<[JoinOperationStreamModel], Never> = PassthroughSubject()
+    // swiftlint:disable identifier_name
     func loadStream(id: UUID) -> StreamModel<String> {
         guard let stream = DataService.shared.storedStreams.first(where: {
             $0.id == id
@@ -101,29 +102,29 @@ class DataService {
         }
         return stream
     }
-    
+
     func appendDefaultStreamsIfNeeded(streams: [StreamModel<String>]) -> [StreamModel<String>] {
         guard (streams.filter { $0.isDefault }).count == 0 else {
             return streams
         }
-        
+
         let streamA = (1...4).map { StreamItem(value: String($0),
                                                operatorItem: .delay(seconds: 1, next: nil)) }
         let serialStreamA = StreamModel(id: UUID(), name: "Serial Stream A",
                                         description: nil, stream: streamA, isDefault: true)
-        
+
         let streamB = ["A", "B", "C", "D"].map {
             StreamItem(value: $0, operatorItem: .delay(seconds: 2, next: nil)) }
         let serialStreamB = StreamModel(id: UUID(), name: "Serial Stream B",
                                         description: nil, stream: streamB, isDefault: true)
-        
+
         var newStreams = streams
         newStreams.append(serialStreamA)
         newStreams.append(serialStreamB)
         self.storedStreams = newStreams
         return newStreams
     }
-    
+
     func appendDefaultOperationStreamsIfNeeded(streams: [OperationStreamModel]) -> [OperationStreamModel] {
         guard streams.count == 0 else {
             return streams
@@ -131,34 +132,42 @@ class DataService {
         guard let sourceStream = storedStreams.first(where: { $0.isDefault }) else {
             return streams
         }
-        
+
         let filterStreamModel = OperationStreamModel(id: UUID(),
                                                      name: "Filter Stream", description: "filter { $0 != 3 )",
                                                      streamModelId: sourceStream.id,
                                                      operatorItem: .filter(expression: "%d != 3", next: nil))
-                
+
         let dropStreamModel = OperationStreamModel(id: UUID(), name: "Drop Stream", description: "dropFirst(2)",
                                                    streamModelId: sourceStream.id,
                                                    operatorItem: .dropFirst(count: 2, next: nil))
-                
+
         let mapStreamModel = OperationStreamModel(id: UUID(), name: "Map Stream", description: "map { $0 * 2 }",
                                                   streamModelId: sourceStream.id,
                                                   operatorItem: .map(expression: "%d * 2", next: nil))
-        
+
         let scanStreamModel = OperationStreamModel(id: UUID(), name: "Scan Stream",
                                                    description: "scan(0) { $0 + $1 }",
                                                    streamModelId: sourceStream.id,
                                                    operatorItem: .scan(expression: "%d + %d", next: nil))
-        
+
+        let mixedStreamModel = OperationStreamModel(id: UUID(), name: "Map then Scan",
+                                                  description: "map { $0 * 2 }.scan(0) { $0 + $1 }",
+                                                  streamModelId: sourceStream.id,
+                                                  operatorItem: .map(expression: "%d * 2", next:
+                                                    .scan(expression: "%d + %d", next: nil)))
+
         var newStreams = streams
         newStreams.append(filterStreamModel)
         newStreams.append(dropStreamModel)
         newStreams.append(mapStreamModel)
         newStreams.append(scanStreamModel)
+        newStreams.append(mixedStreamModel)
         return newStreams
-    }    
+    }
 
-    func appendDefaultUnifyingOperationStreamsIfNeeded(streams: [UnifyingOperationStreamModel]) -> [UnifyingOperationStreamModel] {
+    func appendDefaultUnifyingOperationStreamsIfNeeded(streams: [UnifyingOperationStreamModel])
+        -> [UnifyingOperationStreamModel] {
         guard streams.count == 0 else {
             return streams
         }
@@ -171,18 +180,22 @@ class DataService {
 
         let mergeStreamModel = UnifyingOperationStreamModel(id: UUID(), name: "Merge Stream",
                                                          description: "Publishers.merge(A, B)",
-                                                         streamModelIds: [sourceStream1.id, sourceStream2.id], operatorItem: .merge(next: nil))
+                                                         streamModelIds: [sourceStream1.id, sourceStream2.id],
+                                                         operatorItem: .merge(next: nil))
         let flatMapStreamModel = UnifyingOperationStreamModel(id: UUID(),
                                                            name: "FlatMap Stream",
                                                            description: "A.flatMap { _ in B }",
-                                                           streamModelIds: [sourceStream1.id, sourceStream2.id], operatorItem: .flatMap(next: nil))
+                                                           streamModelIds: [sourceStream1.id, sourceStream2.id],
+                                                           operatorItem: .flatMap(next: nil))
         let appendStreamModel = UnifyingOperationStreamModel(id: UUID(), name: "Append Stream",
                                                           description: "A.append(B)",
-                                                          streamModelIds: [sourceStream1.id, sourceStream2.id], operatorItem: .append(next: nil))
+                                                          streamModelIds: [sourceStream1.id, sourceStream2.id],
+                                                          operatorItem: .append(next: nil))
         return [mergeStreamModel, flatMapStreamModel, appendStreamModel]
     }
 
-    func appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [JoinOperationStreamModel]) -> [JoinOperationStreamModel] {
+    func appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [JoinOperationStreamModel])
+        -> [JoinOperationStreamModel] {
         guard streams.count == 0 else {
             return streams
         }
