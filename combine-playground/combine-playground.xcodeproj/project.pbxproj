@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593902384B802007F52A5 /* OperatorExtensions.swift */; };
 		313593952384C61C007F52A5 /* StreamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593942384C61C007F52A5 /* StreamStore.swift */; };
+		31383ABE2385C45600EC9A95 /* UpdateJoinStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383ABD2385C45600EC9A95 /* UpdateJoinStreamView.swift */; };
+		31383AC02385C47300EC9A95 /* UpdateJoinStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383ABF2385C47300EC9A95 /* UpdateJoinStreamViewModel.swift */; };
+		31383AC32385CCC500EC9A95 /* UpdateOperationStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383AC22385CCC500EC9A95 /* UpdateOperationStreamView.swift */; };
+		31383AC52385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */; };
 		31CD20A1237490D6001793FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A0237490D6001793FC /* AppDelegate.swift */; };
 		31CD20A3237490D6001793FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A2237490D6001793FC /* SceneDelegate.swift */; };
 		31CD20A7237490D8001793FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31CD20A6237490D8001793FC /* Assets.xcassets */; };
@@ -55,6 +59,10 @@
 		313593902384B802007F52A5 /* OperatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorExtensions.swift; sourceTree = "<group>"; };
 		313593942384C61C007F52A5 /* StreamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamStore.swift; sourceTree = "<group>"; };
 		31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CombineExtensions.xcodeproj; path = "../combine-extensions/CombineExtensions.xcodeproj"; sourceTree = "<group>"; };
+		31383ABD2385C45600EC9A95 /* UpdateJoinStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateJoinStreamView.swift; sourceTree = "<group>"; };
+		31383ABF2385C47300EC9A95 /* UpdateJoinStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateJoinStreamViewModel.swift; sourceTree = "<group>"; };
+		31383AC22385CCC500EC9A95 /* UpdateOperationStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOperationStreamView.swift; sourceTree = "<group>"; };
+		31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOperationStreamViewModel.swift; sourceTree = "<group>"; };
 		31CD209D237490D6001793FC /* combine-playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "combine-playground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CD20A0237490D6001793FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31CD20A2237490D6001793FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,12 +126,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3164435D23887870003CBDC4 /* Products */ = {
+		31383ABC2385C42B00EC9A95 /* UpdateJoinStreamView */ = {
 			isa = PBXGroup;
 			children = (
-				3164436123887870003CBDC4 /* CombineExtensions.framework */,
+				31383ABD2385C45600EC9A95 /* UpdateJoinStreamView.swift */,
+				31383ABF2385C47300EC9A95 /* UpdateJoinStreamViewModel.swift */,
 			);
-			name = Products;
+			path = UpdateJoinStreamView;
+			sourceTree = "<group>";
+		};
+		31383AC12385CCA100EC9A95 /* UpdateOperationStreamView */ = {
+			isa = PBXGroup;
+			children = (
+				31383AC22385CCC500EC9A95 /* UpdateOperationStreamView.swift */,
+				31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */,
+			);
+			path = UpdateOperationStreamView;
 			sourceTree = "<group>";
 		};
 		31CD2094237490D6001793FC = {
@@ -162,6 +180,8 @@
 				31CD2193237494BB001793FC /* MultiStreamViews */,
 				31CD20B5237491D7001793FC /* Styles */,
 				31CD20B8237491D7001793FC /* UpdateStreamView */,
+				31383AC12385CCA100EC9A95 /* UpdateOperationStreamView */,
+				31383ABC2385C42B00EC9A95 /* UpdateJoinStreamView */,
 				31CD20F2237491D8001793FC /* Extensions */,
 				31CD20A8237490D8001793FC /* Preview Content */,
 			);
@@ -385,6 +405,8 @@
 				31CD2106237491D8001793FC /* DataService.swift in Sources */,
 				31CD2129237491D9001793FC /* JoinOperationListStreamView.swift in Sources */,
 				31CD2136237491D9001793FC /* SingleStreamView.swift in Sources */,
+				31383AC32385CCC500EC9A95 /* UpdateOperationStreamView.swift in Sources */,
+				31383AC02385C47300EC9A95 /* UpdateJoinStreamViewModel.swift in Sources */,
 				31CD2135237491D9001793FC /* DataStreamViewModel.swift in Sources */,
 				313593952384C61C007F52A5 /* StreamStore.swift in Sources */,
 				31CD2103237491D8001793FC /* CombineDemoButton.swift in Sources */,
@@ -401,8 +423,10 @@
 				31CD2101237491D8001793FC /* StreamListView.swift in Sources */,
 				31CD2133237491D9001793FC /* CircularTextView.swift in Sources */,
 				31CD2134237491D9001793FC /* CircularTextViewModel.swift in Sources */,
+				31383ABE2385C45600EC9A95 /* UpdateJoinStreamView.swift in Sources */,
 				31CD2131237491D9001793FC /* MultiBallView.swift in Sources */,
 				31CD212D237491D9001793FC /* ModelExtensions.swift in Sources */,
+				31383AC52385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift in Sources */,
 				31CD2107237491D8001793FC /* DataModels.swift in Sources */,
 				31CD2102237491D8001793FC /* ButtonModifier.swift in Sources */,
 				31CD212C237491D9001793FC /* MenuRow.swift in Sources */,

@@ -38,7 +38,6 @@ struct MultiValueStreamView: View {
                     }
                 }.padding()
             }
-
             Spacer()
         }
     }

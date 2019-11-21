@@ -17,3 +17,5 @@ public extension Set where Element == AnyCancellable {
         self.removeAll()
     }
 }
+
+public typealias DisposeBag = Set<AnyCancellable>

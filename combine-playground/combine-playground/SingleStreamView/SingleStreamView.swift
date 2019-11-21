@@ -42,6 +42,7 @@ struct SingleStreamView: View {
         }.navigationBarTitle(viewModel.updatableTitle)
         .navigationBarItems(trailing: trailingBarItem)
     }
+
     var trailingBarItem: some View {
         guard let dataStreamViewModel = viewModel as? DataStreamViewModel else {
             return AnyView(EmptyView())
