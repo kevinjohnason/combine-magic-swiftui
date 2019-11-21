@@ -21,11 +21,20 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     @Published var parameterTitle: String = ""
 
+    @Published var title: String = ""
+
+    @Published var description = ""
+
     var streamModel: StreamModel<String>
 
     var operationStreamModel: OperationStreamModel
 
     var disposables: Set<AnyCancellable> = Set()
+
+    convenience init(streamModel: StreamModel<String>) {
+        let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil, description: nil, streamModelId: UUID(), operatorItem: .delay(seconds: 0, next: nil))
+        self.init(streamModel: streamModel, operationStreamModel: newOperationStreamModel)
+    }
 
     init(streamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
         self.streamModel = streamModel
@@ -35,9 +44,8 @@ class UpdateOperationStreamViewModel: ObservableObject {
         }.assign(to: \UpdateOperationStreamViewModel.parameterTitle, on: self)
         .store(in: &disposables)
 
-
         switch operationStreamModel.operatorItem {
-        case .delay(_, _):
+        case .delay( _, _):
                 selectedOperator = "delay"
         case .dropFirst(let count, _):
             selectedOperator = "dropFirst"
@@ -52,6 +60,22 @@ class UpdateOperationStreamViewModel: ObservableObject {
             selectedOperator = "scan"
             parameter = expression
         }
+    }
 
+    func save() {
+        operationStreamModel.name = title
+        operationStreamModel.description = description
+        switch selectedOperator {
+        case "filter":
+            operationStreamModel.operatorItem = .filter(expression: parameter, next: nil)
+        case "dropFirst":
+            operationStreamModel.operatorItem = .dropFirst(count: Int(parameter) ?? 0, next: nil)
+        case "map":
+            operationStreamModel.operatorItem = .map(expression: parameter, next: nil)
+        case "scan":
+            operationStreamModel.operatorItem = .scan(expression: parameter, next: nil)
+        default:
+            break
+        }
     }
 }

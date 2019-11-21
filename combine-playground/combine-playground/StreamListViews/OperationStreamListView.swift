@@ -16,8 +16,7 @@ struct OperationStreamListView: View {
         return AnyView(MultiStreamView(streamTitle: streamModel.name ?? "",
                                        sourceStreamModel: sourceStream,
                                        operatorItem: streamModel.operatorItem)
-            .navigationBarItems(trailing: trailingBarItem(sourceStream: sourceStream,
-                                                          operationStreamModel: streamModel)))
+            .navigationBarItems(trailing: trailingBarItem(sourceStream: sourceStream)))
      }
 
     var body: some View {
@@ -28,12 +27,11 @@ struct OperationStreamListView: View {
         }
     }
 
-    func trailingBarItem(sourceStream: StreamModel<String>, operationStreamModel: OperationStreamModel) -> some View {
+    func trailingBarItem(sourceStream: StreamModel<String>) -> some View {
         let navigationLink = NavigationLink(
         destination: UpdateOperationStreamView(
-            viewModel: UpdateOperationStreamViewModel(streamModel: sourceStream,
-                                                      operationStreamModel: operationStreamModel))) {
-            Text("Edit")
+            viewModel: UpdateOperationStreamViewModel(streamModel: sourceStream))) {
+            Text("Add")
         }
         return AnyView(navigationLink)
     }

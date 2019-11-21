@@ -11,16 +11,15 @@ import Combine
 
 struct UpdateOperationStreamView: View {
 
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     @ObservedObject var viewModel: UpdateOperationStreamViewModel
 
     var body: some View {
         List {
-            MultiValueStreamView(viewModel: StreamViewModel(title: "Source Stream",
-                                                            publisher: Empty().eraseToAnyPublisher()),
-                                 displayActionButtons: false)//.frame(maxHeight: 120)
-
                 VStack {
-                    Text(viewModel.operationStreamModel.name ?? "")
+                    TextField("Operation Name", text: $viewModel.title)
+                    TextField("Description", text: $viewModel.description)
                     Picker(selection: self.$viewModel.selectedOperator, label: Text("Select a Type")) {
                         ForEach(self.viewModel.operators, id: \.self) { operatorItem in
                             Text(operatorItem).tag(operatorItem)
@@ -29,6 +28,10 @@ struct UpdateOperationStreamView: View {
                     TextField(self.viewModel.parameterTitle, text: self.$viewModel.parameter)
                     Spacer()
                 }
+            Button("Save") {
+                self.viewModel.save()
+                self.presentationMode.wrappedValue.dismiss()
+            }
         }
     }
 }
