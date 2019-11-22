@@ -51,7 +51,6 @@ struct UpdateStreamView: View {
                     .background(Color.gray)
                 Button("Save") {
                     self.viewModel.save()
-                    self.streamStore.reloadStreams()
                     self.presentationMode.wrappedValue.dismiss()
                 }.foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, minHeight: 50)
@@ -85,6 +84,6 @@ struct UpdateStreamView_Previews: PreviewProvider {
     static var previews: some View {
         UpdateStreamView(viewModel: UpdateStreamViewModel(
             streamModel: StreamModel<String>(id: UUID(), name: "",
-                                             description: nil, stream: [])))
+                                             description: nil, stream: []), streamStore: StreamStore()))
     }
 }

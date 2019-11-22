@@ -42,9 +42,11 @@ class UpdateStreamViewModel: ObservableObject {
 
     @Published var streamModel: StreamModel<String>
 
+    @Published var streamStore: StreamStore
+
     private var disposables = Set<AnyCancellable>()
 
-    init(streamModel: StreamModel<String>) {
+    init(streamModel: StreamModel<String>, streamStore: StreamStore) {
         self.streamModel = streamModel
         self.streamNumberOptions = (1...8).map {
             print("generating \($0)")
@@ -60,6 +62,7 @@ class UpdateStreamViewModel: ObservableObject {
             print("adding \($0.value) to tunnel")
             return TimeSeriesValue(value: $0.value)
         }
+        self.streamStore = streamStore
         self.setupDataBinding()
     }
 
@@ -76,12 +79,13 @@ class UpdateStreamViewModel: ObservableObject {
     }
 
     func save() {
-        var storedStreams = DataService.shared.storedStreams
+        var storedStreams = streamStore.streams
         if let storedStreamIndex = storedStreams.firstIndex(where: { $0.id == self.streamModel.id }) {
             storedStreams[storedStreamIndex] = streamModel
         } else {
             storedStreams.append(streamModel)
         }
         DataService.shared.storedStreams = storedStreams
+        streamStore.streams = storedStreams
     }
 }

@@ -38,7 +38,6 @@ struct OperationStreamModel: Codable, Identifiable {
     var id: UUID
     var name: String?
     var description: String?
-    var streamModelId: UUID
     var operatorItem: Operator
 }
 
@@ -46,7 +45,6 @@ struct UnifyingOperationStreamModel: Codable, Identifiable {
     var id: UUID
     var name: String?
     var description: String?
-    var streamModelIds: [UUID]
     var operatorItem: UnifyOparator
 }
 
@@ -164,7 +162,6 @@ struct JoinOperationStreamModel: Codable, Identifiable {
     var id: UUID
     var name: String?
     var description: String?
-    var streamModelIds: [UUID]
     var operatorItem: JoinOperator
 }
 

@@ -31,7 +31,4 @@ class StreamStore: ObservableObject {
         streamBModel.toPublisher()
     }
 
-    func reloadStreams() {
-        streams = DataService.shared.storedStreams
-    }
 }

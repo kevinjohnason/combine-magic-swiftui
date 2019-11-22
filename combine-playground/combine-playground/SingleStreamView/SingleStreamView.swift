@@ -13,6 +13,8 @@ struct SingleStreamView: View {
 
     @ObservedObject var viewModel: StreamViewModel<String>
 
+    @EnvironmentObject var streamStore: StreamStore
+
     var color: Color = .green
 
     var displayActionButtons: Bool = true
@@ -45,7 +47,7 @@ struct SingleStreamView: View {
             return AnyView(EmptyView())
         }
         let navigationLink = NavigationLink(destination: UpdateStreamView(viewModel:
-            UpdateStreamViewModel(streamModel: dataStreamViewModel.streamModel))) {
+            UpdateStreamViewModel(streamModel: dataStreamViewModel.streamModel, streamStore: streamStore))) {
             Text("Edit")
         }
         return AnyView(navigationLink)

@@ -11,6 +11,7 @@ import Combine
 struct ContentView: View {
 
     @ObservedObject var viewModel = ContentViewModel()
+    @EnvironmentObject var streamStore: StreamStore
 
     var body: some View {
         NavigationView {
@@ -34,7 +35,7 @@ struct ContentView: View {
     }
     var createStreamView: some View {
         NavigationLink(destination: UpdateStreamView(
-            viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>.new()))) {
+            viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>.new(), streamStore: streamStore))) {
             Image(systemName: "plus.circle").font(Font.system(size: 30))
         }
     }
