@@ -12,8 +12,8 @@ struct CircularTextView: View {
     var forgroundColor: Color
     var backgroundColor: Color
     var draggable: Bool = false
-    @ObservedObject var viewModel: CircularTextViewModel    
-    
+    @ObservedObject var viewModel: CircularTextViewModel
+
     var body: some View {
         Text(self.viewModel.value)
             .font(.system(size: 14))

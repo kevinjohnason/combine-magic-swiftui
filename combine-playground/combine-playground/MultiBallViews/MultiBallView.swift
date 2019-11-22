@@ -12,7 +12,7 @@ struct MultiBallView: View {
     var forgroundColor: Color
     var backgroundColor: Color
     @Binding var viewModel: MultiBallViewModel
-    
+
     var body: some View {
         HStack(spacing: 0) {
             ForEach(viewModel.values, id: \.self) { value in

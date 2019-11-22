@@ -10,15 +10,19 @@ import Foundation
 import Combine
 class StreamStore: ObservableObject {
     @Published var streams: [StreamModel<String>] = DataService.shared.storedStreams
+
+    var sourceStreams: [StreamModel<String>] {
+        streams.filter { $0.isDefault }
+    }
     
     var streamAModel: StreamModel<String> {
-        streams.first(where: { $0.isDefault }) ?? StreamModel<String>.new()
+        sourceStreams.first ?? StreamModel<String>.new()
     }
 
     var streamBModel: StreamModel<String> {
-        streams.last(where: { $0.isDefault }) ?? StreamModel<String>.new()
+        sourceStreams.last ?? StreamModel<String>.new()
     }
-    
+
     var streamA: AnyPublisher<String, Never> {
         streamAModel.toPublisher()
     }

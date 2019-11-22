@@ -13,20 +13,13 @@ struct OperationStreamListView: View {
     @Binding var storedOperationStreams: [OperationStreamModel]
     
     @EnvironmentObject var streamStore: StreamStore
-    
-    func sourceStream(with id: UUID) -> StreamModel<String>? {
-        self.streamStore.streams.first(where: { $0.id == id })
-    }
-        
+
     func streamView(streamModel: OperationStreamModel) -> some View {
-        guard let sourceStream = sourceStream(with: streamModel.streamModelId) else {
-            return AnyView(EmptyView())
-        }
         return AnyView(MultiStreamView(streamTitle: streamModel.name ?? "",
-                                       sourceStreamModel: sourceStream,
+                                       sourceStreamModel: streamStore.sourceStreams[0],
                                        operatorItem: streamModel.operatorItem))
      }
-    
+
     var body: some View {
         ForEach(storedOperationStreams) { stream in
             NavigationLink(destination: self.streamView(streamModel: stream)) {
