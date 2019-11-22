@@ -40,6 +40,16 @@
 		31CD2197237494BB001793FC /* MultiStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD2195237494BB001793FC /* MultiStreamView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3164436023887870003CBDC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31383A9D2385BE4700EC9A95;
+			remoteInfo = CombineExtensions;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		313593902384B802007F52A5 /* OperatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorExtensions.swift; sourceTree = "<group>"; };
 		31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CombineExtensions.xcodeproj; path = "../combine-extensions/CombineExtensions.xcodeproj"; sourceTree = "<group>"; };
@@ -104,6 +114,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3164435D23887870003CBDC4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3164436123887870003CBDC4 /* CombineExtensions.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		31CD2094237490D6001793FC = {
@@ -295,12 +313,28 @@
 			mainGroup = 31CD2094237490D6001793FC;
 			productRefGroup = 31CD209E237490D6001793FC /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 3164435D23887870003CBDC4 /* Products */;
+					ProjectRef = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				31CD209C237490D6001793FC /* combine-playground */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3164436123887870003CBDC4 /* CombineExtensions.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CombineExtensions.framework;
+			remoteRef = 3164436023887870003CBDC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		31CD209B237490D6001793FC /* Resources */ = {
