@@ -32,7 +32,9 @@ class UpdateOperationStreamViewModel: ObservableObject {
     var disposables: Set<AnyCancellable> = Set()
 
     convenience init(streamModel: StreamModel<String>) {
-        let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil, description: nil, streamModelId: UUID(), operatorItem: .delay(seconds: 0, next: nil))
+        let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
+                                                           description: nil,
+                                                           operatorItem: .delay(seconds: 0, next: nil))
         self.init(streamModel: streamModel, operationStreamModel: newOperationStreamModel)
     }
 
@@ -45,8 +47,8 @@ class UpdateOperationStreamViewModel: ObservableObject {
         .store(in: &disposables)
 
         switch operationStreamModel.operatorItem {
-        case .delay( _, _):
-                selectedOperator = "delay"
+        case .delay:
+            selectedOperator = "delay"
         case .dropFirst(let count, _):
             selectedOperator = "dropFirst"
             parameter = String(count)
