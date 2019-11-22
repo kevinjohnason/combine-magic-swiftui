@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct OperationStreamListView: View {
-    
     @Binding var storedOperationStreams: [OperationStreamModel]
-    
     @EnvironmentObject var streamStore: StreamStore
 
     func streamView(streamModel: OperationStreamModel) -> some View {

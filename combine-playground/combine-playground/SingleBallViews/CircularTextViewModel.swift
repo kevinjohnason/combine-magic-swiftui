@@ -11,6 +11,7 @@ import SwiftUI
 
 class CircularTextViewModel: ObservableObject, Identifiable {
     @Published var value: String
+    // swiftlint:disable identifier_name
     let id: Date = Date()
     @Published var isHidden: Bool = false
     @Published var offset: CGSize = .zero

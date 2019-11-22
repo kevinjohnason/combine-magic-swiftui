@@ -11,11 +11,10 @@ import SwiftUI
 struct MultiBallTunnelView: View {
     @Binding var values: [TimeSeriesValue<[String]>]
     var color: Color = .green
-    
     var animationSecond: Double = 2
-    
+
     var ballRadius: CGFloat = 48
-    
+
     var body: some View {
         GeometryReader { tunnelGeometry in
             HStack(spacing: 0) {

@@ -9,13 +9,10 @@
 import SwiftUI
 import Combine
 struct UpdateStreamView: View {
-    
     @ObservedObject var viewModel: UpdateStreamViewModel
-    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     @EnvironmentObject var streamStore: StreamStore
-    
+
     let tunnelPadding: CGFloat = 5
 
     var body: some View {

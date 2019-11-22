@@ -21,7 +21,7 @@ class DataService {
             return self.appendDefaultStreamsIfNeeded(streams: streams)
         } set {
             // swiftlint:disable:next force_try
-            UserDefaults.standard.set(try! JSONEncoder().encode(newValue), forKey: "storedStreams")            
+            UserDefaults.standard.set(try! JSONEncoder().encode(newValue), forKey: "storedStreams")
         }
     }
 

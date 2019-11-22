@@ -52,7 +52,7 @@ struct BallTunnelView: View {
             .anchorPreference(key: TunnelPreferenceKey.self, value: .bounds, transform: {
                 BoundsPreferenceData(bounds: $0)
             }).animation(.easeInOut(duration: self.animationSecond))
-        }        
+        }
     }
 
     func tunnelWidth(with screenWidth: CGFloat) -> CGFloat {

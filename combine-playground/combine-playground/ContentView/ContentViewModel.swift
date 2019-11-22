@@ -11,7 +11,7 @@ import Combine
 
 class ContentViewModel: ObservableObject {
 
-    private var disposables = Set<AnyCancellable>()        
+    private var disposables = Set<AnyCancellable>()
 
     @Published var storedOperationStreams: [OperationStreamModel] = DataService.shared.storedOperationStreams
 

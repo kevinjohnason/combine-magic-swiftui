@@ -11,7 +11,7 @@ import SwiftUI
 import Combine
 
 class StreamViewModel<T>: ObservableObject {
-    
+
     var title: String {
         didSet {
             updatableTitle = title
@@ -59,6 +59,7 @@ class StreamViewModel<T>: ObservableObject {
 
 struct TimeSeriesValue<T>: Identifiable {
     var value: T
+    // swiftlint:disable identifier_name
     var id: Date
 
     init(value: T) {

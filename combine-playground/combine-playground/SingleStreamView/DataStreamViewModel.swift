@@ -9,7 +9,7 @@
 import Foundation
 
 class DataStreamViewModel: StreamViewModel<String> {
-    
+
     var streamModel: StreamModel<String> {
         didSet {
             self.title = self.streamModel.name ?? ""
