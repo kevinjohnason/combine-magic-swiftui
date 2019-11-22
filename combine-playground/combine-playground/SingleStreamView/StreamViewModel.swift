@@ -11,7 +11,7 @@ import SwiftUI
 import Combine
 
 class StreamViewModel<T>: ObservableObject {
-    
+
     var title: String {
         didSet {
             updatableTitle = title
@@ -38,7 +38,7 @@ class StreamViewModel<T>: ObservableObject {
         self.updatableDescription = description
         self.publisher = publisher
     }
-    
+
     func subscribe() {
         cancellable = publisher
             .sink(receiveValue: { [weak self] (value) in
@@ -59,6 +59,7 @@ class StreamViewModel<T>: ObservableObject {
 
 struct TimeSeriesValue<T>: Identifiable {
     var value: T
+    // swiftlint:disable identifier_name
     var id: Date
 
     init(value: T) {

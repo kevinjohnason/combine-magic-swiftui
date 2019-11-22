@@ -9,7 +9,7 @@
 import Foundation
 
 class DataStreamViewModel: StreamViewModel<String> {
-    
+
     var streamModel: StreamModel<String> {
         didSet {
             self.title = self.streamModel.name ?? ""
@@ -17,12 +17,11 @@ class DataStreamViewModel: StreamViewModel<String> {
             self.publisher = self.streamModel.toPublisher()
         }
     }
-    
-    init(streamModel: StreamModel<String>) {        
-        self.streamModel = streamModel        
+
+    init(streamModel: StreamModel<String>) {
+        self.streamModel = streamModel
         super.init(title: streamModel.name ?? "",
                    description: streamModel.description ?? streamModel.sequenceDescription,
                    publisher: self.streamModel.toPublisher())
     }
-        
 }

@@ -10,21 +10,22 @@ import SwiftUI
 import Combine
 
 struct SingleStreamView: View {
-    
+
     @ObservedObject var viewModel: StreamViewModel<String>
-    
+
     var color: Color = .green
-    
+
     var displayActionButtons: Bool = true
-    
+
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 10) {
             Spacer()
             Text(viewModel.updatableDescription)
                 .font(.system(.headline, design: .monospaced))
                 .lineLimit(nil).padding()
-            
-            BallTunnelView(values: $viewModel.values, color: color, animationSecond: viewModel.animationSeconds)
+            BallTunnelView(values: $viewModel.values, color: color,
+                           animationSecond: viewModel.animationSeconds)
+                .frame(maxHeight: 100)
             if displayActionButtons {
                 HStack {
                     CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {
@@ -39,7 +40,6 @@ struct SingleStreamView: View {
         }.navigationBarTitle(viewModel.updatableTitle)
         .navigationBarItems(trailing: trailingBarItem)
     }
-    
     var trailingBarItem: some View {
         guard let dataStreamViewModel = viewModel as? DataStreamViewModel else {
             return AnyView(EmptyView())
@@ -47,7 +47,7 @@ struct SingleStreamView: View {
         let navigationLink = NavigationLink(destination: UpdateStreamView(viewModel:
             UpdateStreamViewModel(streamModel: dataStreamViewModel.streamModel))) {
             Text("Edit")
-        }        
+        }
         return AnyView(navigationLink)
     }
 }
@@ -55,8 +55,9 @@ struct SingleStreamView: View {
 #if DEBUG
 struct SingleStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleStreamView(viewModel: StreamViewModel(title: "", publisher: Empty().eraseToAnyPublisher()))
-        //.previewDevice(PreviewDevice(rawValue: "iPad Pro (9.7-inch)"))
+        SingleStreamView(viewModel: StreamViewModel(title: "Stream A",
+                                                    description: "Sequence(1,2,3,4,5)",
+                                                    publisher: Empty().eraseToAnyPublisher()))
     }
 }
 #endif

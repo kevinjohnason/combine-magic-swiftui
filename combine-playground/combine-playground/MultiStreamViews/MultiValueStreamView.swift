@@ -14,13 +14,18 @@ struct MultiValueStreamView: View {
     var displayActionButtons: Bool = true
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 10) {
             Spacer()
+
             Text(viewModel.title)
             .font(.system(.headline, design: .monospaced))
-            .lineLimit(nil).padding()
+            .lineLimit(nil)
+            Text(viewModel.updatableDescription)
+                       .font(.system(.subheadline, design: .monospaced))
+                       .lineLimit(nil)
 
             MultiBallTunnelView(values: $viewModel.values, color: .green, animationSecond: viewModel.animationSeconds)
+                .frame(maxHeight: 100)
 
             if displayActionButtons {
                 HStack {
@@ -42,7 +47,9 @@ struct MultiValueStreamView: View {
 #if DEBUG
 struct CombineSingleStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        MultiValueStreamView(viewModel: StreamViewModel<[String]>(title: "", publisher: Empty().eraseToAnyPublisher()))
+        MultiValueStreamView(viewModel: StreamViewModel<[String]>(title: "Stream A",
+                                                                  description: "Sequence(A,B,C,D)",
+                                                                  publisher: Empty().eraseToAnyPublisher()))
     }
 }
 #endif

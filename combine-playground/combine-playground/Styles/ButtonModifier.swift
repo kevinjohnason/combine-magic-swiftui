@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct DemoButton: ViewModifier {
-    
+
     let backgroundColor: Color
-    
+
     func body(content: Content) -> some View {
         content
         .font(.footnote)
@@ -21,5 +21,5 @@ struct DemoButton: ViewModifier {
         .background(backgroundColor)
         .cornerRadius(12)
     }
-    
+
 }

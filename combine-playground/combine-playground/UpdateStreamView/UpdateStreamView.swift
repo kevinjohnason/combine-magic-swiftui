@@ -9,13 +9,12 @@
 import SwiftUI
 import Combine
 struct UpdateStreamView: View {
-    
     @ObservedObject var viewModel: UpdateStreamViewModel
-    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    let tunnelPadding: CGFloat = 5        
-    
+    @EnvironmentObject var streamStore: StreamStore
+
+    let tunnelPadding: CGFloat = 5
+
     var body: some View {
         VStack {
             VStack(alignment: .center, spacing: 10) {
@@ -27,13 +26,15 @@ struct UpdateStreamView: View {
                             VStack(spacing: 30) {
                                 HStack {
                                     ForEach(self.viewModel.streamNumberOptions) { option in
-                                        CircularTextView(forgroundColor: .white, backgroundColor: .red, draggable: true, viewModel: option)
+                                        CircularTextView(forgroundColor: .white,
+                                                         backgroundColor: .red, draggable: true, viewModel: option)
                                             .gesture(self.dragBallGesture(reader: reader, ballViewModel: option))
                                     }
                                 }
                                 HStack {
                                     ForEach(self.viewModel.streamLetterOptions) { option in
-                                        CircularTextView(forgroundColor: .white, backgroundColor: .green, draggable: true, viewModel: option)
+                                        CircularTextView(forgroundColor: .white, backgroundColor: .green,
+                                                         draggable: true, viewModel: option)
                                         .gesture(self.dragBallGesture(reader: reader, ballViewModel: option))
                                     }
                                 }
@@ -50,6 +51,7 @@ struct UpdateStreamView: View {
                     .background(Color.gray)
                 Button("Save") {
                     self.viewModel.save()
+                    self.streamStore.reloadStreams()
                     self.presentationMode.wrappedValue.dismiss()
                 }.foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, minHeight: 50)
@@ -57,7 +59,7 @@ struct UpdateStreamView: View {
             }
         }
     }
-    
+
     func dragBallGesture(reader: GeometryProxy, ballViewModel: CircularTextViewModel) -> some Gesture {
         DragGesture(coordinateSpace: .global)
             .onChanged({ (gestureValue) in
@@ -75,12 +77,14 @@ struct UpdateStreamView: View {
                 withAnimation(presentAnimation) {
                     ballViewModel.isHidden = false
                 }
-            })                
+            })
     }
 }
 
 struct UpdateStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        UpdateStreamView(viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>(id: UUID(), name: "", description: nil, stream: [])))
+        UpdateStreamView(viewModel: UpdateStreamViewModel(
+            streamModel: StreamModel<String>(id: UUID(), name: "",
+                                             description: nil, stream: [])))
     }
 }

@@ -47,8 +47,8 @@ struct BallTunnelView: View {
             .frame(minWidth: self.tunnelWidth(with: tunnelGeometry.size.width),
                    minHeight: self.ballRadius, alignment: .trailing)
             .offset(x: self.tunnelOffset(with: tunnelGeometry.size.width))
-            .padding([.top, .bottom], self.padding)            
-                .background(self.tunnelColor)
+            .padding([.top, .bottom], self.padding)
+            .background(self.tunnelColor)
             .anchorPreference(key: TunnelPreferenceKey.self, value: .bounds, transform: {
                 BoundsPreferenceData(bounds: $0)
             }).animation(.easeInOut(duration: self.animationSecond))

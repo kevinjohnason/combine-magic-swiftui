@@ -8,34 +8,33 @@
 
 import SwiftUI
 import Combine
-struct ContentView: View {            
-    
+struct ContentView: View {
+
     @ObservedObject var viewModel = ContentViewModel()
-    
+
     var body: some View {
-        NavigationView {            
+        NavigationView {
             VStack {
                 List {
-                    StreamListView(storedStreams: $viewModel.storedStreams)
-                    OperationStreamListView(storedOperationStreams: $viewModel.storedOperationStreams, storedStreams: $viewModel.storedStreams)
-                    UnifyingOperationListStreamView(storedUnifyingOperationStreams: $viewModel.storedUnifyingOperationStreams,
-                                                 storedStreams: $viewModel.storedStreams)
-                    JoinOperationListStreamView(storedCombineGroupOperationStreams: $viewModel.storedCombineGroupOperationStreams,
-                                                        storedStreams: $viewModel.storedStreams)
-                }                
+                    StreamListView()
+                    OperationStreamListView(storedOperationStreams: $viewModel.storedOperationStreams)
+                    UnifyingOperationListStreamView(
+                        storedUnifyingOperationStreams: $viewModel.storedUnifyingOperationStreams)
+                    JoinOperationListStreamView(
+                        storedCombineGroupOperationStreams: $viewModel.storedCombineGroupOperationStreams)
+                }
                 Button("Reset") {
                     DataService.shared.resetStoredStream()
                 }.frame(maxWidth: .infinity, maxHeight: 25)
-                    .modifier(DemoButton(backgroundColor: .red))
+                .modifier(DemoButton(backgroundColor: .red))
             }.navigationBarTitle("Streams")
-                .navigationBarItems(leading: EditButton(), trailing: createStreamView)
-                .onAppear(perform: viewModel.refresh)
+            .navigationBarItems(leading: EditButton(), trailing: createStreamView)
+            .onAppear(perform: viewModel.refresh)
         }
-        
     }
-    
     var createStreamView: some View {
-        NavigationLink(destination: UpdateStreamView(viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>.new()))) {
+        NavigationLink(destination: UpdateStreamView(
+            viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>.new()))) {
             Image(systemName: "plus.circle").font(Font.system(size: 30))
         }
     }

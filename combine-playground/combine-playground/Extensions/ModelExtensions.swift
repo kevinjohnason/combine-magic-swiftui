@@ -10,17 +10,15 @@ import Foundation
 import Combine
 
 extension StreamModel {
-    
     func toArrayStreamModel() -> StreamModel<[T]> {
         StreamModel<[T]>.init(id: self.id, name: self.name, description: self.description,
                               stream: self.stream.map { StreamItem(value: [$0.value], operatorItem: $0.operatorItem) },
                               isDefault: self.isDefault)
     }
-    
 }
 
 extension StreamModel where T == String {
-    
+
     var sequenceDescription: String {
         var desc = self.stream.reduce("Sequence(") {
             "\($0)\($1.value), "
@@ -32,13 +30,13 @@ extension StreamModel where T == String {
         desc.append(")")
         return desc
     }
-    
+
     func toPublisher()  -> AnyPublisher<String, Never> {
         let intervalPublishers =
             self.stream.map { $0.toPublisher() }
-        
+
         var publisher: AnyPublisher<String, Never>?
-        
+
         for intervalPublisher in intervalPublishers {
             if publisher == nil {
                 publisher = intervalPublisher
@@ -46,10 +44,9 @@ extension StreamModel where T == String {
             }
             publisher = publisher?.append(intervalPublisher).eraseToAnyPublisher()
         }
-        
+
         return publisher ?? Empty().eraseToAnyPublisher()
     }
-    
 }
 
 extension StreamItem where T == String {

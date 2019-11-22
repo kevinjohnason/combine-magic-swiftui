@@ -9,13 +9,9 @@
 import SwiftUI
 
 struct CombineDemoButton: View {
-    
     let text: String
-    
     let backgroundColor: Color
-    
     let buttonAction: () -> Void
-    
     var body: some View {
         Button(text, action: buttonAction)
             .modifier(DemoButton(backgroundColor: backgroundColor))
@@ -26,7 +22,6 @@ struct CombineDemoButton: View {
 struct CombineDemoButton_Previews: PreviewProvider {
     static var previews: some View {
         CombineDemoButton(text: "T", backgroundColor: .blue) {
-            
         }
     }
 }

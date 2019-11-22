@@ -27,7 +27,7 @@ struct MultiStreamView: View {
         while currentOperatorItem != nil {
             let newPublisher = currentOperatorItem!.applyPublisher(currentPublisher!)
             streamViewModels.append(StreamViewModel(title: currentOperatorItem!.description,
-                                                    description: currentOperatorItem!.description,
+                                                    description: "",
                                                     publisher: newPublisher).toArrayViewModel())
             currentOperatorItem = currentOperatorItem?.next
             currentPublisher = newPublisher
@@ -66,13 +66,13 @@ struct MultiStreamView: View {
         let operatorPublisher =
             combineStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(), stream2Model.toPublisher()])
         let resultStreamViewModel =
-            StreamViewModel(title: combineStreamModel.description ?? "",
+            StreamViewModel(title: combineStreamModel.name ?? "",
                             description: combineStreamModel.description ?? "", publisher: operatorPublisher)
         streamViewModels = [stream1ViewModel.toArrayViewModel(),
                             stream2ViewModel.toArrayViewModel(),
                             resultStreamViewModel]
     }
-    
+
     var body: some View {
         VStack {
             ForEach(streamViewModels, id: \.title) { streamView in

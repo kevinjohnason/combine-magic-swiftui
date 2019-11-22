@@ -10,7 +10,7 @@ import SwiftUI
 
 struct StreamListView: View {
 
-    @Binding var storedStreams: [StreamModel<String>]
+    @EnvironmentObject var streamStore: StreamStore
 
     @State var deleteAlertInDisplay: Bool = false
 
@@ -19,7 +19,7 @@ struct StreamListView: View {
     }
 
     var body: some View {
-        ForEach(storedStreams) { stream in
+        ForEach(streamStore.streams) { stream in
             NavigationLink(destination: self.streamView(streamModel: stream)) {
                 MenuRow(detailViewName: stream.name ?? "")
             }
@@ -27,15 +27,15 @@ struct StreamListView: View {
             guard let removingIndex = index.first else {
                 return
             }
-            if self.storedStreams[removingIndex].isDefault {
+            if self.streamStore.streams[removingIndex].isDefault {
                 self.deleteAlertInDisplay = true
                 return
             }
-            self.storedStreams.remove(at: removingIndex)
+            self.streamStore.streams.remove(at: removingIndex)
         }.onMove { (source, destination) in
-            var storedStreams = self.storedStreams
+            var storedStreams = self.streamStore.streams
             storedStreams.move(fromOffsets: source, toOffset: destination)
-            self.storedStreams = storedStreams
+            self.streamStore.streams = storedStreams
         }.alert(isPresented: $deleteAlertInDisplay) { () -> Alert in
             Alert(title: Text("Don't do that"),
                   message: Text("You can't delete default streams"), dismissButton: .cancel())
@@ -45,6 +45,6 @@ struct StreamListView: View {
 
 struct StreamListView_Previews: PreviewProvider {
     static var previews: some View {
-        StreamListView(storedStreams: .constant([]))
+        StreamListView().environmentObject(StreamStore())
     }
 }

@@ -11,11 +11,10 @@ import SwiftUI
 struct MultiBallTunnelView: View {
     @Binding var values: [TimeSeriesValue<[String]>]
     var color: Color = .green
-    
     var animationSecond: Double = 2
-    
+
     var ballRadius: CGFloat = 48
-    
+
     var body: some View {
         GeometryReader { tunnelGeometry in
             HStack(spacing: 0) {
@@ -23,7 +22,8 @@ struct MultiBallTunnelView: View {
                 ForEach(self.values.reversed()) { value in
                     MultiBallView(forgroundColor: .white, backgroundColor: self.color,
                                   viewModel: .constant(MultiBallViewModel(values: value.value)))
-                        .frame(width: self.ballRadius * CGFloat(value.value.count), height: self.ballRadius, alignment: .center)
+                        .frame(width: self.ballRadius * CGFloat(value.value.count),
+                               height: self.ballRadius, alignment: .center)
                         .transition(.asymmetric(insertion:
                             .offset(x: -tunnelGeometry.size.width, y: 0),
                                                 removal: .offset(x: tunnelGeometry.size.width, y: 0)))

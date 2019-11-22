@@ -9,24 +9,15 @@
 import SwiftUI
 
 struct OperationStreamListView: View {
-    
     @Binding var storedOperationStreams: [OperationStreamModel]
-    
-    @Binding var storedStreams: [StreamModel<String>]
-    
-    func sourceStream(with id: UUID) -> StreamModel<String>? {
-        storedStreams.first(where: { $0.id == id })
-    }
-        
+    @EnvironmentObject var streamStore: StreamStore
+
     func streamView(streamModel: OperationStreamModel) -> some View {
-        guard let sourceStream = sourceStream(with: streamModel.streamModelId) else {
-            return AnyView(EmptyView())
-        }
         return AnyView(MultiStreamView(streamTitle: streamModel.name ?? "",
-                                       sourceStreamModel: sourceStream,
+                                       sourceStreamModel: streamStore.sourceStreams[0],
                                        operatorItem: streamModel.operatorItem))
      }
-    
+
     var body: some View {
         ForEach(storedOperationStreams) { stream in
             NavigationLink(destination: self.streamView(streamModel: stream)) {
@@ -38,7 +29,6 @@ struct OperationStreamListView: View {
 
 struct OperationStreamListView_Previews: PreviewProvider {
     static var previews: some View {
-        OperationStreamListView(storedOperationStreams: .constant([]),
-                                storedStreams: .constant([]))
+        OperationStreamListView(storedOperationStreams: .constant([]))
     }
 }

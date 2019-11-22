@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Combine
 // swiftlint:disable identifier_name
 struct StreamModel<T: Codable>: Codable, Identifiable {
     var id: UUID
@@ -15,7 +15,7 @@ struct StreamModel<T: Codable>: Codable, Identifiable {
     var description: String?
     var stream: [StreamItem<T>]
     var isDefault: Bool
-    
+
     init(id: UUID = UUID(), name: String? = nil, description: String? = nil,
          stream: [StreamItem<T>] = [], isDefault: Bool = false) {
         self.id = id
@@ -24,7 +24,6 @@ struct StreamModel<T: Codable>: Codable, Identifiable {
         self.stream = stream
         self.isDefault = isDefault
     }
-    
     static func new<T>() -> StreamModel<T> {
         StreamModel<T>()
     }
