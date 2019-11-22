@@ -12,32 +12,44 @@ import Combine
 struct UpdateOperationStreamView: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
     @ObservedObject var viewModel: UpdateOperationStreamViewModel
 
     var body: some View {
-        List {
-                VStack {
-                    TextField("Operation Name", text: $viewModel.title)
-                    TextField("Description", text: $viewModel.description)
-                    Picker(selection: self.$viewModel.selectedOperator, label: Text("Select a Type")) {
-                        ForEach(self.viewModel.operators, id: \.self) { operatorItem in
-                            Text(operatorItem).tag(operatorItem)
-                        }
-                    }
-                    TextField(self.viewModel.parameterTitle, text: self.$viewModel.parameter)
-                    Spacer()
+        VStack(alignment: .center, spacing: 10) {
+            TextField("Operation Name", text: $viewModel.title).font(.headline)
+            TextField("Description", text: $viewModel.description).font(.subheadline)
+            Picker(selection: self.$viewModel.selectedOperator, label: Text("Select a Type").font(.footnote)) {
+                ForEach(self.viewModel.operators, id: \.self) { operatorItem in
+                    Text(operatorItem).tag(operatorItem)
                 }
-            Button("Save") {
-                self.viewModel.save()
-                self.presentationMode.wrappedValue.dismiss()
-            }
-        }
+            }.padding()
+            TextField(self.viewModel.parameterTitle, text: self.$viewModel.parameter)
+                .font(.body)
+            Spacer()
+            VStack(spacing: 10) {
+                Button("Cancel") {
+                    self.presentationMode.wrappedValue.dismiss()
+                    
+                }.foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, minHeight: 50)
+                    .background(Color.gray)
+                Button("Save") {
+                
+                    self.presentationMode.wrappedValue.dismiss()
+                }.foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, minHeight: 50)
+                    .background(Color.blue)
+            }.padding(.top, 30)
+        }.multilineTextAlignment(.center).padding(.top, 15)
+        
     }
 }
 
-//struct UpdateOperationStreamView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UpdateOperationStreamView(viewModel: UpdateOperationStreamViewModel())
-//    }
-//}
+struct UpdateOperationStreamView_Previews: PreviewProvider {
+    static var previews: some View {
+        UpdateOperationStreamView(viewModel: UpdateOperationStreamViewModel(
+            streamStore: StreamStore(),
+            operationStreamModel: .init(id: UUID(), name: "new operation",
+                                        description: "delay", operatorItem: .map(expression: "%d * 3", next: nil))))
+    }
+}

@@ -25,21 +25,21 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     @Published var description = ""
 
-    var streamModel: StreamModel<String>
+    @Published var streamStore: StreamStore
 
     var operationStreamModel: OperationStreamModel
 
     var disposables: Set<AnyCancellable> = Set()
 
-    convenience init(streamModel: StreamModel<String>) {
+    convenience init(streamStore: StreamStore) {
         let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
                                                            description: nil,
                                                            operatorItem: .delay(seconds: 0, next: nil))
-        self.init(streamModel: streamModel, operationStreamModel: newOperationStreamModel)
+        self.init(streamStore: streamStore, operationStreamModel: newOperationStreamModel)
     }
 
-    init(streamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
-        self.streamModel = streamModel
+    init(streamStore: StreamStore, operationStreamModel: OperationStreamModel) {
+        self.streamStore = streamStore
         self.operationStreamModel = operationStreamModel
         $selectedOperator.map {
             self.parameterTitles[self.operators.firstIndex(of: $0) ?? 0]
@@ -62,6 +62,8 @@ class UpdateOperationStreamViewModel: ObservableObject {
             selectedOperator = "scan"
             parameter = expression
         }
+        title = operationStreamModel.name ?? ""
+        description = operationStreamModel.description ?? ""
     }
 
     func save() {

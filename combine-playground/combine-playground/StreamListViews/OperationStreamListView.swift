@@ -30,7 +30,7 @@ struct OperationStreamListView: View {
     func trailingBarItem() -> some View {
         let navigationLink = NavigationLink(
         destination: UpdateOperationStreamView(
-            viewModel: UpdateOperationStreamViewModel(streamModel: streamStore.streamAModel))) {
+            viewModel: UpdateOperationStreamViewModel(streamStore: streamStore))) {
             Text("Add")
         }
         return AnyView(navigationLink)
