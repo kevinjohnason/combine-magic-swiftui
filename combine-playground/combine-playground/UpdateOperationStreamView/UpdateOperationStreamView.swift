@@ -29,19 +29,17 @@ struct UpdateOperationStreamView: View {
             VStack(spacing: 10) {
                 Button("Cancel") {
                     self.presentationMode.wrappedValue.dismiss()
-                    
                 }.foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, minHeight: 50)
                     .background(Color.gray)
                 Button("Save") {
-                
+                    self.viewModel.save()
                     self.presentationMode.wrappedValue.dismiss()
                 }.foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, minHeight: 50)
                     .background(Color.blue)
             }.padding(.top, 30)
         }.multilineTextAlignment(.center).padding(.top, 15)
-        
     }
 }
 
@@ -49,7 +47,7 @@ struct UpdateOperationStreamView_Previews: PreviewProvider {
     static var previews: some View {
         UpdateOperationStreamView(viewModel: UpdateOperationStreamViewModel(
             streamStore: StreamStore(),
-            operationStreamModel: .init(id: UUID(), name: "new operation",
+            operationStreamModel: .init(id: UUID(), name: "New operation",
                                         description: "delay", operatorItem: .map(expression: "%d * 3", next: nil))))
     }
 }

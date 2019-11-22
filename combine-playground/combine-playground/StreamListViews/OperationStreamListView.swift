@@ -13,10 +13,21 @@ struct OperationStreamListView: View {
     @EnvironmentObject var streamStore: StreamStore
 
     func streamView(streamModel: OperationStreamModel) -> some View {
-        return AnyView(MultiStreamView(streamTitle: streamModel.name ?? "",
-                                       sourceStreamModel: streamStore.streamAModel,
-                                       operatorItem: streamModel.operatorItem)
-            .navigationBarItems(trailing: trailingBarItem()))
+        return MultiStreamView(streamTitle: streamModel.name ?? "",
+                               sourceStreamModel: streamStore.streamAModel,
+                               operatorItem: streamModel.operatorItem)
+            .overlay(NavigationLink(
+                destination: UpdateOperationStreamView(
+                    viewModel: UpdateOperationStreamViewModel(streamStore: streamStore,
+                                                              operationStreamModel: streamModel)),
+                label: {
+                    HStack {
+                        Spacer()
+                        Text("Edit").font(.subheadline)
+                        .padding()
+                    }
+            }))
+            .navigationBarItems(trailing: trailingBarItem())
      }
 
     var body: some View {
