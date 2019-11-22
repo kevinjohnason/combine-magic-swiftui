@@ -14,7 +14,7 @@ class StreamStore: ObservableObject {
     var sourceStreams: [StreamModel<String>] {
         streams.filter { $0.isDefault }
     }
-    
+
     var streamAModel: StreamModel<String> {
         sourceStreams.first ?? StreamModel<String>.new()
     }
@@ -29,5 +29,9 @@ class StreamStore: ObservableObject {
 
     var streamB: AnyPublisher<String, Never> {
         streamBModel.toPublisher()
+    }
+
+    func reloadStreams() {
+        streams = DataService.shared.storedStreams
     }
 }

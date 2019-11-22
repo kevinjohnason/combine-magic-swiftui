@@ -25,25 +25,25 @@ extension String {
 }
 
 class UpdateStreamViewModel: ObservableObject {
-    
+
     @Published var streamNumberOptions: [CircularTextViewModel]
-    
+
     @Published var streamLetterOptions: [CircularTextViewModel]
-        
+
     @Published var streamName: String
-    
+
     @Published var streamDescription: String
-        
+
     var sequenceDescription: String {
         streamModel.sequenceDescription
     }
-    
+
     @Published var values: [TimeSeriesValue<String>]
-    
+
     @Published var streamModel: StreamModel<String>
-    
+
     private var disposables = Set<AnyCancellable>()
-    
+
     init(streamModel: StreamModel<String>) {
         self.streamModel = streamModel
         self.streamNumberOptions = (1...8).map {
@@ -62,7 +62,7 @@ class UpdateStreamViewModel: ObservableObject {
         }
         self.setupDataBinding()
     }
-    
+
     func setupDataBinding() {
         Publishers.CombineLatest($values, $streamName).map { (values, streamName) -> StreamModel<String> in
             var newStream = self.streamModel
@@ -74,9 +74,9 @@ class UpdateStreamViewModel: ObservableObject {
         }.assign(to: \.streamModel, on: self)
         .store(in: &disposables)
     }
-    
+
     func save() {
-        var storedStreams = DataService.shared.storedStreams                        
+        var storedStreams = DataService.shared.storedStreams
         if let storedStreamIndex = storedStreams.firstIndex(where: { $0.id == self.streamModel.id }) {
             storedStreams[storedStreamIndex] = streamModel
         } else {
@@ -84,5 +84,4 @@ class UpdateStreamViewModel: ObservableObject {
         }
         DataService.shared.storedStreams = storedStreams
     }
-    
 }

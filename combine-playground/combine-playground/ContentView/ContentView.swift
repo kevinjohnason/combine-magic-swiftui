@@ -13,7 +13,7 @@ struct ContentView: View {
     @ObservedObject var viewModel = ContentViewModel()
 
     var body: some View {
-        NavigationView {            
+        NavigationView {
             VStack {
                 List {
                     StreamListView()
@@ -28,8 +28,8 @@ struct ContentView: View {
                 }.frame(maxWidth: .infinity, maxHeight: 25)
                 .modifier(DemoButton(backgroundColor: .red))
             }.navigationBarTitle("Streams")
-                .navigationBarItems(leading: EditButton(), trailing: createStreamView)
-                .onAppear(perform: viewModel.refresh)
+            .navigationBarItems(leading: EditButton(), trailing: createStreamView)
+            .onAppear(perform: viewModel.refresh)
         }
     }
     var createStreamView: some View {

@@ -10,8 +10,9 @@ import SwiftUI
 import Combine
 
 struct SingleStreamView: View {
+
     @ObservedObject var viewModel: StreamViewModel<String>
-    
+
     var color: Color = .green
 
     var displayActionButtons: Bool = true
@@ -24,7 +25,7 @@ struct SingleStreamView: View {
                 .lineLimit(nil).padding()
             BallTunnelView(values: $viewModel.values, color: color,
                            animationSecond: viewModel.animationSeconds)
-                .frame(maxHeight: 100)                
+                .frame(maxHeight: 100)
             if displayActionButtons {
                 HStack {
                     CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {
@@ -46,7 +47,7 @@ struct SingleStreamView: View {
         let navigationLink = NavigationLink(destination: UpdateStreamView(viewModel:
             UpdateStreamViewModel(streamModel: dataStreamViewModel.streamModel))) {
             Text("Edit")
-        }        
+        }
         return AnyView(navigationLink)
     }
 }
@@ -54,8 +55,9 @@ struct SingleStreamView: View {
 #if DEBUG
 struct SingleStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleStreamView(viewModel: StreamViewModel(title: "Stream A", description: "Sequence(1,2,3,4,5)", publisher: Empty().eraseToAnyPublisher()))
-        //.previewDevice(PreviewDevice(rawValue: "iPad Pro (9.7-inch)"))
+        SingleStreamView(viewModel: StreamViewModel(title: "Stream A",
+                                                    description: "Sequence(1,2,3,4,5)",
+                                                    publisher: Empty().eraseToAnyPublisher()))
     }
 }
 #endif

@@ -28,9 +28,6 @@ class ContentViewModel: ObservableObject {
     }
 
     func refresh() {
-        DataService.shared.storedStreamUpdated.sink { (newStream) in
-            //self.storedStreams = newStream
-        }.store(in: &disposables)
 
         DataService.shared.storedOperationStreamUpdated.sink { (newStream) in
             self.storedOperationStreams = newStream
