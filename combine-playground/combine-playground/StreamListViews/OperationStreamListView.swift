@@ -23,7 +23,8 @@ struct OperationStreamListView: View {
                 label: {
                     HStack {
                         Spacer()
-                        Text("Edit").font(.subheadline)
+                        Image(systemName: "pencil.circle")
+                        .font(.subheadline)
                         .padding()
                     }
             }))
