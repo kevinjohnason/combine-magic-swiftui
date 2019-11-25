@@ -8,33 +8,52 @@
 
 import Foundation
 import Combine
-
+import CombineExtensions
 class MultiStreamViewModel: ObservableObject {
-    @Published var sourceStreamModel: StreamModel<String>?
+    @Published var streamViewModels: [StreamViewModel<[String]>] = []
+    var sourceStreamModel: StreamModel<String>?
     @Published var operationStreamModel: OperationStreamModel?
-    @Published var streamViewModels: [StreamViewModel<[String]>]
     var title: String
+    var disposeBag = DisposeBag()
+    var updateOperationStreamViewModel: UpdateOperationStreamViewModel? {
+        guard let sourceStreamModel = sourceStreamModel, let operationStreamModel = operationStreamModel else {
+            return nil
+        }
+        let updateStreamViewModel = UpdateOperationStreamViewModel(sourceStreamModel: sourceStreamModel,
+        operationStreamModel: operationStreamModel)
+        updateStreamViewModel.$operationStreamModel.dropFirst()
+        .compactMap { $0 }
+        .assign(to: \MultiStreamViewModel.operationStreamModel, on: self)
+        .store(in: &self.disposeBag)
+        return updateStreamViewModel
+    }
 
     init(title: String, sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
         self.title = title
-        self.sourceStreamModel = sourceStreamModel
         self.operationStreamModel = operationStreamModel
-        let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
-                                              description: sourceStreamModel.sequenceDescription,
-                                              publisher: sourceStreamModel.toPublisher()).toArrayViewModel()
-        var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]
-        var currentOperatorItem: Operator?  = operationStreamModel.operatorItem
-        var currentPublisher: AnyPublisher<String, Never>? = sourceStreamModel.toPublisher()
-        while currentOperatorItem != nil {
-            let newPublisher = currentOperatorItem!.applyPublisher(currentPublisher!)
-            streamViewModels.append(StreamViewModel(title: currentOperatorItem!.description,
-                                                    description: "",
-                                                    publisher: newPublisher).toArrayViewModel())
-            currentOperatorItem = currentOperatorItem?.next
-            currentPublisher = newPublisher
-        }
-        self.streamViewModels = streamViewModels
+        self.sourceStreamModel = sourceStreamModel
+        $operationStreamModel
+            .filter { $0 != nil }
+            .map { operationStreamModel -> [StreamViewModel<[String]>] in
+            let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
+                                                       description: sourceStreamModel.sequenceDescription,
+                                                       publisher: sourceStreamModel.toPublisher()).toArrayViewModel()
+            var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]
+            var currentOperatorItem: Operator?  = operationStreamModel!.operatorItem
+            var currentPublisher: AnyPublisher<String, Never>? = sourceStreamModel.toPublisher()
+            while currentOperatorItem != nil {
+                let newPublisher = currentOperatorItem!.applyPublisher(currentPublisher!)
+                streamViewModels.append(StreamViewModel(title: currentOperatorItem!.description,
+                                                             description: "",
+                                                             publisher: newPublisher).toArrayViewModel())
+                currentOperatorItem = currentOperatorItem?.next
+                currentPublisher = newPublisher
+            }
+            return streamViewModels
+        }.assign(to: \MultiStreamViewModel.streamViewModels, on: self)
+        .store(in: &disposeBag)
     }
+
     init(streamTitle: String, stream1Model: StreamModel<String>, stream2Model: StreamModel<String>,
          unifyingStreamModel: UnifyingOperationStreamModel) {
         self.title = streamTitle

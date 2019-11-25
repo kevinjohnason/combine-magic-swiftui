@@ -16,7 +16,6 @@ struct MultiValueStreamView: View {
     var body: some View {
         VStack(spacing: 10) {
             Spacer()
-
             Text(viewModel.title)
             .font(.system(.headline, design: .monospaced))
             .lineLimit(nil)

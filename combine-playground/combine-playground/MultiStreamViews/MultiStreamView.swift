@@ -8,14 +8,34 @@
 
 import SwiftUI
 import Combine
-
+import CombineExtensions
 struct MultiStreamView: View {
     @ObservedObject var viewModel: MultiStreamViewModel
+    @EnvironmentObject var streamStore: StreamStore
+    var disposeBag = DisposeBag()
+    var overlay: some View {
+        guard let updateOperationViewModel = viewModel.updateOperationStreamViewModel else {
+            return AnyView(EmptyView())
+        }
+        return AnyView(NavigationLink(
+            destination: UpdateOperationStreamView(
+                viewModel: updateOperationViewModel),
+            label: {
+                HStack {
+                    Spacer()
+                    Image(systemName: "pencil.circle")
+                    .font(.subheadline)
+                    .padding()
+                }
+        }))
+    }
 
     var body: some View {
         VStack {
             ForEach(viewModel.streamViewModels, id: \.title) { streamView in
                 MultiValueStreamView(viewModel: streamView, displayActionButtons: false)
+                    .overlay(self.overlay)
+                //.navigationBarItems(trailing: trailingBarItem())
             }
             HStack {
                 CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {

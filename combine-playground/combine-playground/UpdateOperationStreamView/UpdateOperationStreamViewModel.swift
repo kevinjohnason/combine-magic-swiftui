@@ -25,21 +25,21 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     @Published var description = ""
 
-    @Published var streamStore: StreamStore
+    @Published var sourceStreamModel: StreamModel<String>
 
     @Published var operationStreamModel: OperationStreamModel
 
     var disposables: Set<AnyCancellable> = Set()
 
-    convenience init(streamStore: StreamStore) {
+    convenience init(sourceStreamModel: StreamModel<String>) {
         let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
                                                            description: nil,
                                                            operatorItem: .delay(seconds: 0, next: nil))
-        self.init(streamStore: streamStore, operationStreamModel: newOperationStreamModel)
+        self.init(sourceStreamModel: sourceStreamModel, operationStreamModel: newOperationStreamModel)
     }
 
-    init(streamStore: StreamStore, operationStreamModel: OperationStreamModel) {
-        self.streamStore = streamStore
+    init(sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
+        self.sourceStreamModel = sourceStreamModel
         self.operationStreamModel = operationStreamModel
         $selectedOperator.map {
             self.parameterTitles[self.operators.firstIndex(of: $0) ?? 0]
@@ -66,7 +66,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
         description = operationStreamModel.description ?? ""
     }
 
-    func save() {
+    func updateStreamModel() {
         operationStreamModel.name = title
         operationStreamModel.description = description
         switch selectedOperator {
@@ -81,12 +81,5 @@ class UpdateOperationStreamViewModel: ObservableObject {
         default:
             break
         }
-        var storedOperations = streamStore.operationStreams
-        if let storedStreamIndex = storedOperations.firstIndex(where: { $0.id == self.operationStreamModel.id }) {
-            storedOperations[storedStreamIndex] = operationStreamModel
-        } else {
-            storedOperations.append(operationStreamModel)
-        }
-        streamStore.operationStreams = storedOperations
     }
 }

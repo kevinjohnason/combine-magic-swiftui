@@ -45,4 +45,13 @@ class StreamStore: ObservableObject {
         streamBModel.toPublisher()
     }
 
+    func save(_ operationStreamModel: OperationStreamModel) {
+        var storedOperations = operationStreams
+        if let storedStreamIndex = storedOperations.firstIndex(where: { $0.id == operationStreamModel.id }) {
+            storedOperations[storedStreamIndex] = operationStreamModel
+        } else {
+            storedOperations.append(operationStreamModel)
+        }
+        operationStreams = storedOperations
+    }
 }

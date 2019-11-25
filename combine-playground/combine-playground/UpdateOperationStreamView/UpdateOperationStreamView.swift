@@ -10,10 +10,9 @@ import SwiftUI
 import Combine
 
 struct UpdateOperationStreamView: View {
-
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var viewModel: UpdateOperationStreamViewModel
-
+    @EnvironmentObject var streamStore: StreamStore
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             TextField("Operation Name", text: $viewModel.title).font(.headline)
@@ -33,7 +32,8 @@ struct UpdateOperationStreamView: View {
                     .frame(maxWidth: .infinity, minHeight: 50)
                     .background(Color.gray)
                 Button("Save") {
-                    self.viewModel.save()
+                    self.viewModel.updateStreamModel()
+                    self.streamStore.save(self.viewModel.operationStreamModel)
                     self.presentationMode.wrappedValue.dismiss()
                 }.foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, minHeight: 50)
@@ -43,11 +43,11 @@ struct UpdateOperationStreamView: View {
     }
 }
 
-struct UpdateOperationStreamView_Previews: PreviewProvider {
-    static var previews: some View {
-        UpdateOperationStreamView(viewModel: UpdateOperationStreamViewModel(
-            streamStore: StreamStore(),
-            operationStreamModel: .init(id: UUID(), name: "New operation",
-                                        description: "delay", operatorItem: .map(expression: "%d * 3", next: nil))))
-    }
-}
+//struct UpdateOperationStreamView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UpdateOperationStreamView(viewModel: UpdateOperationStreamViewModel(
+//            streamStore: StreamStore(),
+//            operationStreamModel: .init(id: UUID(), name: "New operation",
+//                                        description: "delay", operatorItem: .map(expression: "%d * 3", next: nil))))
+//    }
+//}

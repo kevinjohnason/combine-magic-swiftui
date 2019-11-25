@@ -16,19 +16,6 @@ struct OperationStreamListView: View {
                                                         sourceStreamModel: streamStore.streamAModel,
                                                         operationStreamModel: streamModel)
         return MultiStreamView(viewModel: multiStreamViewModel)
-            .overlay(NavigationLink(
-                destination: UpdateOperationStreamView(
-                    viewModel: UpdateOperationStreamViewModel(streamStore: streamStore,
-                                                              operationStreamModel: streamModel)),
-                label: {
-                    HStack {
-                        Spacer()
-                        Image(systemName: "pencil.circle")
-                        .font(.subheadline)
-                        .padding()
-                    }
-            }))
-            .navigationBarItems(trailing: trailingBarItem())
      }
 
     var body: some View {
@@ -42,7 +29,7 @@ struct OperationStreamListView: View {
     func trailingBarItem() -> some View {
         let navigationLink = NavigationLink(
         destination: UpdateOperationStreamView(
-            viewModel: UpdateOperationStreamViewModel(streamStore: streamStore))) {
+            viewModel: UpdateOperationStreamViewModel(sourceStreamModel: streamStore.streamAModel))) {
             Text("Add")
         }
         return AnyView(navigationLink)
