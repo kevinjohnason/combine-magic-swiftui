@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct OperationStreamListView: View {
-    @Binding var storedOperationStreams: [OperationStreamModel]
     @EnvironmentObject var streamStore: StreamStore
 
     func streamView(streamModel: OperationStreamModel) -> some View {
@@ -32,7 +31,7 @@ struct OperationStreamListView: View {
      }
 
     var body: some View {
-        ForEach(storedOperationStreams) { stream in
+        ForEach(streamStore.operationStreams) { stream in
             NavigationLink(destination: self.streamView(streamModel: stream)) {
                 MenuRow(detailViewName: stream.name ?? "")
             }
@@ -51,6 +50,6 @@ struct OperationStreamListView: View {
 
 struct OperationStreamListView_Previews: PreviewProvider {
     static var previews: some View {
-        OperationStreamListView(storedOperationStreams: .constant([]))
+        OperationStreamListView()
     }
 }

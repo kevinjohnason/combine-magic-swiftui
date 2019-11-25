@@ -18,7 +18,7 @@ struct ContentView: View {
             VStack {
                 List {
                     StreamListView()
-                    OperationStreamListView(storedOperationStreams: $viewModel.storedOperationStreams)
+                    OperationStreamListView()
                     UnifyingOperationListStreamView(
                         storedUnifyingOperationStreams: $viewModel.storedUnifyingOperationStreams)
                     JoinOperationListStreamView(

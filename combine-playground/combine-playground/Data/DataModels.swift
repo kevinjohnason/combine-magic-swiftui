@@ -69,8 +69,9 @@ enum UnifyOparator: Codable {
             self = .flatMap(next: flatMapNext)
         } else if let appendMapNext = try container.decodeIfPresent((Operator?).self, forKey: .append) {
             self = .append(next: appendMapNext)
+        } else {
+            throw CodingError.decoding("Decoding Failed. \(dump(container))")
         }
-        throw CodingError.decoding("Decoding Failed. \(dump(container))")
     }
 
     func encode(to encoder: Encoder) throws {
@@ -136,8 +137,9 @@ indirect enum Operator: Codable {
             self = .map(expression: mapParameters.expression, next: mapParameters.next)
         } else if let scanParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .scan) {
             self = .scan(expression: scanParameters.expression, next: scanParameters.next)
+        } else {
+            throw CodingError.decoding("Decoding Failed. \(dump(container))")
         }
-        throw CodingError.decoding("Decoding Failed. \(dump(container))")
     }
 
     func encode(to encoder: Encoder) throws {
@@ -146,7 +148,7 @@ indirect enum Operator: Codable {
         case .delay(let seconds, let next):
             try container.encode(DelayParameters(seconds: seconds, next: next), forKey: .delay)
         case .filter(let expression, let next):
-            try container.encode(ExpressionParameters(expression: expression, next: next), forKey: .delay)
+            try container.encode(ExpressionParameters(expression: expression, next: next), forKey: .filter)
         case .dropFirst(let count, let next):
             try container.encode(DropFirstParameters(count: count, next: next), forKey: .dropFirst)
         case .map(let expression, let next):

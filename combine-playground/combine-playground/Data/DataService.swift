@@ -37,7 +37,6 @@ class DataService {
         } set {
             // swiftlint:disable:next force_try
             UserDefaults.standard.set(try! JSONEncoder().encode(newValue), forKey: "storedOperationStreams")
-            storedOperationStreamUpdated.send(newValue)
         }
     }
 
@@ -72,7 +71,6 @@ class DataService {
             storedCombineGroupOperationStreamUpdated.send(newValue)
         }
     }
-    let storedOperationStreamUpdated: PassthroughSubject<[OperationStreamModel], Never> = PassthroughSubject()
     let storedUnifyingOperationStreamUpdated: PassthroughSubject<[UnifyingOperationStreamModel], Never>
         = PassthroughSubject()
     let storedCombineGroupOperationStreamUpdated: PassthroughSubject<[JoinOperationStreamModel], Never>

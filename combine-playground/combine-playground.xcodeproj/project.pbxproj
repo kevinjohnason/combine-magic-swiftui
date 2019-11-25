@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31189C4B238C57BC0064B7EE /* CombineExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31189C4A238C57B70064B7EE /* CombineExtensions.framework */; };
 		313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593902384B802007F52A5 /* OperatorExtensions.swift */; };
 		313593952384C61C007F52A5 /* StreamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593942384C61C007F52A5 /* StreamStore.swift */; };
 		31383ABE2385C45600EC9A95 /* UpdateJoinStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383ABD2385C45600EC9A95 /* UpdateJoinStreamView.swift */; };
@@ -46,7 +47,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3164436023887870003CBDC4 /* PBXContainerItemProxy */ = {
+		31189C46238C57B70064B7EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 31383A9C2385BE4700EC9A95;
+			remoteInfo = CombineExtensions;
+		};
+		31189C49238C57B70064B7EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
 			proxyType = 2;
@@ -102,12 +110,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31189C4B238C57BC0064B7EE /* CombineExtensions.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31189C44238C4F860064B7EE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31189C4A238C57B70064B7EE /* CombineExtensions.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		313593932384BC34007F52A5 /* StreamListViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +321,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				31189C47238C57B70064B7EE /* PBXTargetDependency */,
 			);
 			name = "combine-playground";
 			productName = "combine-playground";
@@ -338,7 +356,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 3164435D23887870003CBDC4 /* Products */;
+					ProductGroup = 31189C44238C4F860064B7EE /* Products */;
 					ProjectRef = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
 				},
 			);
@@ -350,11 +368,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3164436123887870003CBDC4 /* CombineExtensions.framework */ = {
+		31189C4A238C57B70064B7EE /* CombineExtensions.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CombineExtensions.framework;
-			remoteRef = 3164436023887870003CBDC4 /* PBXContainerItemProxy */;
+			remoteRef = 31189C49238C57B70064B7EE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -435,6 +453,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		31189C47238C57B70064B7EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CombineExtensions;
+			targetProxy = 31189C46238C57B70064B7EE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		31CD20AB237490D8001793FC /* LaunchScreen.storyboard */ = {

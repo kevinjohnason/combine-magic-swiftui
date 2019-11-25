@@ -81,5 +81,12 @@ class UpdateOperationStreamViewModel: ObservableObject {
         default:
             break
         }
+        var storedOperations = streamStore.operationStreams
+        if let storedStreamIndex = storedOperations.firstIndex(where: { $0.id == self.operationStreamModel.id }) {
+            storedOperations[storedStreamIndex] = operationStreamModel
+        } else {
+            storedOperations.append(operationStreamModel)
+        }
+        streamStore.operationStreams = storedOperations
     }
 }

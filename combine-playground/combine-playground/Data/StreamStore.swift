@@ -8,8 +8,22 @@
 
 import Foundation
 import Combine
+import CombineExtensions
 class StreamStore: ObservableObject {
     @Published var streams: [StreamModel<String>] = DataService.shared.storedStreams
+
+    @Published var operationStreams: [OperationStreamModel] = DataService.shared.storedOperationStreams
+
+    var disposeBag = DisposeBag()
+
+    init() {
+        $streams.dropFirst().sink {
+            DataService.shared.storedStreams = $0
+        }.store(in: &disposeBag)
+        $operationStreams.dropFirst().sink {
+            DataService.shared.storedOperationStreams = $0
+        }.store(in: &disposeBag)
+    }
 
     var sourceStreams: [StreamModel<String>] {
         streams.filter { $0.isDefault }
