@@ -10,94 +10,33 @@ import SwiftUI
 import Combine
 
 struct MultiStreamView: View {
-    let streamViewModels: [StreamViewModel<[String]>]
-    let streamTitle: String
-
-    init(streamTitle: String, sourceStreamModel: StreamModel<String>, operatorItem: Operator) {
-        self.streamTitle = streamTitle
-
-        let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
-                                              description: sourceStreamModel.sequenceDescription,
-                                              publisher: sourceStreamModel.toPublisher()).toArrayViewModel()
-
-        var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]
-
-        var currentOperatorItem: Operator?  = operatorItem
-        var currentPublisher: AnyPublisher<String, Never>? = sourceStreamModel.toPublisher()
-        while currentOperatorItem != nil {
-            let newPublisher = currentOperatorItem!.applyPublisher(currentPublisher!)
-            streamViewModels.append(StreamViewModel(title: currentOperatorItem!.description,
-                                                    description: "",
-                                                    publisher: newPublisher).toArrayViewModel())
-            currentOperatorItem = currentOperatorItem?.next
-            currentPublisher = newPublisher
-        }
-
-        self.streamViewModels = streamViewModels
-    }
-
-    init(streamTitle: String, stream1Model: StreamModel<String>, stream2Model: StreamModel<String>,
-         unifyingStreamModel: UnifyingOperationStreamModel) {
-        self.streamTitle = streamTitle
-        let stream1ViewModel = StreamViewModel(title: stream1Model.name ?? "",
-                                               description: stream1Model.sequenceDescription,
-            publisher: stream1Model.toPublisher()).toArrayViewModel()
-
-        let stream2ViewModel = StreamViewModel(title: stream2Model.name ?? "",
-                                               description: stream2Model.sequenceDescription,
-            publisher: stream2Model.toPublisher()).toArrayViewModel()
-
-        let operatorPublisher =
-            unifyingStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(),
-                                                              stream2Model.toPublisher()])
-
-        let resultViewModel = StreamViewModel(title: unifyingStreamModel.name ?? "",
-                                              description: unifyingStreamModel.description ?? "",
-            publisher: operatorPublisher).toArrayViewModel()
-        streamViewModels = [stream1ViewModel, stream2ViewModel, resultViewModel]
-
-    }
-
-    init(streamTitle: String, stream1Model: StreamModel<String>,
-         stream2Model: StreamModel<String>, combineStreamModel: JoinOperationStreamModel) {
-        self.streamTitle = streamTitle
-        let stream1ViewModel: StreamViewModel<String> = DataStreamViewModel(streamModel: stream1Model)
-        let stream2ViewModel: StreamViewModel<String> = DataStreamViewModel(streamModel: stream2Model)
-        let operatorPublisher =
-            combineStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(), stream2Model.toPublisher()])
-        let resultStreamViewModel =
-            StreamViewModel(title: combineStreamModel.name ?? "",
-                            description: combineStreamModel.description ?? "", publisher: operatorPublisher)
-        streamViewModels = [stream1ViewModel.toArrayViewModel(),
-                            stream2ViewModel.toArrayViewModel(),
-                            resultStreamViewModel]
-    }
+    @ObservedObject var viewModel: MultiStreamViewModel
 
     var body: some View {
         VStack {
-            ForEach(streamViewModels, id: \.title) { streamView in
+            ForEach(viewModel.streamViewModels, id: \.title) { streamView in
                 MultiValueStreamView(viewModel: streamView, displayActionButtons: false)
             }
             HStack {
                 CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {
-                    self.streamViewModels.forEach {
+                    self.viewModel.streamViewModels.forEach {
                         $0.subscribe()
                     }
                 }
                 CombineDemoButton(text: "Cancel", backgroundColor: .red) {
-                    self.streamViewModels.forEach {
+                    self.viewModel.streamViewModels.forEach {
                         $0.cancel()
                     }
                 }
             }.padding()
-        }.navigationBarTitle(streamTitle)
+        }.navigationBarTitle(viewModel.title)
     }
 }
 
-struct MultiStreamView_Previews: PreviewProvider {
-    static var previews: some View {
-        MultiStreamView(streamTitle: "",
-                        sourceStreamModel: StreamModel<String>.new(),
-                        operatorItem: .delay(seconds: 1, next: nil))
-    }
-}
+//struct MultiStreamView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MultiStreamView(streamTitle: "",
+//                        sourceStreamModel: StreamModel<String>.new(),
+//                        operationStreamModel: .delay(seconds: 1, next: nil))
+//    }
+//}

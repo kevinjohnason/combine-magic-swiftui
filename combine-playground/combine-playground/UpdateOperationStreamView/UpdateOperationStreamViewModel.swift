@@ -27,7 +27,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     @Published var streamStore: StreamStore
 
-    var operationStreamModel: OperationStreamModel
+    @Published var operationStreamModel: OperationStreamModel
 
     var disposables: Set<AnyCancellable> = Set()
 

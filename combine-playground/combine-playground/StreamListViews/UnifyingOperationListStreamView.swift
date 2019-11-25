@@ -17,10 +17,11 @@ struct UnifyingOperationListStreamView: View {
         guard sourceStreams.count > 1 else {
             return AnyView(EmptyView())
         }
-        let operationStreamView = MultiStreamView(streamTitle: streamModel.name ?? "",
+        let operationStreamViewModel = MultiStreamViewModel(streamTitle: streamModel.name ?? "",
                                                   stream1Model: sourceStreams[0],
                                                   stream2Model: sourceStreams[1],
                                                   unifyingStreamModel: streamModel)
+        let operationStreamView = MultiStreamView(viewModel: operationStreamViewModel)
         return AnyView(operationStreamView)
      }
 

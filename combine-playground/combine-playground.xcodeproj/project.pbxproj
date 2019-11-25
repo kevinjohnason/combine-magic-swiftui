@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		31189C4B238C57BC0064B7EE /* CombineExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31189C4A238C57B70064B7EE /* CombineExtensions.framework */; };
+		31189C4F238C687A0064B7EE /* MultiStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */; };
 		313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593902384B802007F52A5 /* OperatorExtensions.swift */; };
 		313593952384C61C007F52A5 /* StreamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593942384C61C007F52A5 /* StreamStore.swift */; };
 		31383ABE2385C45600EC9A95 /* UpdateJoinStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383ABD2385C45600EC9A95 /* UpdateJoinStreamView.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiStreamViewModel.swift; sourceTree = "<group>"; };
 		313593902384B802007F52A5 /* OperatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorExtensions.swift; sourceTree = "<group>"; };
 		313593942384C61C007F52A5 /* StreamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamStore.swift; sourceTree = "<group>"; };
 		31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CombineExtensions.xcodeproj; path = "../combine-extensions/CombineExtensions.xcodeproj"; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 			children = (
 				31CD2194237494BB001793FC /* MultiValueStreamView.swift */,
 				31CD2195237494BB001793FC /* MultiStreamView.swift */,
+				31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */,
 			);
 			path = MultiStreamViews;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31CD2196237494BB001793FC /* MultiValueStreamView.swift in Sources */,
+				31189C4F238C687A0064B7EE /* MultiStreamViewModel.swift in Sources */,
 				31CD2132237491D9001793FC /* BallTunnelView.swift in Sources */,
 				31CD212B237491D9001793FC /* ContentView.swift in Sources */,
 				31CD2137237491D9001793FC /* StreamViewModel.swift in Sources */,

@@ -12,9 +12,10 @@ struct OperationStreamListView: View {
     @EnvironmentObject var streamStore: StreamStore
 
     func streamView(streamModel: OperationStreamModel) -> some View {
-        return MultiStreamView(streamTitle: streamModel.name ?? "",
-                               sourceStreamModel: streamStore.streamAModel,
-                               operatorItem: streamModel.operatorItem)
+        let multiStreamViewModel = MultiStreamViewModel(title: streamModel.name ?? "",
+                                                        sourceStreamModel: streamStore.streamAModel,
+                                                        operationStreamModel: streamModel)
+        return MultiStreamView(viewModel: multiStreamViewModel)
             .overlay(NavigationLink(
                 destination: UpdateOperationStreamView(
                     viewModel: UpdateOperationStreamViewModel(streamStore: streamStore,

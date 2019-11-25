@@ -18,12 +18,11 @@ struct JoinOperationListStreamView: View {
         guard sourceStreams.count > 1 else {
             return AnyView(EmptyView())
         }
-
-        let operationStreamView =
-        MultiStreamView(streamTitle: streamModel.name ?? "",
-                        stream1Model: sourceStreams[0],
-                        stream2Model: sourceStreams[1], combineStreamModel: streamModel)
-
+        let viewModel = MultiStreamViewModel(streamTitle: streamModel.name ?? "",
+                                            stream1Model: sourceStreams[0],
+                                            stream2Model: sourceStreams[1],
+                                            joinStreamModel: streamModel)
+        let operationStreamView = MultiStreamView(viewModel: viewModel)
         return AnyView(operationStreamView)
      }
 
