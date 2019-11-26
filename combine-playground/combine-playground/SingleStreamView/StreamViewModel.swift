@@ -30,13 +30,15 @@ class StreamViewModel<T>: ObservableObject {
     @Published var values: [TimeSeriesValue<T>] = []
     let animationSeconds: Double = 1.5
     var cancellable: Cancellable?
-
-    init(title: String, description: String = "", publisher: AnyPublisher<T, Never>) {
+    let editable: Bool
+    
+    init(title: String, description: String = "", publisher: AnyPublisher<T, Never>, editable: Bool = false) {
         self.title = title
         self.updatableTitle = title
         self.description = description
         self.updatableDescription = description
         self.publisher = publisher
+        self.editable = editable
     }
 
     func subscribe() {
@@ -72,7 +74,7 @@ extension StreamViewModel {
 
     func toArrayViewModel() -> StreamViewModel<[T]> {
         StreamViewModel<[T]>(title: self.title, description: self.description,
-                             publisher: self.publisher.map { [$0] }.eraseToAnyPublisher())
+                             publisher: self.publisher.map { [$0] }.eraseToAnyPublisher(), editable: self.editable)
     }
 
 }

@@ -45,7 +45,8 @@ class MultiStreamViewModel: ObservableObject {
                 let newPublisher = currentOperatorItem!.applyPublisher(currentPublisher!)
                 streamViewModels.append(StreamViewModel(title: currentOperatorItem!.description,
                                                              description: "",
-                                                             publisher: newPublisher).toArrayViewModel())
+                                                             publisher: newPublisher,
+                                                             editable: true).toArrayViewModel())
                 currentOperatorItem = currentOperatorItem?.next
                 currentPublisher = newPublisher
             }

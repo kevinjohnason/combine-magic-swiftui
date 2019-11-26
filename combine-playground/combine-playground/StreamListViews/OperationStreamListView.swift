@@ -25,15 +25,6 @@ struct OperationStreamListView: View {
             }
         }
     }
-
-    func trailingBarItem() -> some View {
-        let navigationLink = NavigationLink(
-        destination: UpdateOperationStreamView(
-            viewModel: UpdateOperationStreamViewModel(sourceStreamModel: streamStore.streamAModel))) {
-            Text("Add")
-        }
-        return AnyView(navigationLink)
-    }
 }
 
 struct OperationStreamListView_Previews: PreviewProvider {

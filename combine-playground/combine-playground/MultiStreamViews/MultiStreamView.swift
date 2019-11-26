@@ -13,29 +13,41 @@ struct MultiStreamView: View {
     @ObservedObject var viewModel: MultiStreamViewModel
     @EnvironmentObject var streamStore: StreamStore
     var disposeBag = DisposeBag()
-    var overlay: some View {
+
+    func trailingBarItem() -> some View {
+        let navigationLink = NavigationLink(
+        destination: UpdateOperationStreamView(
+            viewModel: UpdateOperationStreamViewModel(sourceStreamModel: streamStore.streamAModel))) {
+            Text("Add")
+        }
+        return AnyView(navigationLink)
+    }
+    
+    func overlay(with streamViewModel: StreamViewModel<[String]>) -> some View {
+        guard streamViewModel.editable else {
+            return AnyView(EmptyView())
+        }
         guard let updateOperationViewModel = viewModel.updateOperationStreamViewModel else {
             return AnyView(EmptyView())
         }
         return AnyView(NavigationLink(
-            destination: UpdateOperationStreamView(
-                viewModel: updateOperationViewModel),
-            label: {
-                HStack {
-                    Spacer()
-                    Image(systemName: "pencil.circle")
-                    .font(.subheadline)
-                    .padding()
-                }
-        }))
+             destination: UpdateOperationStreamView(
+                 viewModel: updateOperationViewModel),
+             label: {
+                 HStack {
+                     Spacer()
+                     Image(systemName: "pencil.circle")
+                     .font(.subheadline)
+                     .padding()
+                 }
+         }))
     }
 
     var body: some View {
         VStack {
             ForEach(viewModel.streamViewModels, id: \.title) { streamView in
                 MultiValueStreamView(viewModel: streamView, displayActionButtons: false)
-                    .overlay(self.overlay)
-                //.navigationBarItems(trailing: trailingBarItem())
+                    .overlay(self.overlay(with: streamView))
             }
             HStack {
                 CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {
@@ -50,6 +62,7 @@ struct MultiStreamView: View {
                 }
             }.padding()
         }.navigationBarTitle(viewModel.title)
+        .navigationBarItems(trailing: self.trailingBarItem())
     }
 }
 
