@@ -13,12 +13,34 @@ struct MultiValueStreamView: View {
 
     var displayActionButtons: Bool = true
 
+    var updateOperationStreamView: UpdateOperationStreamView?
+
+    var updateView: some View {
+        if updateOperationStreamView == nil {
+            return AnyView(EmptyView())
+        }
+        return AnyView(NavigationLink(
+             destination: updateOperationStreamView,
+             label: {
+                 HStack {
+                     Spacer()
+                     Image(systemName: "pencil.circle")
+                     .font(.system(size: 25, weight: .light))
+                 }.padding(.trailing, 10)
+         }))
+    }
+
     var body: some View {
         VStack(spacing: 10) {
             Spacer()
-            Text(viewModel.title)
-            .font(.system(.headline, design: .monospaced))
-            .lineLimit(nil)
+            ZStack {
+                Text(viewModel.title)
+                    .font(.system(.headline, design: .monospaced))
+                    .lineLimit(nil)
+
+                self.updateView
+            }
+
             Text(viewModel.updatableDescription)
                        .font(.system(.subheadline, design: .monospaced))
                        .lineLimit(nil)

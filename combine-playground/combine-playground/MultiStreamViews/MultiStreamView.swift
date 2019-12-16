@@ -11,8 +11,7 @@ import Combine
 import CombineExtensions
 struct MultiStreamView: View {
     @ObservedObject var viewModel: MultiStreamViewModel
-    @EnvironmentObject var streamStore: StreamStore
-    var disposeBag = DisposeBag()
+    @EnvironmentObject var streamStore: StreamStore    
 
     func trailingBarItem() -> some View {
         let navigationLink = NavigationLink(
@@ -22,32 +21,22 @@ struct MultiStreamView: View {
         }
         return AnyView(navigationLink)
     }
-    
-    func overlay(with streamViewModel: StreamViewModel<[String]>) -> some View {
+
+    func updateOperationStreamView(with streamViewModel: StreamViewModel<[String]>) -> UpdateOperationStreamView? {
         guard streamViewModel.editable else {
-            return AnyView(EmptyView())
+            return nil
         }
         guard let updateOperationViewModel = viewModel.updateOperationStreamViewModel else {
-            return AnyView(EmptyView())
+            return nil
         }
-        return AnyView(NavigationLink(
-             destination: UpdateOperationStreamView(
-                 viewModel: updateOperationViewModel),
-             label: {
-                 HStack {
-                     Spacer()
-                     Image(systemName: "pencil.circle")
-                     .font(.subheadline)
-                     .padding()
-                 }
-         }))
+        return UpdateOperationStreamView(viewModel: updateOperationViewModel)
     }
 
     var body: some View {
         VStack {
             ForEach(viewModel.streamViewModels, id: \.title) { streamView in
-                MultiValueStreamView(viewModel: streamView, displayActionButtons: false)
-                    .overlay(self.overlay(with: streamView))
+                MultiValueStreamView(viewModel: streamView, displayActionButtons: false,
+                                     updateOperationStreamView: self.updateOperationStreamView(with: streamView))
             }
             HStack {
                 CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {
