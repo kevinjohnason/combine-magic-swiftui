@@ -16,6 +16,8 @@
 		31383AC02385C47300EC9A95 /* UpdateJoinStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383ABF2385C47300EC9A95 /* UpdateJoinStreamViewModel.swift */; };
 		31383AC32385CCC500EC9A95 /* UpdateOperationStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383AC22385CCC500EC9A95 /* UpdateOperationStreamView.swift */; };
 		31383AC52385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */; };
+		31880C2D23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31880C2C23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift */; };
+		31880C2F23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31880C2E23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift */; };
 		31CD20A1237490D6001793FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A0237490D6001793FC /* AppDelegate.swift */; };
 		31CD20A3237490D6001793FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A2237490D6001793FC /* SceneDelegate.swift */; };
 		31CD20A7237490D8001793FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31CD20A6237490D8001793FC /* Assets.xcassets */; };
@@ -87,6 +89,8 @@
 		31383ABF2385C47300EC9A95 /* UpdateJoinStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateJoinStreamViewModel.swift; sourceTree = "<group>"; };
 		31383AC22385CCC500EC9A95 /* UpdateOperationStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOperationStreamView.swift; sourceTree = "<group>"; };
 		31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOperationStreamViewModel.swift; sourceTree = "<group>"; };
+		31880C2C23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnifyingStreamView.swift; sourceTree = "<group>"; };
+		31880C2E23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnifyingStreamViewModel.swift; sourceTree = "<group>"; };
 		31CD209D237490D6001793FC /* combine-playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "combine-playground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CD20A0237490D6001793FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31CD20A2237490D6001793FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -177,6 +181,15 @@
 			path = UpdateOperationStreamView;
 			sourceTree = "<group>";
 		};
+		31880C2B23A83A8A005D69E0 /* UpdateUnifyingStreamView */ = {
+			isa = PBXGroup;
+			children = (
+				31880C2C23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift */,
+				31880C2E23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift */,
+			);
+			path = UpdateUnifyingStreamView;
+			sourceTree = "<group>";
+		};
 		31CD2094237490D6001793FC = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +227,7 @@
 				31CD20B5237491D7001793FC /* Styles */,
 				31CD20B8237491D7001793FC /* UpdateStreamView */,
 				31383AC12385CCA100EC9A95 /* UpdateOperationStreamView */,
+				31880C2B23A83A8A005D69E0 /* UpdateUnifyingStreamView */,
 				31383ABC2385C42B00EC9A95 /* UpdateJoinStreamView */,
 				31CD20F2237491D8001793FC /* Extensions */,
 				31CD20A8237490D8001793FC /* Preview Content */,
@@ -450,6 +464,7 @@
 				31CD2105237491D8001793FC /* UpdateStreamViewModel.swift in Sources */,
 				31CD212F237491D9001793FC /* MultiBallViewModel.swift in Sources */,
 				31CD2130237491D9001793FC /* MultiBallTunnelView.swift in Sources */,
+				31880C2D23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift in Sources */,
 				31CD212A237491D9001793FC /* ContentViewModel.swift in Sources */,
 				31CD212E237491D9001793FC /* OperationStreamListView.swift in Sources */,
 				31CD20A1237490D6001793FC /* AppDelegate.swift in Sources */,
@@ -467,6 +482,7 @@
 				31CD2107237491D8001793FC /* DataModels.swift in Sources */,
 				31CD2102237491D8001793FC /* ButtonModifier.swift in Sources */,
 				31CD212C237491D9001793FC /* MenuRow.swift in Sources */,
+				31880C2F23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift in Sources */,
 				313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

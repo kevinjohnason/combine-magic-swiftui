@@ -11,7 +11,7 @@ import Combine
 import CombineExtensions
 struct MultiStreamView: View {
     @ObservedObject var viewModel: MultiStreamViewModel
-    @EnvironmentObject var streamStore: StreamStore    
+    @EnvironmentObject var streamStore: StreamStore
 
     func trailingBarItem() -> some View {
         let navigationLink = NavigationLink(
@@ -22,21 +22,28 @@ struct MultiStreamView: View {
         return AnyView(navigationLink)
     }
 
-    func updateOperationStreamView(with streamViewModel: StreamViewModel<[String]>) -> UpdateOperationStreamView? {
+    func updateOperationStreamView(with streamViewModel: StreamViewModel<[String]>) -> AnyView? {
         guard streamViewModel.editable else {
             return nil
         }
-        guard let updateOperationViewModel = viewModel.updateOperationStreamViewModel else {
-            return nil
+
+        if let updateOperationViewModel = viewModel.updateOperationStreamViewModel {
+            return AnyView(UpdateOperationStreamView(viewModel: updateOperationViewModel))
         }
-        return UpdateOperationStreamView(viewModel: updateOperationViewModel)
+
+        if let updateUnifyingViewModel = viewModel.updateUnifyingStreamViewModel {
+            return AnyView(UpdateUnifyingStreamView(viewModel: updateUnifyingViewModel))
+        }
+
+        return nil
     }
 
     var body: some View {
         VStack {
             ForEach(viewModel.streamViewModels, id: \.title) { streamView in
                 MultiValueStreamView(viewModel: streamView, displayActionButtons: false,
-                                     updateOperationStreamView: self.updateOperationStreamView(with: streamView))
+                                     updateOperationStreamView:
+                    self.updateOperationStreamView(with: streamView))
             }
             HStack {
                 CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {

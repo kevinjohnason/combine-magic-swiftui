@@ -31,7 +31,7 @@ class StreamViewModel<T>: ObservableObject {
     let animationSeconds: Double = 1.5
     var cancellable: Cancellable?
     let editable: Bool
-    
+
     init(title: String, description: String = "", publisher: AnyPublisher<T, Never>, editable: Bool = false) {
         self.title = title
         self.updatableTitle = title

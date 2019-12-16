@@ -11,14 +11,16 @@ import Combine
 import CombineExtensions
 class MultiStreamViewModel: ObservableObject {
     @Published var streamViewModels: [StreamViewModel<[String]>] = []
-    var sourceStreamModel: StreamModel<String>?
+    var sourceStreamModels: [StreamModel<String>] = []
     @Published var operationStreamModel: OperationStreamModel?
+    @Published var unifyingStreamModel: UnifyingOperationStreamModel?
     var title: String
     var disposeBag = DisposeBag()
     var updateOperationStreamViewModel: UpdateOperationStreamViewModel? {
-        guard let sourceStreamModel = sourceStreamModel, let operationStreamModel = operationStreamModel else {
+        guard let sourceStreamModel = sourceStreamModels.first, let operationStreamModel = operationStreamModel else {
             return nil
         }
+        disposeBag.cancelAll()
         let updateStreamViewModel = UpdateOperationStreamViewModel(sourceStreamModel: sourceStreamModel,
         operationStreamModel: operationStreamModel)
         updateStreamViewModel.$operationStreamModel.dropFirst()
@@ -28,10 +30,27 @@ class MultiStreamViewModel: ObservableObject {
         return updateStreamViewModel
     }
 
+    var updateUnifyingStreamViewModel: UpdateUnifyingStreamViewModel? {
+        guard sourceStreamModels.count > 1 else {
+            return nil
+        }
+        guard let unifyingStreamModel = self.unifyingStreamModel else {
+            return nil
+        }
+        let updateUnifyingStreamViewModel = UpdateUnifyingStreamViewModel(sourceStreamModels: sourceStreamModels,
+                                                                          unifyingStreamModel: unifyingStreamModel)
+        disposeBag.cancelAll()
+        updateUnifyingStreamViewModel.$unifyingStreamModel.dropFirst()
+        .compactMap { $0 }
+        .assign(to: \MultiStreamViewModel.unifyingStreamModel, on: self)
+        .store(in: &self.disposeBag)
+        return updateUnifyingStreamViewModel
+    }
+
     init(title: String, sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
         self.title = title
         self.operationStreamModel = operationStreamModel
-        self.sourceStreamModel = sourceStreamModel
+        self.sourceStreamModels = [sourceStreamModel]
         $operationStreamModel
             .filter { $0 != nil }
             .map { operationStreamModel -> [StreamViewModel<[String]>] in
@@ -58,22 +77,31 @@ class MultiStreamViewModel: ObservableObject {
     init(streamTitle: String, stream1Model: StreamModel<String>, stream2Model: StreamModel<String>,
          unifyingStreamModel: UnifyingOperationStreamModel) {
         self.title = streamTitle
-        let stream1ViewModel = StreamViewModel(title: stream1Model.name ?? "",
-                                               description: stream1Model.sequenceDescription,
-            publisher: stream1Model.toPublisher()).toArrayViewModel()
+        self.unifyingStreamModel = unifyingStreamModel
+        $unifyingStreamModel
+            .filter { $0 != nil }
+            .map { $0! }
+            .map { unifyingStreamModel -> [StreamViewModel<[String]>] in
+                let stream1ViewModel = StreamViewModel(title: stream1Model.name ?? "",
+                                                       description: stream1Model.sequenceDescription,
+                    publisher: stream1Model.toPublisher()).toArrayViewModel()
 
-        let stream2ViewModel = StreamViewModel(title: stream2Model.name ?? "",
-                                               description: stream2Model.sequenceDescription,
-            publisher: stream2Model.toPublisher()).toArrayViewModel()
+                let stream2ViewModel = StreamViewModel(title: stream2Model.name ?? "",
+                                                       description: stream2Model.sequenceDescription,
+                    publisher: stream2Model.toPublisher()).toArrayViewModel()
 
-        let operatorPublisher =
-            unifyingStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(),
-                                                              stream2Model.toPublisher()])
+                self.sourceStreamModels = [stream1Model, stream2Model]
+                let operatorPublisher =
+                    unifyingStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(),
+                                                                      stream2Model.toPublisher()])
 
-        let resultViewModel = StreamViewModel(title: unifyingStreamModel.name ?? "",
-                                              description: unifyingStreamModel.description ?? "",
-            publisher: operatorPublisher).toArrayViewModel()
-        streamViewModels = [stream1ViewModel, stream2ViewModel, resultViewModel]
+                let resultViewModel = StreamViewModel(title: unifyingStreamModel.name ?? "",
+                                                      description: unifyingStreamModel.description ?? "",
+                                                      publisher: operatorPublisher, editable: true)
+                    .toArrayViewModel()
+                return [stream1ViewModel, stream2ViewModel, resultViewModel]
+        }.assign(to: \MultiStreamViewModel.streamViewModels, on: self)
+        .store(in: &disposeBag)
     }
 
     init(streamTitle: String, stream1Model: StreamModel<String>,

@@ -12,7 +12,9 @@ import CombineExtensions
 class StreamStore: ObservableObject {
     @Published var streams: [StreamModel<String>] = DataService.shared.storedStreams
 
-    @Published var operationStreams: [OperationStreamModel] = DataService.shared.storedOperationStreams
+    @Published var operationStreams = DataService.shared.storedOperationStreams
+
+    @Published var unifyingStreams = DataService.shared.storedUnifyingOperationStreams
 
     var disposeBag = DisposeBag()
 
@@ -22,6 +24,10 @@ class StreamStore: ObservableObject {
         }.store(in: &disposeBag)
         $operationStreams.dropFirst().sink {
             DataService.shared.storedOperationStreams = $0
+        }.store(in: &disposeBag)
+
+        $unifyingStreams.dropFirst().sink {
+            DataService.shared.storedUnifyingOperationStreams = $0
         }.store(in: &disposeBag)
     }
 
@@ -53,5 +59,15 @@ class StreamStore: ObservableObject {
             storedOperations.append(operationStreamModel)
         }
         operationStreams = storedOperations
+    }
+
+    func save(_ operationStreamModel: UnifyingOperationStreamModel) {
+        var storedOperations = unifyingStreams
+        if let storedStreamIndex = storedOperations.firstIndex(where: { $0.id == operationStreamModel.id }) {
+            storedOperations[storedStreamIndex] = operationStreamModel
+        } else {
+            storedOperations.append(operationStreamModel)
+        }
+        unifyingStreams = storedOperations
     }
 }

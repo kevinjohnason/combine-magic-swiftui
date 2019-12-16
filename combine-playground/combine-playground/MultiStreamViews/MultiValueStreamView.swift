@@ -13,7 +13,7 @@ struct MultiValueStreamView: View {
 
     var displayActionButtons: Bool = true
 
-    var updateOperationStreamView: UpdateOperationStreamView?
+    var updateOperationStreamView: AnyView?
 
     var updateView: some View {
         if updateOperationStreamView == nil {

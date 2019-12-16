@@ -8,7 +8,7 @@
 
 import Foundation
 import Combine
-
+import CombineExtensions
 class UpdateOperationStreamViewModel: ObservableObject {
 
     let operators = ["filter", "dropFirst", "map", "scan"]
@@ -29,7 +29,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     @Published var operationStreamModel: OperationStreamModel
 
-    var disposables: Set<AnyCancellable> = Set()
+    var disposables: DisposeBag = DisposeBag()
 
     convenience init(sourceStreamModel: StreamModel<String>) {
         let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
