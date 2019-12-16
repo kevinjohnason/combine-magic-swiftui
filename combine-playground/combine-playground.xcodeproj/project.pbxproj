@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		310DCEBA23A8163E009265C4 /* CombineExtensions.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 31189C4A238C57B70064B7EE /* CombineExtensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		31189C4B238C57BC0064B7EE /* CombineExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31189C4A238C57B70064B7EE /* CombineExtensions.framework */; };
 		31189C4F238C687A0064B7EE /* MultiStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */; };
 		313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593902384B802007F52A5 /* OperatorExtensions.swift */; };
@@ -63,6 +64,19 @@
 			remoteInfo = CombineExtensions;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		310DCEB923A81635009265C4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				310DCEBA23A8163E009265C4 /* CombineExtensions.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiStreamViewModel.swift; sourceTree = "<group>"; };
@@ -320,6 +334,7 @@
 				31CD209A237490D6001793FC /* Frameworks */,
 				31CD209B237490D6001793FC /* Resources */,
 				313593922384B934007F52A5 /* Swiftlint */,
+				310DCEB923A81635009265C4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
