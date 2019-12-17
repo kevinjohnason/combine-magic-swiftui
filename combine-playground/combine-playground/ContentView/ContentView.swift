@@ -19,8 +19,7 @@ struct ContentView: View {
                 List {
                     StreamListView()
                     OperationStreamListView()
-                    UnifyingOperationListStreamView(
-                        storedUnifyingOperationStreams: $viewModel.storedUnifyingOperationStreams)
+                    UnifyingOperationListStreamView()
                     JoinOperationListStreamView(
                         storedCombineGroupOperationStreams: $viewModel.storedCombineGroupOperationStreams)
                 }

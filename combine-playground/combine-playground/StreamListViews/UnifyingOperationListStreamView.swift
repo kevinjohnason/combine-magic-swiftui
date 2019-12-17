@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct UnifyingOperationListStreamView: View {
-    @Binding var storedUnifyingOperationStreams: [UnifyingOperationStreamModel]
     @EnvironmentObject var streamStore: StreamStore
-
     func streamView(streamModel: UnifyingOperationStreamModel) -> some View {
         let sourceStreams = streamStore.streams.filter { $0.isDefault }
         guard sourceStreams.count > 1 else {
@@ -26,7 +24,7 @@ struct UnifyingOperationListStreamView: View {
      }
 
     var body: some View {
-        ForEach(storedUnifyingOperationStreams) { stream in
+        ForEach(streamStore.unifyingStreams) { stream in
                 NavigationLink(destination: self.streamView(streamModel: stream)) {
                     MenuRow(detailViewName: stream.name ?? "")
             }
@@ -34,8 +32,8 @@ struct UnifyingOperationListStreamView: View {
     }
 }
 
-struct GroupOperationListStreamView_Previews: PreviewProvider {
-    static var previews: some View {
-        UnifyingOperationListStreamView(storedUnifyingOperationStreams: .constant([]))
-    }
-}
+//struct GroupOperationListStreamView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UnifyingOperationListStreamView(storedUnifyingOperationStreams: .constant([]))
+//    }
+//}
