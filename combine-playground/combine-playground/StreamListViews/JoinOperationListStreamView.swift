@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct JoinOperationListStreamView: View {
-    @Binding var storedCombineGroupOperationStreams: [JoinOperationStreamModel]
 
     @EnvironmentObject var streamStore: StreamStore
 
@@ -27,7 +26,7 @@ struct JoinOperationListStreamView: View {
      }
 
     var body: some View {
-        ForEach(storedCombineGroupOperationStreams) { stream in
+        ForEach(streamStore.joinStreams) { stream in
                 NavigationLink(destination: self.streamView(streamModel: stream)) {
                     MenuRow(detailViewName: stream.name ?? "")
             }
@@ -37,6 +36,6 @@ struct JoinOperationListStreamView: View {
 
 struct JoinOperationListStreamView_Previews: PreviewProvider {
     static var previews: some View {
-        JoinOperationListStreamView(storedCombineGroupOperationStreams: .constant([]))
+        JoinOperationListStreamView()
     }
 }

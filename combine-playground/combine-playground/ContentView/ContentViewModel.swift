@@ -13,12 +13,6 @@ class ContentViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    @Published var storedUnifyingOperationStreams: [UnifyingOperationStreamModel] =
-        DataService.shared.storedUnifyingOperationStreams
-
-    @Published var storedCombineGroupOperationStreams: [JoinOperationStreamModel] =
-        DataService.shared.storedCombineGroupOperationStreams
-
     var cancellable: Cancellable?
 
     init() {
@@ -26,13 +20,6 @@ class ContentViewModel: ObservableObject {
     }
 
     func refresh() {
-        DataService.shared.storedUnifyingOperationStreamUpdated.sink { (newStream) in
-            self.storedUnifyingOperationStreams = newStream
-        }.store(in: &disposables)
-
-        DataService.shared.storedCombineGroupOperationStreamUpdated.sink { (newStream) in
-            self.storedCombineGroupOperationStreams = newStream
-        }.store(in: &disposables)
     }
 
 }

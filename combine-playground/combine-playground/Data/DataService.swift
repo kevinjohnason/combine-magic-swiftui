@@ -56,18 +56,18 @@ class DataService {
         }
     }
 
-    var storedCombineGroupOperationStreams: [JoinOperationStreamModel] {
+    var storedJoinOperationStreams: [JoinOperationStreamModel] {
         get {
-            guard let data = UserDefaults.standard.data(forKey: "storedCombineGroupOperationStreams") else {
-                return self.appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [])
+            guard let data = UserDefaults.standard.data(forKey: "storedJoinOperationStreams") else {
+                return self.appendDefaultJoinOperationStreamsIfNeeded(streams: [])
             }
             guard let streams = try? JSONDecoder().decode([JoinOperationStreamModel].self, from: data) else {
-                return self.appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [])
+                return self.appendDefaultJoinOperationStreamsIfNeeded(streams: [])
             }
-            return self.appendDefaultCombineGroupOperationStreamsIfNeeded(streams: streams)
+            return self.appendDefaultJoinOperationStreamsIfNeeded(streams: streams)
         } set {
             // swiftlint:disable:next force_try
-            UserDefaults.standard.set(try! JSONEncoder().encode(newValue), forKey: "storedCombineGroupOperationStreams")
+            UserDefaults.standard.set(try! JSONEncoder().encode(newValue), forKey: "storedJoinOperationStreams")
             storedCombineGroupOperationStreamUpdated.send(newValue)
         }
     }
@@ -155,7 +155,7 @@ class DataService {
         return [mergeStreamModel, flatMapStreamModel, appendStreamModel]
     }
 
-    func appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [JoinOperationStreamModel])
+    func appendDefaultJoinOperationStreamsIfNeeded(streams: [JoinOperationStreamModel])
         -> [JoinOperationStreamModel] {
         let zipStreamModel = JoinOperationStreamModel(id: UUID(),
                                                       name: "Zip Stream", description: "Publishers.Zip(A, B)",
@@ -170,6 +170,6 @@ class DataService {
         storedStreams = appendDefaultStreamsIfNeeded(streams: [])
         storedOperationStreams = appendDefaultOperationStreamsIfNeeded(streams: [])
         storedUnifyingOperationStreams = appendDefaultUnifyingOperationStreamsIfNeeded(streams: [])
-        storedCombineGroupOperationStreams = appendDefaultCombineGroupOperationStreamsIfNeeded(streams: [])
+        storedJoinOperationStreams = appendDefaultJoinOperationStreamsIfNeeded(streams: [])
     }
 }

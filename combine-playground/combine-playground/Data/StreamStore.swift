@@ -15,6 +15,8 @@ class StreamStore: ObservableObject {
     @Published var operationStreams = DataService.shared.storedOperationStreams
 
     @Published var unifyingStreams = DataService.shared.storedUnifyingOperationStreams
+    
+    @Published var joinStreams = DataService.shared.storedJoinOperationStreams
 
     var disposeBag = DisposeBag()
 

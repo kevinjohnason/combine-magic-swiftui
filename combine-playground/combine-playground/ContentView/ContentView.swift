@@ -9,8 +9,6 @@
 import SwiftUI
 import Combine
 struct ContentView: View {
-
-    @ObservedObject var viewModel = ContentViewModel()
     @EnvironmentObject var streamStore: StreamStore
 
     var body: some View {
@@ -20,8 +18,7 @@ struct ContentView: View {
                     StreamListView()
                     OperationStreamListView()
                     UnifyingOperationListStreamView()
-                    JoinOperationListStreamView(
-                        storedCombineGroupOperationStreams: $viewModel.storedCombineGroupOperationStreams)
+                    JoinOperationListStreamView()
                 }
                 Button("Reset") {
                     DataService.shared.resetStoredStream()
@@ -29,7 +26,6 @@ struct ContentView: View {
                 .modifier(DemoButton(backgroundColor: .red))
             }.navigationBarTitle("Streams")
             .navigationBarItems(leading: EditButton(), trailing: createStreamView)
-            .onAppear(perform: viewModel.refresh)
         }
     }
     var createStreamView: some View {
