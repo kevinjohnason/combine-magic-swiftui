@@ -12,7 +12,7 @@ import Combine
 extension StreamModel {
     func toArrayStreamModel() -> StreamModel<[T]> {
         StreamModel<[T]>.init(id: self.id, name: self.name, description: self.description,
-                              stream: self.stream.map { StreamItem(value: [$0.value], operatorItem: $0.operatorItem) },
+                              stream: self.stream.map { StreamItem(value: [$0.value], operators: $0.operators) },
                               isDefault: self.isDefault)
     }
 }
@@ -21,7 +21,7 @@ extension StreamModel where T == [String] {
     func flatMapModel() -> StreamModel<String> {
         StreamModel<String>(id: self.id, name: self.name, description: self.description,
                             stream: self.stream.map { StreamItem(value: $0.value[0],
-                                                                 operatorItem: $0.operatorItem) },
+                                                                 operators: $0.operators) },
                             isDefault: self.isDefault)
     }
 }
@@ -61,13 +61,8 @@ extension StreamModel where T == String {
 extension StreamItem where T == String {
     func toPublisher()  -> AnyPublisher<String, Never> {
         var publisher: AnyPublisher<String, Never> = Just(value).eraseToAnyPublisher()
-        var currentOperator = self.operatorItem
-        while currentOperator != nil {
-            guard let loopOperator = currentOperator else {
-                break
-            }
-            publisher = loopOperator.applyPublisher(publisher)
-            currentOperator = loopOperator.next
+        self.operators.forEach {
+            publisher = $0.applyPublisher(publisher)
         }
         return publisher
     }

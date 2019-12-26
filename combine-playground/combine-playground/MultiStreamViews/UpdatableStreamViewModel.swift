@@ -25,8 +25,9 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
         }
         let updateStreamViewModel = UpdateOperationStreamViewModel(sourceStreamModel: stringStreamModel.flatMapModel(),
         operationStreamModel: updateStreamModel)
+        // kevin todo: get operator by index
         updateStreamViewModel.$operationStreamModel.map {
-            $0.operatorItem.description
+            $0.operators.first?.description ?? ""
         }.assign(to: \.title, on: self).store(in: &disposables)
         return updateStreamViewModel
     }()
@@ -76,7 +77,8 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
         self.updateStreamModel = updatableStreamModel
         self.sourceStreamModel = streamModel
         if let operationStreamModel = updatableStreamModel as? OperationStreamModel {
-            super.init(title: operationStreamModel.operatorItem.description,
+            //kevin todo, add index
+            super.init(title: operationStreamModel.operators.first?.description ?? "",
                               description: "", publisher: publisher, editable: true)
         } else {
             super.init(title: updatableStreamModel.name ?? "",

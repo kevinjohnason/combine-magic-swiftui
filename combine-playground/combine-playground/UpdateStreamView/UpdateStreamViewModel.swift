@@ -64,7 +64,7 @@ class UpdateStreamViewModel: ObservableObject {
         Publishers.CombineLatest($values, $streamName).map { (values, streamName) -> StreamModel<String> in
             var newStream = self.streamModel
             newStream.stream = values.map {
-                StreamItem(value: $0.value, operatorItem: .delay(seconds: 1, next: nil))
+                StreamItem(value: $0.value, operators: [.delay(seconds: 1)])
             }
             newStream.name = streamName
             return newStream

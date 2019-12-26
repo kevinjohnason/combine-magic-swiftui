@@ -31,7 +31,7 @@ struct StreamModel<T: Codable>: Codable, Identifiable, Updatable {
 
 struct StreamItem<T: Codable>: Codable {
     let value: T
-    var operatorItem: Operator?
+    var operators: [Operator]
 }
 
 protocol Updatable {
@@ -44,7 +44,7 @@ struct OperationStreamModel: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
     var description: String?
-    var operatorItem: Operator
+    var operators: [Operator]
 }
 
 struct UnifyingOperationStreamModel: Codable, Identifiable, Updatable {
@@ -93,29 +93,26 @@ enum UnifyOparator: Codable {
     }
 }
 
-indirect enum Operator: Codable {
+enum Operator: Codable {
 
     private struct DelayParameters: Codable {
         let seconds: Double
-        let next: Operator?
     }
-    case delay(seconds: Double, next: Operator?)
+    case delay(seconds: Double)
 
     private struct ExpressionParameters: Codable {
            let expression: String
-           let next: Operator?
     }
-    case filter(expression: String, next: Operator?)
+    case filter(expression: String)
 
     private struct DropFirstParameters: Codable {
-        let count: Int
-        let next: Operator?
+        let count: Int        
     }
-    case dropFirst(count: Int, next: Operator?)
+    case dropFirst(count: Int)
 
-    case map(expression: String, next: Operator?)
+    case map(expression: String)
 
-    case scan(expression: String, next: Operator?)
+    case scan(expression: String)
 
     enum CodingKeys: CodingKey {
         case delay
@@ -130,19 +127,19 @@ indirect enum Operator: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let delayParameters = try? container.decodeIfPresent(DelayParameters.self, forKey: .delay) {
-            self = .delay(seconds: delayParameters.seconds, next: delayParameters.next)
+            self = .delay(seconds: delayParameters.seconds)
           return
         } else if let filterParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .filter) {
-            self = .filter(expression: filterParameters.expression, next: filterParameters.next)
+            self = .filter(expression: filterParameters.expression)
           return
         } else if let dropFirstParameters =
             try? container.decodeIfPresent(DropFirstParameters.self, forKey: .dropFirst) {
-            self = .dropFirst(count: dropFirstParameters.count, next: dropFirstParameters.next)
+            self = .dropFirst(count: dropFirstParameters.count)
           return
         } else if let mapParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .map) {
-            self = .map(expression: mapParameters.expression, next: mapParameters.next)
+            self = .map(expression: mapParameters.expression)
         } else if let scanParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .scan) {
-            self = .scan(expression: scanParameters.expression, next: scanParameters.next)
+            self = .scan(expression: scanParameters.expression)
         } else {
             throw CodingError.decoding("Decoding Failed. \(dump(container))")
         }
@@ -151,16 +148,16 @@ indirect enum Operator: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .delay(let seconds, let next):
-            try container.encode(DelayParameters(seconds: seconds, next: next), forKey: .delay)
-        case .filter(let expression, let next):
-            try container.encode(ExpressionParameters(expression: expression, next: next), forKey: .filter)
-        case .dropFirst(let count, let next):
-            try container.encode(DropFirstParameters(count: count, next: next), forKey: .dropFirst)
-        case .map(let expression, let next):
-            try container.encode(ExpressionParameters(expression: expression, next: next), forKey: .map)
-        case .scan(let expression, let next):
-            try container.encode(ExpressionParameters(expression: expression, next: next), forKey: .scan)
+        case .delay(let seconds):
+            try container.encode(DelayParameters(seconds: seconds), forKey: .delay)
+        case .filter(let expression):
+            try container.encode(ExpressionParameters(expression: expression), forKey: .filter)
+        case .dropFirst(let count):
+            try container.encode(DropFirstParameters(count: count), forKey: .dropFirst)
+        case .map(let expression):
+            try container.encode(ExpressionParameters(expression: expression), forKey: .map)
+        case .scan(let expression):
+            try container.encode(ExpressionParameters(expression: expression), forKey: .scan)
         }
     }
 

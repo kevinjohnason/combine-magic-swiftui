@@ -28,15 +28,14 @@ class MultiStreamViewModel: ObservableObject {
             let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
                                                        description: sourceStreamModel.sequenceDescription,
                                                        publisher: sourceStreamModel.toPublisher()).toArrayViewModel()
-            var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]
-            var currentOperatorItem: Operator?  = operationStreamModel.operatorItem
-            var currentPublisher: AnyPublisher<String, Never>? = sourceStreamModel.toPublisher()
-            while currentOperatorItem != nil {
-                let newPublisher = currentOperatorItem!.applyPublisher(currentPublisher!)
+            var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]            
+            var currentPublisher: AnyPublisher<String, Never> = sourceStreamModel.toPublisher()
+
+            operationStreamModel.operators.forEach {
+                let newPublisher = $0.applyPublisher(currentPublisher)
                 streamViewModels.append(UpdatableStreamViewModel(updatableStreamModel: operationStreamModel,
                                                                  streamModel: sourceStreamModel,
                                                                  publisher: newPublisher).toArrayViewModel())
-                currentOperatorItem = currentOperatorItem?.next
                 currentPublisher = newPublisher
             }
             return streamViewModels

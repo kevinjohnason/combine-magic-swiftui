@@ -91,12 +91,12 @@ class DataService {
         }
 
         let streamA = (1...4).map { StreamItem(value: String($0),
-                                               operatorItem: .delay(seconds: 1, next: nil)) }
+                                               operators: [.delay(seconds: 1)]) }
         let serialStreamA = StreamModel(id: UUID(), name: "Serial Stream A",
                                         description: nil, stream: streamA, isDefault: true)
 
         let streamB = ["A", "B", "C", "D"].map {
-            StreamItem(value: $0, operatorItem: .delay(seconds: 2, next: nil)) }
+            StreamItem(value: $0, operators: [.delay(seconds: 2)]) }
         let serialStreamB = StreamModel(id: UUID(), name: "Serial Stream B",
                                         description: nil, stream: streamB, isDefault: true)
 
@@ -114,22 +114,22 @@ class DataService {
 
         let filterStreamModel = OperationStreamModel(id: UUID(),
                                                      name: "Filter Stream", description: "filter { $0 != 3 )",
-                                                     operatorItem: .filter(expression: "%d != 3", next: nil))
+                                                     operators: [.filter(expression: "%d != 3")])
 
         let dropStreamModel = OperationStreamModel(id: UUID(), name: "Drop Stream", description: "dropFirst(2)",
-                                                   operatorItem: .dropFirst(count: 2, next: nil))
+                                                   operators: [.dropFirst(count: 2)])
 
         let mapStreamModel = OperationStreamModel(id: UUID(), name: "Map Stream", description: "map { $0 * 2 }",
-                                                  operatorItem: .map(expression: "%d * 2", next: nil))
+                                                  operators: [.map(expression: "%d * 2")])
 
         let scanStreamModel = OperationStreamModel(id: UUID(), name: "Scan Stream",
                                                    description: "scan(0) { $0 + $1 }",
-                                                   operatorItem: .scan(expression: "%d + %d", next: nil))
+                                                   operators: [.scan(expression: "%d + %d")])
 
         let mixedStreamModel = OperationStreamModel(id: UUID(), name: "Map then Scan",
                                                   description: "map { $0 * 2 }.scan(0) { $0 + $1 }",
-                                                  operatorItem: .map(expression: "%d * 2", next:
-                                                    .scan(expression: "%d + %d", next: nil)))
+                                                  operators: [.map(expression: "%d * 2"),
+                                                              .scan(expression: "%d + %d")])
 
         var newStreams = streams
         newStreams.append(filterStreamModel)
