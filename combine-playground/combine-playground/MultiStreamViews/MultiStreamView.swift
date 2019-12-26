@@ -20,7 +20,7 @@ struct MultiStreamView: View {
         let navigationLink = NavigationLink(
         destination: UpdateOperationStreamView(
             viewModel: UpdateOperationStreamViewModel(sourceStreamModel: streamStore.streamAModel))) {
-            Text("Add")
+            Image(systemName: "plus.circle").font(Font.system(size: 30))
         }
         return AnyView(navigationLink)
     }
