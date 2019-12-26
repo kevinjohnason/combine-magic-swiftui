@@ -30,6 +30,10 @@ struct JoinOperationListStreamView: View {
                 NavigationLink(destination: self.streamView(streamModel: stream)) {
                     MenuRow(detailViewName: stream.name ?? "")
             }
+        }.onMove { (source, destination) in
+            var storedStreams = self.streamStore.joinStreams
+            storedStreams.move(fromOffsets: source, toOffset: destination)
+            self.streamStore.joinStreams = storedStreams
         }
     }
 }

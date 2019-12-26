@@ -27,6 +27,10 @@ struct UnifyingOperationListStreamView: View {
                 NavigationLink(destination: self.streamView(streamModel: stream)) {
                     MenuRow(detailViewName: stream.name ?? "")
             }
+        }.onMove { (source, destination) in
+            var storedStreams = self.streamStore.unifyingStreams
+            storedStreams.move(fromOffsets: source, toOffset: destination)
+            self.streamStore.unifyingStreams = storedStreams
         }
     }
 }

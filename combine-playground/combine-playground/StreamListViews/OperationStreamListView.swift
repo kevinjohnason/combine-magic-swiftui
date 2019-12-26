@@ -23,6 +23,10 @@ struct OperationStreamListView: View {
             NavigationLink(destination: self.streamView(streamModel: stream)) {
                 MenuRow(detailViewName: stream.name ?? "")
             }
+        }.onMove { (source, destination) in
+            var storedStreams = self.streamStore.operationStreams
+            storedStreams.move(fromOffsets: source, toOffset: destination)
+            self.streamStore.operationStreams = storedStreams
         }
     }
 }

@@ -15,10 +15,18 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 List {
-                    StreamListView()
-                    OperationStreamListView()
-                    UnifyingOperationListStreamView()
-                    JoinOperationListStreamView()
+                    Section(header: Text("Stream data")) {
+                        StreamListView()
+                    }
+                    Section(header: Text("Basic Operators")) {
+                        OperationStreamListView()
+                    }
+                    Section(header: Text("Unifying Operators")) {
+                        UnifyingOperationListStreamView()
+                    }
+                    Section(header: Text("Join Operators")) {
+                        JoinOperationListStreamView()
+                    }
                 }
                 Button("Reset") {
                     DataService.shared.resetStoredStream()
