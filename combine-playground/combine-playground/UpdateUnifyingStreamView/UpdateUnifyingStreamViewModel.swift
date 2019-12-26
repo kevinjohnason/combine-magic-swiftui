@@ -57,13 +57,13 @@ class UpdateUnifyingStreamViewModel: ObservableObject {
             let opt: UnifyOparator
             switch selectedOpt {
             case "merge":
-            opt = .merge(next: nil)
+            opt = .merge
             case "flatMap":
-            opt = .flatMap(next: nil)
+            opt = .flatMap
             case "append":
-            opt = .append(next: nil)
+            opt = .append
             default:
-            opt = .append(next: nil)
+            opt = .append
             }
             return UnifyingOperationStreamModel(id: self.unifyingStreamModel.id, name: title,
                                                 description: description, operatorItem: opt)

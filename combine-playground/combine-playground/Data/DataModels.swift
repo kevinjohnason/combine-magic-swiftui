@@ -54,43 +54,10 @@ struct UnifyingOperationStreamModel: Codable, Identifiable, Updatable {
     var operatorItem: UnifyOparator
 }
 
-enum UnifyOparator: Codable {
-    case merge(next: Operator?)
-    case flatMap(next: Operator?)
-    case append(next: Operator?)
-
-    enum CodingKeys: CodingKey {
-        case merge
-        case flatMap
-        case append
-    }
-
-    enum CodingError: Error { case decoding(String) }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let mergeNext = try container.decodeIfPresent((Operator?).self, forKey: .merge) {
-            self = .merge(next: mergeNext)
-        } else if let flatMapNext = try container.decodeIfPresent((Operator?).self, forKey: .flatMap) {
-            self = .flatMap(next: flatMapNext)
-        } else if let appendMapNext = try container.decodeIfPresent((Operator?).self, forKey: .append) {
-            self = .append(next: appendMapNext)
-        } else {
-            throw CodingError.decoding("Decoding Failed. \(dump(container))")
-        }
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-        case .merge(let next):
-            try container.encode(next, forKey: .merge)
-        case .flatMap(let next):
-            try container.encode(next, forKey: .flatMap)
-        case .append(let next):
-            try container.encode(next, forKey: .append)
-        }
-    }
+enum UnifyOparator: String, Codable {
+    case merge
+    case flatMap
+    case append
 }
 
 enum Operator: Codable {

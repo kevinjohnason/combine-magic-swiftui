@@ -144,14 +144,14 @@ class DataService {
         -> [UnifyingOperationStreamModel] {
         let mergeStreamModel = UnifyingOperationStreamModel(id: UUID(), name: "Merge Stream",
                                                          description: "Publishers.merge(A, B)",
-                                                         operatorItem: .merge(next: nil))
+                                                         operatorItem: .merge)
         let flatMapStreamModel = UnifyingOperationStreamModel(id: UUID(),
                                                            name: "FlatMap Stream",
                                                            description: "A.flatMap { _ in B }",
-                                                           operatorItem: .flatMap(next: nil))
+                                                           operatorItem: .flatMap)
         let appendStreamModel = UnifyingOperationStreamModel(id: UUID(), name: "Append Stream",
                                                           description: "A.append(B)",
-                                                          operatorItem: .append(next: nil))
+                                                          operatorItem: .append)
         return [mergeStreamModel, flatMapStreamModel, appendStreamModel]
     }
 

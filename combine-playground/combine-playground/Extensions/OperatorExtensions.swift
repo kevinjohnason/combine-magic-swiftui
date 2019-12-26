@@ -12,21 +12,17 @@ import Combine
 extension UnifyOparator {
     func applyPublishers(_ publishers: [AnyPublisher<String, Never>]) -> AnyPublisher<String, Never> {
         let appliedPublisher: AnyPublisher<String, Never>
-        var nextOperator: Operator?
         switch self {
-        case .merge(let next):
-            nextOperator = next
+        case .merge:
             appliedPublisher = Publishers.MergeMany(publishers).eraseToAnyPublisher()
-        case .flatMap(let next):
-            nextOperator = next
+        case .flatMap:
             let initialPublisher: AnyPublisher<String, Never> = Just("").eraseToAnyPublisher()
             appliedPublisher = publishers.reduce(initialPublisher) { (initial, next) -> AnyPublisher<String, Never> in
                 initial.flatMap { _ in
                      next
                 }.eraseToAnyPublisher()
             }
-        case .append(let next):
-            nextOperator = next
+        case .append:
             if let initialPublisher = publishers.first {
                 appliedPublisher = publishers[1...].reduce(initialPublisher) {
                     $0.append($1).eraseToAnyPublisher()
@@ -34,9 +30,6 @@ extension UnifyOparator {
             } else {
                 appliedPublisher = Empty().eraseToAnyPublisher()
             }
-        }
-        if let nextOperator = nextOperator {
-            return nextOperator.applyPublisher(appliedPublisher)
         }
         return appliedPublisher
     }
