@@ -17,6 +17,15 @@ extension StreamModel {
     }
 }
 
+extension StreamModel where T == [String] {
+    func flatMapModel() -> StreamModel<String> {
+        StreamModel<String>(id: self.id, name: self.name, description: self.description,
+                            stream: self.stream.map { StreamItem(value: $0.value[0],
+                                                                 operatorItem: $0.operatorItem) },
+                            isDefault: self.isDefault)
+    }
+}
+
 extension StreamModel where T == String {
 
     var sequenceDescription: String {

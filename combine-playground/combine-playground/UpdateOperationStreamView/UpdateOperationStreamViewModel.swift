@@ -29,6 +29,8 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     @Published var operationStreamModel: OperationStreamModel
 
+    var stagingOperationStreamModel: OperationStreamModel
+
     var disposables: DisposeBag = DisposeBag()
 
     convenience init(sourceStreamModel: StreamModel<String>) {
@@ -41,6 +43,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
     init(sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
         self.sourceStreamModel = sourceStreamModel
         self.operationStreamModel = operationStreamModel
+        self.stagingOperationStreamModel = operationStreamModel
         $selectedOperator.map {
             self.parameterTitles[self.operators.firstIndex(of: $0) ?? 0]
         }.assign(to: \UpdateOperationStreamViewModel.parameterTitle, on: self)
@@ -64,22 +67,35 @@ class UpdateOperationStreamViewModel: ObservableObject {
         }
         title = operationStreamModel.name ?? ""
         description = operationStreamModel.description ?? ""
+        setupBindings()
     }
 
-    func updateStreamModel() {
-        operationStreamModel.name = title
-        operationStreamModel.description = description
-        switch selectedOperator {
-        case "filter":
-            operationStreamModel.operatorItem = .filter(expression: parameter, next: nil)
-        case "dropFirst":
-            operationStreamModel.operatorItem = .dropFirst(count: Int(parameter) ?? 0, next: nil)
-        case "map":
-            operationStreamModel.operatorItem = .map(expression: parameter, next: nil)
-        case "scan":
-            operationStreamModel.operatorItem = .scan(expression: parameter, next: nil)
-        default:
-            break
-        }
+    func setupBindings() {
+        let opt = $selectedOperator.combineLatest($parameter)
+            .map { (selectedOperator, parameter) -> Operator in
+                switch selectedOperator {
+                case "filter":
+                    return .filter(expression: parameter, next: nil)
+                case "dropFirst":
+                    return .dropFirst(count: Int(parameter) ?? 0, next: nil)
+                case "map":
+                    return .map(expression: parameter, next: nil)
+                case "scan":
+                    return .scan(expression: parameter, next: nil)
+                default:
+                    return .filter(expression: parameter, next: nil)
+                }
+            }
+        Publishers.CombineLatest3($title, $description, opt)
+            .map {
+                OperationStreamModel(id: self.operationStreamModel.id, name: $0.0,
+                                     description: $0.1, operatorItem: $0.2)
+            }.print("stream_model")
+        .assign(to: \.stagingOperationStreamModel, on: self)
+        .store(in: &disposables)
+    }
+    
+    func save() {
+        operationStreamModel = stagingOperationStreamModel
     }
 }

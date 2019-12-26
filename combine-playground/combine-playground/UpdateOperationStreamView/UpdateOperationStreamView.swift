@@ -22,7 +22,7 @@ struct UpdateOperationStreamView: View {
                     Text(operatorItem).tag(operatorItem)
                 }
             }.padding()
-            TextField(self.viewModel.parameterTitle, text: self.$viewModel.parameter)
+            TextField(self.viewModel.parameterTitle, text: $viewModel.parameter)
                 .font(.body)
             Spacer()
             VStack(spacing: 10) {
@@ -32,7 +32,7 @@ struct UpdateOperationStreamView: View {
                     .frame(maxWidth: .infinity, minHeight: 50)
                     .background(Color.gray)
                 Button("Save") {
-                    self.viewModel.updateStreamModel()
+                    self.viewModel.save()
                     self.streamStore.save(self.viewModel.operationStreamModel)
                     self.presentationMode.wrappedValue.dismiss()
                 }.foregroundColor(Color.white)

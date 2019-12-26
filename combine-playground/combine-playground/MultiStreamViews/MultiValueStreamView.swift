@@ -13,14 +13,14 @@ struct MultiValueStreamView: View {
 
     var displayActionButtons: Bool = true
 
-    var updateOperationStreamView: AnyView?
+    var updateOperationStreamViewModel: UpdateOperationStreamViewModel?
 
     var updateView: some View {
-        if updateOperationStreamView == nil {
+        guard let updateOperationStreamViewModel = updateOperationStreamViewModel else {
             return AnyView(EmptyView())
         }
         return AnyView(NavigationLink(
-             destination: updateOperationStreamView,
+             destination: UpdateOperationStreamView(viewModel: updateOperationStreamViewModel),
              label: {
                  HStack {
                      Spacer()
@@ -37,7 +37,7 @@ struct MultiValueStreamView: View {
                 Text(viewModel.title)
                     .font(.system(.headline, design: .monospaced))
                     .lineLimit(nil)
-
+                // edit with destination ~~~ kevin start from here
                 self.updateView
             }
 
@@ -45,8 +45,8 @@ struct MultiValueStreamView: View {
                        .font(.system(.subheadline, design: .monospaced))
                        .lineLimit(nil)
 
-            MultiBallTunnelView(values: $viewModel.values, color: .green, animationSecond: viewModel.animationSeconds)
-                .frame(maxHeight: 100)
+            MultiBallTunnelView(values: $viewModel.values, color: .green,
+                                animationSecond: viewModel.animationSeconds).frame(maxHeight: 100)
 
             if displayActionButtons {
                 HStack {

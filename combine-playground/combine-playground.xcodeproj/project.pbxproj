@@ -18,6 +18,7 @@
 		31383AC52385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */; };
 		31880C2D23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31880C2C23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift */; };
 		31880C2F23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31880C2E23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift */; };
+		31C6339C23B2980E00745A12 /* UpdatableStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6339B23B2980E00745A12 /* UpdatableStreamViewModel.swift */; };
 		31CD20A1237490D6001793FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A0237490D6001793FC /* AppDelegate.swift */; };
 		31CD20A3237490D6001793FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CD20A2237490D6001793FC /* SceneDelegate.swift */; };
 		31CD20A7237490D8001793FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31CD20A6237490D8001793FC /* Assets.xcassets */; };
@@ -91,6 +92,7 @@
 		31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOperationStreamViewModel.swift; sourceTree = "<group>"; };
 		31880C2C23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnifyingStreamView.swift; sourceTree = "<group>"; };
 		31880C2E23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnifyingStreamViewModel.swift; sourceTree = "<group>"; };
+		31C6339B23B2980E00745A12 /* UpdatableStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatableStreamViewModel.swift; sourceTree = "<group>"; };
 		31CD209D237490D6001793FC /* combine-playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "combine-playground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CD20A0237490D6001793FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31CD20A2237490D6001793FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				31CD2194237494BB001793FC /* MultiValueStreamView.swift */,
 				31CD2195237494BB001793FC /* MultiStreamView.swift */,
 				31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */,
+				31C6339B23B2980E00745A12 /* UpdatableStreamViewModel.swift */,
 			);
 			path = MultiStreamViews;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 			files = (
 				31CD2196237494BB001793FC /* MultiValueStreamView.swift in Sources */,
 				31189C4F238C687A0064B7EE /* MultiStreamViewModel.swift in Sources */,
+				31C6339C23B2980E00745A12 /* UpdatableStreamViewModel.swift in Sources */,
 				31CD2132237491D9001793FC /* BallTunnelView.swift in Sources */,
 				31CD212B237491D9001793FC /* ContentView.swift in Sources */,
 				31CD2137237491D9001793FC /* StreamViewModel.swift in Sources */,

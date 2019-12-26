@@ -30,7 +30,7 @@ struct ContentView: View {
     }
     var createStreamView: some View {
         NavigationLink(destination: UpdateStreamView(
-            viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>.new(), streamStore: streamStore))) {
+            viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>.new()))) {
             Image(systemName: "plus.circle").font(Font.system(size: 30))
         }
     }

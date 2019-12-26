@@ -15,7 +15,7 @@ class StreamStore: ObservableObject {
     @Published var operationStreams = DataService.shared.storedOperationStreams
 
     @Published var unifyingStreams = DataService.shared.storedUnifyingOperationStreams
-    
+
     @Published var joinStreams = DataService.shared.storedJoinOperationStreams
 
     var disposeBag = DisposeBag()
@@ -24,12 +24,17 @@ class StreamStore: ObservableObject {
         $streams.dropFirst().sink {
             DataService.shared.storedStreams = $0
         }.store(in: &disposeBag)
+
         $operationStreams.dropFirst().sink {
             DataService.shared.storedOperationStreams = $0
         }.store(in: &disposeBag)
 
         $unifyingStreams.dropFirst().sink {
             DataService.shared.storedUnifyingOperationStreams = $0
+        }.store(in: &disposeBag)
+
+        $joinStreams.dropFirst().sink {
+            DataService.shared.storedJoinOperationStreams = $0
         }.store(in: &disposeBag)
     }
 
@@ -51,6 +56,16 @@ class StreamStore: ObservableObject {
 
     var streamB: AnyPublisher<String, Never> {
         streamBModel.toPublisher()
+    }
+
+    func save(_ streamModel: StreamModel<String>) {
+        var storedStreams = streams
+        if let storedStreamIndex = storedStreams.firstIndex(where: { $0.id == streamModel.id }) {
+            storedStreams[storedStreamIndex] = streamModel
+        } else {
+            storedStreams.append(streamModel)
+        }
+        streams = storedStreams
     }
 
     func save(_ operationStreamModel: OperationStreamModel) {

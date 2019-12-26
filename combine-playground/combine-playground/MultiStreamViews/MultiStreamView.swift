@@ -22,28 +22,13 @@ struct MultiStreamView: View {
         return AnyView(navigationLink)
     }
 
-    func updateOperationStreamView(with streamViewModel: StreamViewModel<[String]>) -> AnyView? {
-        guard streamViewModel.editable else {
-            return nil
-        }
-
-        if let updateOperationViewModel = viewModel.updateOperationStreamViewModel {
-            return AnyView(UpdateOperationStreamView(viewModel: updateOperationViewModel))
-        }
-
-        if let updateUnifyingViewModel = viewModel.updateUnifyingStreamViewModel {
-            return AnyView(UpdateUnifyingStreamView(viewModel: updateUnifyingViewModel))
-        }
-
-        return nil
-    }
-
     var body: some View {
         VStack {
-            ForEach(viewModel.streamViewModels, id: \.title) { streamView in
-                MultiValueStreamView(viewModel: streamView, displayActionButtons: false,
-                                     updateOperationStreamView:
-                    self.updateOperationStreamView(with: streamView))
+            ForEach(viewModel.streamViewModels, id: \.title) { streamViewModel in
+                MultiValueStreamView(viewModel: streamViewModel,
+                                     displayActionButtons: false,
+                                     updateOperationStreamViewModel:
+                    (streamViewModel as? UpdatableStreamViewModel)?.updateOperationStreamViewModel)
             }
             HStack {
                 CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Combine
 class DataStreamViewModel: StreamViewModel<String> {
 
     var streamModel: StreamModel<String> {
@@ -22,6 +22,6 @@ class DataStreamViewModel: StreamViewModel<String> {
         self.streamModel = streamModel
         super.init(title: streamModel.name ?? "",
                    description: streamModel.description ?? streamModel.sequenceDescription,
-                   publisher: self.streamModel.toPublisher())
+                   publisher: streamModel.toPublisher(), editable: true)
     }
 }

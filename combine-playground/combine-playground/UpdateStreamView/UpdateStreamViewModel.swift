@@ -42,11 +42,9 @@ class UpdateStreamViewModel: ObservableObject {
 
     @Published var streamModel: StreamModel<String>
 
-    @Published var streamStore: StreamStore
-
     private var disposables = Set<AnyCancellable>()
 
-    init(streamModel: StreamModel<String>, streamStore: StreamStore) {
+    init(streamModel: StreamModel<String>) {
         self.streamModel = streamModel
         self.streamNumberOptions = (1...8).map {
             return CircularTextViewModel(value: String($0))
@@ -59,7 +57,6 @@ class UpdateStreamViewModel: ObservableObject {
         self.values = streamModel.stream.map {
             return TimeSeriesValue(value: $0.value)
         }
-        self.streamStore = streamStore
         self.setupDataBinding()
     }
 
@@ -73,15 +70,5 @@ class UpdateStreamViewModel: ObservableObject {
             return newStream
         }.assign(to: \.streamModel, on: self)
         .store(in: &disposables)
-    }
-
-    func save() {
-        var storedStreams = streamStore.streams
-        if let storedStreamIndex = storedStreams.firstIndex(where: { $0.id == self.streamModel.id }) {
-            storedStreams[storedStreamIndex] = streamModel
-        } else {
-            storedStreams.append(streamModel)
-        }
-        streamStore.streams = storedStreams
     }
 }
