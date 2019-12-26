@@ -31,44 +31,48 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     var stagingOperationStreamModel: OperationStreamModel
 
+    let updateIndex: Int
+
     var disposables: DisposeBag = DisposeBag()
 
     convenience init(sourceStreamModel: StreamModel<String>) {
         let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
                                                            description: nil,
                                                            operators: [.delay(seconds: 0)])
-        self.init(sourceStreamModel: sourceStreamModel, operationStreamModel: newOperationStreamModel)
+        self.init(sourceStreamModel: sourceStreamModel,
+                  operationStreamModel: newOperationStreamModel, updateIndex: 0)
     }
 
-    // kevin todo: Take operator instead of OperationStreamModel
-    init(sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
+    init(sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel, updateIndex: Int) {
         self.sourceStreamModel = sourceStreamModel
         self.operationStreamModel = operationStreamModel
         self.stagingOperationStreamModel = operationStreamModel
+        self.updateIndex = updateIndex
         $selectedOperator.map {
             self.parameterTitles[self.operators.firstIndex(of: $0) ?? 0]
         }.assign(to: \UpdateOperationStreamViewModel.parameterTitle, on: self)
-        .store(in: &disposables)
-
-
-        switch operationStreamModel.operators.first! {
-        case .delay:
-            selectedOperator = "delay"
-        case .dropFirst(let count):
-            selectedOperator = "dropFirst"
-            parameter = String(count)
-        case .filter(let expression):
-            selectedOperator = "filter"
-            parameter = expression
-        case .map(let expression):
-            selectedOperator = "map"
-            parameter = expression
-        case .scan(let expression):
-            selectedOperator = "scan"
-            parameter = expression
-        }
+            .store(in: &disposables)
         title = operationStreamModel.name ?? ""
         description = operationStreamModel.description ?? ""
+
+        if operationStreamModel.operators.count > updateIndex {
+            switch operationStreamModel.operators[updateIndex] {
+            case .delay:
+                selectedOperator = "delay"
+            case .dropFirst(let count):
+                selectedOperator = "dropFirst"
+                parameter = String(count)
+            case .filter(let expression):
+                selectedOperator = "filter"
+                parameter = expression
+            case .map(let expression):
+                selectedOperator = "map"
+                parameter = expression
+            case .scan(let expression):
+                selectedOperator = "scan"
+                parameter = expression
+            }
+        }
         setupBindings()
     }
 
@@ -87,14 +91,14 @@ class UpdateOperationStreamViewModel: ObservableObject {
                 default:
                     return .filter(expression: parameter)
                 }
-            }
+        }
         Publishers.CombineLatest3($title, $description, opt)
             .map {
-                //kevin todo: update operator array by replacing the modifying operator
-                OperationStreamModel(id: self.operationStreamModel.id, name: $0.0,
-                                     description: $0.1, operators: [$0.2])
-            }.print("stream_model")
-        .assign(to: \.stagingOperationStreamModel, on: self)
+                var currentOperators = self.operationStreamModel.operators
+                currentOperators[self.updateIndex] = $0.2
+                return OperationStreamModel(id: self.operationStreamModel.id,
+                                            name: $0.0, description: $0.1, operators: currentOperators)
+        }.assign(to: \.stagingOperationStreamModel, on: self)
         .store(in: &disposables)
     }
 

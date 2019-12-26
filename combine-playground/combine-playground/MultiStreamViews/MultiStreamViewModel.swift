@@ -28,12 +28,13 @@ class MultiStreamViewModel: ObservableObject {
             let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
                                                        description: sourceStreamModel.sequenceDescription,
                                                        publisher: sourceStreamModel.toPublisher()).toArrayViewModel()
-            var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]            
+            var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]
             var currentPublisher: AnyPublisher<String, Never> = sourceStreamModel.toPublisher()
 
-            operationStreamModel.operators.forEach {
-                let newPublisher = $0.applyPublisher(currentPublisher)
+            operationStreamModel.operators.enumerated().forEach {
+                let newPublisher = $0.element.applyPublisher(currentPublisher)
                 streamViewModels.append(UpdatableStreamViewModel(updatableStreamModel: operationStreamModel,
+                                                                 updatableIndex: $0.offset,
                                                                  streamModel: sourceStreamModel,
                                                                  publisher: newPublisher).toArrayViewModel())
                 currentPublisher = newPublisher
@@ -65,6 +66,7 @@ class MultiStreamViewModel: ObservableObject {
                                                                       stream2Model.toPublisher()])
 
                 let resultViewModel =  UpdatableStreamViewModel(updatableStreamModel: unifyingStreamModel,
+                                                                updatableIndex: 0,
                                                                 streamModel: stream1Model,
                                                                 publisher: operatorPublisher).toArrayViewModel()
                 return [stream1ViewModel, stream2ViewModel, resultViewModel]
@@ -80,6 +82,7 @@ class MultiStreamViewModel: ObservableObject {
         let operatorPublisher =
             joinStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(), stream2Model.toPublisher()])
         let resultStreamViewModel = UpdatableStreamViewModel(updatableStreamModel: joinStreamModel,
+                                                             updatableIndex: 0,
                                                              streamModel: stream1Model.toArrayStreamModel(),
                                                              publisher: operatorPublisher)
 

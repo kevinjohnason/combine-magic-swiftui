@@ -16,6 +16,8 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
 
     var updateStreamModel: Updatable
 
+    var updatableIndex: Int
+
     private var disposables = DisposeBag()
 
     lazy var updateOperationStreamViewModel: UpdateOperationStreamViewModel? = {
@@ -23,11 +25,13 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
         let updateStreamModel = updateStreamModel as? OperationStreamModel else {
             return nil
         }
-        let updateStreamViewModel = UpdateOperationStreamViewModel(sourceStreamModel: stringStreamModel.flatMapModel(),
-        operationStreamModel: updateStreamModel)
-        // kevin todo: get operator by index
+        let updateStreamViewModel = UpdateOperationStreamViewModel(
+            sourceStreamModel: stringStreamModel.flatMapModel(),
+            operationStreamModel: updateStreamModel,
+            updateIndex: self.updatableIndex)
         updateStreamViewModel.$operationStreamModel.map {
-            $0.operators.first?.description ?? ""
+            $0.operators.count > self.updatableIndex ?
+                $0.operators[self.updatableIndex].description : ""
         }.assign(to: \.title, on: self).store(in: &disposables)
         return updateStreamViewModel
     }()
@@ -72,13 +76,15 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
     }()
 
     init(updatableStreamModel: Updatable,
+         updatableIndex: Int,
          streamModel: StreamModel<T>,
          publisher: AnyPublisher<T, Never>) {
         self.updateStreamModel = updatableStreamModel
         self.sourceStreamModel = streamModel
-        if let operationStreamModel = updatableStreamModel as? OperationStreamModel {
-            //kevin todo, add index
-            super.init(title: operationStreamModel.operators.first?.description ?? "",
+        self.updatableIndex = updatableIndex
+        if let operationStreamModel = updatableStreamModel as? OperationStreamModel,
+            operationStreamModel.operators.count > updatableIndex {
+            super.init(title: operationStreamModel.operators[updatableIndex].description,
                               description: "", publisher: publisher, editable: true)
         } else {
             super.init(title: updatableStreamModel.name ?? "",
@@ -89,6 +95,7 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
     override func toArrayViewModel() -> StreamViewModel<[T]> {
         return UpdatableStreamViewModel<[T]>(
             updatableStreamModel: self.updateStreamModel,
+            updatableIndex: self.updatableIndex,
             streamModel: sourceStreamModel.toArrayStreamModel(),
             publisher: self.publisher.map { [$0] }.eraseToAnyPublisher())
     }

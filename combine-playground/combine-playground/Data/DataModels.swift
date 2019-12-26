@@ -106,7 +106,7 @@ enum Operator: Codable {
     case filter(expression: String)
 
     private struct DropFirstParameters: Codable {
-        let count: Int        
+        let count: Int
     }
     case dropFirst(count: Int)
 
