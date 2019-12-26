@@ -21,6 +21,8 @@ struct MultiValueStreamView: View {
             return AnyView(UpdateOperationStreamView(viewModel: updateOperationStreamViewModel))
         } else if let updateUnifyingStreamViewModel = updtableStreamViewModel.updateUnifyingStreamViewModel {
           return AnyView(UpdateUnifyingStreamView(viewModel: updateUnifyingStreamViewModel))
+        } else if let updateJoinStreamViewModel = updtableStreamViewModel.updateJoinStreamViewModel {
+          return AnyView(UpdateJoinStreamView(viewModel: updateJoinStreamViewModel))
         } else {
             return nil
         }

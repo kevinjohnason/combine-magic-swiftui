@@ -43,8 +43,27 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
             .map { $0.name ?? "" }
             .assign(to: \.title, on: self)
             .store(in: &self.disposables)
-        
         updateUnifyingStreamViewModel.$unifyingStreamModel
+            .map { $0.description ?? "" }
+            .assign(to: \.description, on: self)
+            .store(in: &self.disposables)
+        return updateUnifyingStreamViewModel
+    }()
+
+    lazy var updateJoinStreamViewModel: UpdateJoinStreamViewModel? = {
+        guard let stringStreamModel = sourceStreamModel as? StreamModel<[String]>,
+        let joinStreamModel = updateStreamModel as? JoinOperationStreamModel else {
+            return nil
+        }
+        let updateUnifyingStreamViewModel =
+            UpdateJoinStreamViewModel(sourceStreamModels: [stringStreamModel.flatMapModel()],
+                                      operationModel: joinStreamModel)
+
+        updateUnifyingStreamViewModel.$operationModel
+            .map { $0.name ?? "" }
+            .assign(to: \.title, on: self)
+            .store(in: &self.disposables)
+        updateUnifyingStreamViewModel.$operationModel
             .map { $0.description ?? "" }
             .assign(to: \.description, on: self)
             .store(in: &self.disposables)

@@ -94,7 +94,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
         .assign(to: \.stagingOperationStreamModel, on: self)
         .store(in: &disposables)
     }
-    
+
     func save() {
         operationStreamModel = stagingOperationStreamModel
     }

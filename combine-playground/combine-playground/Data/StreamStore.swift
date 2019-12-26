@@ -87,4 +87,14 @@ class StreamStore: ObservableObject {
         }
         unifyingStreams = storedOperations
     }
+
+    func save(_ operationStreamModel: JoinOperationStreamModel) {
+        var storedOperations = joinStreams
+        if let storedStreamIndex = storedOperations.firstIndex(where: { $0.id == operationStreamModel.id }) {
+            storedOperations[storedStreamIndex] = operationStreamModel
+        } else {
+            storedOperations.append(operationStreamModel)
+        }
+        joinStreams = storedOperations
+    }
 }

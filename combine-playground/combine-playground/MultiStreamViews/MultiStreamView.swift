@@ -14,6 +14,9 @@ struct MultiStreamView: View {
     @EnvironmentObject var streamStore: StreamStore
 
     func trailingBarItem() -> some View {
+        guard viewModel.operationStreamModel != nil else {
+            return AnyView(EmptyView())
+        }
         let navigationLink = NavigationLink(
         destination: UpdateOperationStreamView(
             viewModel: UpdateOperationStreamViewModel(sourceStreamModel: streamStore.streamAModel))) {
