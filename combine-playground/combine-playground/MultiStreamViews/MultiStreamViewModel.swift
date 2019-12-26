@@ -17,40 +17,23 @@ class MultiStreamViewModel: ObservableObject {
     var title: String
     var disposeBag = DisposeBag()
 
-    lazy var updateUnifyingStreamViewModel: UpdateUnifyingStreamViewModel? = {
-        guard sourceStreamModels.count > 1 else {
-            return nil
-        }
-        guard let unifyingStreamModel = self.unifyingStreamModel else {
-            return nil
-        }
-        let updateUnifyingStreamViewModel =
-            UpdateUnifyingStreamViewModel(sourceStreamModels: sourceStreamModels,
-                                          unifyingStreamModel: unifyingStreamModel)
-        disposeBag.cancelAll()
-        updateUnifyingStreamViewModel.$unifyingStreamModel.dropFirst()
-        .compactMap { $0 }
-        .assign(to: \MultiStreamViewModel.unifyingStreamModel, on: self)
-        .store(in: &self.disposeBag)
-        return updateUnifyingStreamViewModel
-    }()
-
     init(title: String, sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
         self.title = title
         self.operationStreamModel = operationStreamModel
         self.sourceStreamModels = [sourceStreamModel]
         $operationStreamModel
             .filter { $0 != nil }
+            .map { $0! }
             .map { operationStreamModel -> [StreamViewModel<[String]>] in
             let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
                                                        description: sourceStreamModel.sequenceDescription,
                                                        publisher: sourceStreamModel.toPublisher()).toArrayViewModel()
             var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]
-            var currentOperatorItem: Operator?  = operationStreamModel!.operatorItem
+            var currentOperatorItem: Operator?  = operationStreamModel.operatorItem
             var currentPublisher: AnyPublisher<String, Never>? = sourceStreamModel.toPublisher()
             while currentOperatorItem != nil {
                 let newPublisher = currentOperatorItem!.applyPublisher(currentPublisher!)
-                streamViewModels.append(UpdatableStreamViewModel(operationStreamModel: operationStreamModel!,
+                streamViewModels.append(UpdatableStreamViewModel(updatableStreamModel: operationStreamModel,
                                                                  streamModel: sourceStreamModel,
                                                                  publisher: newPublisher).toArrayViewModel())
                 currentOperatorItem = currentOperatorItem?.next
@@ -82,10 +65,9 @@ class MultiStreamViewModel: ObservableObject {
                     unifyingStreamModel.operatorItem.applyPublishers([stream1Model.toPublisher(),
                                                                       stream2Model.toPublisher()])
 
-                let resultViewModel = StreamViewModel(title: unifyingStreamModel.name ?? "",
-                                                      description: unifyingStreamModel.description ?? "",
-                                                      publisher: operatorPublisher, editable: true)
-                    .toArrayViewModel()
+                let resultViewModel =  UpdatableStreamViewModel(updatableStreamModel: unifyingStreamModel,
+                                                                streamModel: stream1Model,
+                                                                publisher: operatorPublisher).toArrayViewModel()
                 return [stream1ViewModel, stream2ViewModel, resultViewModel]
         }.assign(to: \MultiStreamViewModel.streamViewModels, on: self)
         .store(in: &disposeBag)

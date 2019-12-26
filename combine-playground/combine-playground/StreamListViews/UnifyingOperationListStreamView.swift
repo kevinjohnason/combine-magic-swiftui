@@ -19,8 +19,7 @@ struct UnifyingOperationListStreamView: View {
                                                   stream1Model: sourceStreams[0],
                                                   stream2Model: sourceStreams[1],
                                                   unifyingStreamModel: streamModel)
-        let operationStreamView = MultiStreamView(viewModel: operationStreamViewModel)
-        return AnyView(operationStreamView)
+        return AnyView(MultiStreamView(viewModel: operationStreamViewModel))
      }
 
     var body: some View {

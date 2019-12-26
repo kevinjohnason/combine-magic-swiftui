@@ -34,7 +34,7 @@ struct UpdateUnifyingStreamView: View {
                     .frame(maxWidth: .infinity, minHeight: 50)
                     .background(Color.gray)
                 Button("Save") {
-                    self.viewModel.updateStreamModel()
+                    self.viewModel.save()
                     self.streamStore.save(self.viewModel.unifyingStreamModel)
                     self.presentationMode.wrappedValue.dismiss()
                 }.foregroundColor(Color.white)

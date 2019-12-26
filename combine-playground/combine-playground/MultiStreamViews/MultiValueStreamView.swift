@@ -13,21 +13,32 @@ struct MultiValueStreamView: View {
 
     var displayActionButtons: Bool = true
 
-    var updateOperationStreamViewModel: UpdateOperationStreamViewModel?
+    var updateView: AnyView? {
+        guard let updtableStreamViewModel = viewModel as? UpdatableStreamViewModel else {
+            return nil
+        }
+        if let updateOperationStreamViewModel = updtableStreamViewModel.updateOperationStreamViewModel {
+            return AnyView(UpdateOperationStreamView(viewModel: updateOperationStreamViewModel))
+        } else if let updateUnifyingStreamViewModel = updtableStreamViewModel.updateUnifyingStreamViewModel {
+          return AnyView(UpdateUnifyingStreamView(viewModel: updateUnifyingStreamViewModel))
+        } else {
+            return nil
+        }
+    }
 
-    var updateView: some View {
-        guard let updateOperationStreamViewModel = updateOperationStreamViewModel else {
+    var navigationView: some View {
+        guard let updateView = updateView else {
             return AnyView(EmptyView())
         }
         return AnyView(NavigationLink(
-             destination: UpdateOperationStreamView(viewModel: updateOperationStreamViewModel),
-             label: {
-                 HStack {
-                     Spacer()
-                     Image(systemName: "pencil.circle")
-                     .font(.system(size: 25, weight: .light))
-                 }.padding(.trailing, 10)
-         }))
+            destination: updateView,
+            label: {
+                HStack {
+                    Spacer()
+                    Image(systemName: "pencil.circle")
+                    .font(.system(size: 25, weight: .light))
+                }.padding(.trailing, 10)
+        }))
     }
 
     var body: some View {
@@ -37,8 +48,7 @@ struct MultiValueStreamView: View {
                 Text(viewModel.title)
                     .font(.system(.headline, design: .monospaced))
                     .lineLimit(nil)
-                // edit with destination ~~~ kevin start from here
-                self.updateView
+                self.navigationView
             }
 
             Text(viewModel.updatableDescription)

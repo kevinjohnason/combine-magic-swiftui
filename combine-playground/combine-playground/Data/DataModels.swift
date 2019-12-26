@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 // swiftlint:disable identifier_name
-struct StreamModel<T: Codable>: Codable, Identifiable {
+struct StreamModel<T: Codable>: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
     var description: String?
@@ -34,14 +34,20 @@ struct StreamItem<T: Codable>: Codable {
     var operatorItem: Operator?
 }
 
-struct OperationStreamModel: Codable, Identifiable {
+protocol Updatable {
+    var id: UUID { get set }
+    var name: String? { get set }
+    var description: String? { get set }
+}
+
+struct OperationStreamModel: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
     var description: String?
     var operatorItem: Operator
 }
 
-struct UnifyingOperationStreamModel: Codable, Identifiable {
+struct UnifyingOperationStreamModel: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
     var description: String?
@@ -160,7 +166,7 @@ indirect enum Operator: Codable {
 
 }
 
-struct JoinOperationStreamModel: Codable, Identifiable {
+struct JoinOperationStreamModel: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
     var description: String?

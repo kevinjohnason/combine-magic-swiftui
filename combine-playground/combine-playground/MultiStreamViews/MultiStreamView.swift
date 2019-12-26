@@ -26,9 +26,7 @@ struct MultiStreamView: View {
         VStack {
             ForEach(viewModel.streamViewModels, id: \.title) { streamViewModel in
                 MultiValueStreamView(viewModel: streamViewModel,
-                                     displayActionButtons: false,
-                                     updateOperationStreamViewModel:
-                    (streamViewModel as? UpdatableStreamViewModel)?.updateOperationStreamViewModel)
+                                     displayActionButtons: false)
             }
             HStack {
                 CombineDemoButton(text: "Subscribe", backgroundColor: .blue) {

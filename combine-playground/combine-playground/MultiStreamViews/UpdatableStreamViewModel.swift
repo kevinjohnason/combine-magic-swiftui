@@ -12,37 +12,63 @@ import CombineExtensions
 
 class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
 
-    var streamModel: StreamModel<T>
+    var sourceStreamModel: StreamModel<T>
 
-    var operationStreamModel: OperationStreamModel
+    var updateStreamModel: Updatable
 
     private var disposables = DisposeBag()
 
     lazy var updateOperationStreamViewModel: UpdateOperationStreamViewModel? = {
-        guard let stringStreamModel = streamModel as? StreamModel<[String]> else {
+        guard let stringStreamModel = sourceStreamModel as? StreamModel<[String]>,
+        let updateStreamModel = updateStreamModel as? OperationStreamModel else {
             return nil
         }
         let updateStreamViewModel = UpdateOperationStreamViewModel(sourceStreamModel: stringStreamModel.flatMapModel(),
-        operationStreamModel: operationStreamModel)
+        operationStreamModel: updateStreamModel)
         updateStreamViewModel.$operationStreamModel.map {
             $0.operatorItem.description
         }.assign(to: \.title, on: self).store(in: &disposables)
         return updateStreamViewModel
     }()
 
-    init(operationStreamModel: OperationStreamModel,
+    lazy var updateUnifyingStreamViewModel: UpdateUnifyingStreamViewModel? = {
+        guard let stringStreamModel = sourceStreamModel as? StreamModel<[String]>,
+        let unifyingStreamModel = updateStreamModel as? UnifyingOperationStreamModel else {
+            return nil
+        }
+        let updateUnifyingStreamViewModel =
+            UpdateUnifyingStreamViewModel(sourceStreamModels: [stringStreamModel.flatMapModel()],
+                                          unifyingStreamModel: unifyingStreamModel)
+        updateUnifyingStreamViewModel.$unifyingStreamModel
+            .map { $0.name ?? "" }
+            .assign(to: \.title, on: self)
+            .store(in: &self.disposables)
+        
+        updateUnifyingStreamViewModel.$unifyingStreamModel
+            .map { $0.description ?? "" }
+            .assign(to: \.description, on: self)
+            .store(in: &self.disposables)
+        return updateUnifyingStreamViewModel
+    }()
+
+    init(updatableStreamModel: Updatable,
          streamModel: StreamModel<T>,
          publisher: AnyPublisher<T, Never>) {
-        self.operationStreamModel = operationStreamModel
-        self.streamModel = streamModel
-        super.init(title: operationStreamModel.operatorItem.description,
-                   description: "", publisher: publisher, editable: true)
+        self.updateStreamModel = updatableStreamModel
+        self.sourceStreamModel = streamModel
+        if let operationStreamModel = updatableStreamModel as? OperationStreamModel {
+            super.init(title: operationStreamModel.operatorItem.description,
+                              description: "", publisher: publisher, editable: true)
+        } else {
+            super.init(title: updatableStreamModel.name ?? "",
+                       description: updatableStreamModel.description ?? "", publisher: publisher, editable: true)
+        }
     }
 
     override func toArrayViewModel() -> StreamViewModel<[T]> {
         return UpdatableStreamViewModel<[T]>(
-            operationStreamModel: self.operationStreamModel,
-            streamModel: streamModel.toArrayStreamModel(),
+            updatableStreamModel: self.updateStreamModel,
+            streamModel: sourceStreamModel.toArrayStreamModel(),
             publisher: self.publisher.map { [$0] }.eraseToAnyPublisher())
     }
 }

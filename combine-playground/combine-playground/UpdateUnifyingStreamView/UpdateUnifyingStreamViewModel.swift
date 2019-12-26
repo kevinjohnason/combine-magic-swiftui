@@ -8,7 +8,7 @@
 
 import SwiftUI
 import CombineExtensions
-
+import Combine
 class UpdateUnifyingStreamViewModel: ObservableObject {
 
     let operators = ["merge", "flatMap", "append"]
@@ -25,11 +25,14 @@ class UpdateUnifyingStreamViewModel: ObservableObject {
 
     @Published var unifyingStreamModel: UnifyingOperationStreamModel
 
+    private var stagingStreamModel: UnifyingOperationStreamModel
+
     var disposables: DisposeBag = DisposeBag()
 
     init(sourceStreamModels: [StreamModel<String>], unifyingStreamModel: UnifyingOperationStreamModel) {
         self.sourceStreamModels = sourceStreamModels
         self.unifyingStreamModel = unifyingStreamModel
+        self.stagingStreamModel = unifyingStreamModel
         self.title = unifyingStreamModel.name ?? ""
         self.description = unifyingStreamModel.description ?? ""
         $selectedOperator.map {
@@ -45,20 +48,30 @@ class UpdateUnifyingStreamViewModel: ObservableObject {
         case .append:
             selectedOperator = "append"
         }
+        setupBindings()
     }
 
-    func updateStreamModel() {
-        unifyingStreamModel.name = title
-        unifyingStreamModel.description = description
-        switch selectedOperator {
-        case "merge":
-            unifyingStreamModel.operatorItem = .merge(next: nil)
-        case "flatMap":
-            unifyingStreamModel.operatorItem = .flatMap(next: nil)
-        case "append":
-            unifyingStreamModel.operatorItem = .append(next: nil)
-        default:
-            break
-        }
+    func setupBindings() {
+        Publishers.CombineLatest3($title, $description, $selectedOperator)
+        .map { (title, description, selectedOpt) -> UnifyingOperationStreamModel in
+            let opt: UnifyOparator
+            switch selectedOpt {
+            case "merge":
+            opt = .merge(next: nil)
+            case "flatMap":
+            opt = .flatMap(next: nil)
+            case "append":
+            opt = .append(next: nil)
+            default:
+            opt = .append(next: nil)
+            }
+            return UnifyingOperationStreamModel(id: self.unifyingStreamModel.id, name: title,
+                                                description: description, operatorItem: opt)
+            }.assign(to: \.stagingStreamModel, on: self)
+            .store(in: &disposables)
+    }
+
+    func save() {
+        unifyingStreamModel = stagingStreamModel
     }
 }
