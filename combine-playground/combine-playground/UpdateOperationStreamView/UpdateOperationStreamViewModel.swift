@@ -38,7 +38,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
     convenience init(sourceStreamModel: StreamModel<String>) {
         let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
                                                            description: nil,
-                                                           operators: [.delay(seconds: 0)])
+                                                           operators: [])
         self.init(sourceStreamModel: sourceStreamModel,
                   operationStreamModel: newOperationStreamModel, updateIndex: 0)
     }
@@ -95,7 +95,11 @@ class UpdateOperationStreamViewModel: ObservableObject {
         Publishers.CombineLatest3($title, $description, opt)
             .map {
                 var currentOperators = self.operationStreamModel.operators
-                currentOperators[self.updateIndex] = $0.2
+                if currentOperators.count > self.updateIndex {
+                    currentOperators[self.updateIndex] = $0.2
+                } else {
+                    currentOperators.append($0.2)
+                }
                 return OperationStreamModel(id: self.operationStreamModel.id,
                                             name: $0.0, description: $0.1, operators: currentOperators)
         }.assign(to: \.stagingOperationStreamModel, on: self)

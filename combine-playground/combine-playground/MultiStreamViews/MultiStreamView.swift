@@ -14,12 +14,13 @@ struct MultiStreamView: View {
     @EnvironmentObject var streamStore: StreamStore
 
     func trailingBarItem() -> some View {
-        guard viewModel.operationStreamModel != nil else {
+        guard viewModel.operationStreamModel != nil,
+            let operationStreamViewModel = viewModel.addOperationStreamViewModel else {
             return AnyView(EmptyView())
         }
         let navigationLink = NavigationLink(
         destination: UpdateOperationStreamView(
-            viewModel: UpdateOperationStreamViewModel(sourceStreamModel: streamStore.streamAModel))) {
+            viewModel: operationStreamViewModel)) {
             Image(systemName: "plus.circle").font(Font.system(size: 30))
         }
         return AnyView(navigationLink)

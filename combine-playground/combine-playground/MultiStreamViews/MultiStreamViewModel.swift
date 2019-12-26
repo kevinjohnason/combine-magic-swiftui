@@ -13,6 +13,16 @@ class MultiStreamViewModel: ObservableObject {
     @Published var streamViewModels: [StreamViewModel<[String]>] = []
     var sourceStreamModels: [StreamModel<String>] = []
     @Published var operationStreamModel: OperationStreamModel?
+
+    lazy var addOperationStreamViewModel: UpdateOperationStreamViewModel? = {
+        guard let operationStreamModel = self.operationStreamModel else {
+            return nil
+        }
+        return UpdateOperationStreamViewModel(sourceStreamModel: self.sourceStreamModels[0],
+                                              operationStreamModel: operationStreamModel,
+                                              updateIndex: operationStreamModel.operators.count)
+    }()
+
     @Published var unifyingStreamModel: UnifyingOperationStreamModel?
     var title: String
     var disposeBag = DisposeBag()
