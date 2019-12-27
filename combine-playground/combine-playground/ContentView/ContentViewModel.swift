@@ -15,6 +15,8 @@ class ContentViewModel: ObservableObject {
 
     var cancellable: Cancellable?
 
+    lazy var newStreamViewModel = NewStreamViewModel()
+
     init() {
         refresh()
     }

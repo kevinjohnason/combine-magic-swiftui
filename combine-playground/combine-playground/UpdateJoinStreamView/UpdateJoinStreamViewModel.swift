@@ -28,6 +28,12 @@ class UpdateJoinStreamViewModel: ObservableObject {
 
     var disposables: DisposeBag = DisposeBag()
 
+    convenience init(sourceStreamModels: [StreamModel<String>]) {
+        self.init(sourceStreamModels: sourceStreamModels,
+                  operationModel: JoinOperationStreamModel(id: UUID(), name: nil, description: nil,
+                                                           operatorItem: .zip))
+    }
+
     init(sourceStreamModels: [StreamModel<String>], operationModel: JoinOperationStreamModel) {
         self.sourceStreamModels = sourceStreamModels
         self.operationModel = operationModel

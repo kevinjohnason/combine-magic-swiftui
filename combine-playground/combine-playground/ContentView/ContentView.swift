@@ -11,6 +11,8 @@ import Combine
 struct ContentView: View {
     @EnvironmentObject var streamStore: StreamStore
 
+    var viewModel = ContentViewModel()
+
     var body: some View {
         NavigationView {
             VStack {
@@ -36,9 +38,9 @@ struct ContentView: View {
             .navigationBarItems(leading: EditButton(), trailing: createStreamView)
         }
     }
+
     var createStreamView: some View {
-        NavigationLink(destination: UpdateStreamView(
-            viewModel: UpdateStreamViewModel(streamModel: StreamModel<String>.new()))) {
+        NavigationLink(destination: NewStreamView(viewModel: viewModel.newStreamViewModel) ) {
             Image(systemName: "plus.circle").font(Font.system(size: 30))
         }
     }

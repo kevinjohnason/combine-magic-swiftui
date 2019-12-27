@@ -29,6 +29,13 @@ class UpdateUnifyingStreamViewModel: ObservableObject {
 
     var disposables: DisposeBag = DisposeBag()
 
+    convenience init(sourceStreamModels: [StreamModel<String>]) {
+        self.init(sourceStreamModels: sourceStreamModels,
+                  unifyingStreamModel:
+            UnifyingOperationStreamModel(id: UUID(), name: nil,
+                                         description: nil, operatorItem: .merge))
+    }
+
     init(sourceStreamModels: [StreamModel<String>], unifyingStreamModel: UnifyingOperationStreamModel) {
         self.sourceStreamModels = sourceStreamModels
         self.unifyingStreamModel = unifyingStreamModel
