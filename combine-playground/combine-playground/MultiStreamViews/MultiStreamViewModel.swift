@@ -32,8 +32,7 @@ class MultiStreamViewModel: ObservableObject {
         self.operationStreamModel = operationStreamModel
         self.sourceStreamModels = [sourceStreamModel]
         $operationStreamModel
-            .filter { $0 != nil }
-            .map { $0! }
+            .unwrap()
             .map { operationStreamModel -> [StreamViewModel<[String]>] in
             let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
                                                        description: sourceStreamModel.sequenceDescription,
@@ -59,8 +58,7 @@ class MultiStreamViewModel: ObservableObject {
         self.title = streamTitle
         self.unifyingStreamModel = unifyingStreamModel
         $unifyingStreamModel
-            .filter { $0 != nil }
-            .map { $0! }
+            .unwrap()
             .map { unifyingStreamModel -> [StreamViewModel<[String]>] in
                 let stream1ViewModel = StreamViewModel(title: stream1Model.name ?? "",
                                                        description: stream1Model.sequenceDescription,

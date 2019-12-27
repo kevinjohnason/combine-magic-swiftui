@@ -56,7 +56,7 @@ extension Publishers.Unwrap {
     }
 }
 
-extension Publisher {
+public extension Publisher {
     func unwrap<T>() -> Publishers.Unwrap<Self, T> where Self.Output == Optional<T> {
         Publishers.Unwrap(upstream: self)
     }
