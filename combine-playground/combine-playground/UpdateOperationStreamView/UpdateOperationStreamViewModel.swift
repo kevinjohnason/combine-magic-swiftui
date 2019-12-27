@@ -33,7 +33,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     let updateIndex: Int
 
-    var disposables: DisposeBag = DisposeBag()
+    var disposables: DisposeSet = DisposeSet()
 
     convenience init(sourceStreamModel: StreamModel<String>) {
         let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,

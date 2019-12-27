@@ -18,4 +18,4 @@ public extension Set where Element == AnyCancellable {
     }
 }
 
-public typealias DisposeBag = Set<AnyCancellable>
+public typealias DisposeSet = Set<AnyCancellable>

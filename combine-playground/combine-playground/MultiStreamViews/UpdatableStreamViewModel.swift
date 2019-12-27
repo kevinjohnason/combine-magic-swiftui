@@ -18,7 +18,7 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
 
     var updatableIndex: Int
 
-    private var disposables = DisposeBag()
+    private var disposables = DisposeSet()
 
     lazy var updateOperationStreamViewModel: UpdateOperationStreamViewModel? = {
         guard let stringStreamModel = sourceStreamModel as? StreamModel<[String]>,

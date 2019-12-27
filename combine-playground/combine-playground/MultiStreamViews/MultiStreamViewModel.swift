@@ -25,7 +25,7 @@ class MultiStreamViewModel: ObservableObject {
 
     @Published var unifyingStreamModel: UnifyingOperationStreamModel?
     var title: String
-    var disposeBag = DisposeBag()
+    var disposeBag = DisposeSet()
 
     init(title: String, sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
         self.title = title

@@ -26,7 +26,7 @@ class UpdateJoinStreamViewModel: ObservableObject {
 
     private var stagingOperationModel: JoinOperationStreamModel
 
-    var disposables: DisposeBag = DisposeBag()
+    var disposables: DisposeSet = DisposeSet()
 
     convenience init(sourceStreamModels: [StreamModel<String>]) {
         self.init(sourceStreamModels: sourceStreamModels,
