@@ -233,6 +233,7 @@
 				31CD20AB237490D8001793FC /* LaunchScreen.storyboard */,
 				31CD20AE237490D8001793FC /* Info.plist */,
 				31CD20BB237491D7001793FC /* Data */,
+				31CD20F2237491D8001793FC /* Extensions */,
 				31CD20ED237491D8001793FC /* ContentView */,
 				313593932384BC34007F52A5 /* StreamListViews */,
 				31CD20F0237491D8001793FC /* Menu */,
@@ -245,7 +246,6 @@
 				31383AC12385CCA100EC9A95 /* UpdateOperationStreamView */,
 				31880C2B23A83A8A005D69E0 /* UpdateUnifyingStreamView */,
 				31383ABC2385C42B00EC9A95 /* UpdateJoinStreamView */,
-				31CD20F2237491D8001793FC /* Extensions */,
 				31CD20A8237490D8001793FC /* Preview Content */,
 			);
 			path = "combine-playground";
