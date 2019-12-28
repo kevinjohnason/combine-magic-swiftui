@@ -19,7 +19,7 @@ extension UnifyOparator {
             let initialPublisher: AnyPublisher<String, Never> = Just("").eraseToAnyPublisher()
             appliedPublisher = publishers.reduce(initialPublisher) { (initial, next) -> AnyPublisher<String, Never> in
                 initial.flatMap { _ in
-                     next
+                    next
                 }.eraseToAnyPublisher()
             }
         case .append:
@@ -77,7 +77,7 @@ extension Operator {
             return publisher.filter {
                 NSPredicate(format: expression,
                             argumentArray: [Int($0) ?? 0])
-                .evaluate(with: nil) }.eraseToAnyPublisher()
+                    .evaluate(with: nil) }.eraseToAnyPublisher()
         case .dropFirst(let count):
             return publisher.dropFirst(count).eraseToAnyPublisher()
         case .map(let expression):
@@ -88,8 +88,17 @@ extension Operator {
         case .scan(let expression):
             return publisher.scan(0) { NSExpression(format: expression,
                                                     argumentArray: [$0, Int($1) ?? 0])
-                                        .expressionValue(with: nil, context: nil) as? Int ?? 0 }
+                .expressionValue(with: nil, context: nil) as? Int ?? 0 }
                 .map { String($0) }.eraseToAnyPublisher()
+        }
+    }
+
+    func applyPublisher<T>(_ publisher: AnyPublisher<T, Never>) -> AnyPublisher<T, Never> {
+        switch self {
+        case .delay(let seconds):
+            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
+        default:
+            return publisher
         }
     }
 }
