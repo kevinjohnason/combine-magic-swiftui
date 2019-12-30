@@ -18,6 +18,9 @@ class DataStreamViewModel: StreamViewModel<String> {
         }
     }
 
+    lazy var updateStreamViewModel: UpdateStreamViewModel =
+        UpdateStreamViewModel(streamModel: self.streamModel)
+
     init(streamModel: StreamModel<String>) {
         self.streamModel = streamModel
         super.init(title: streamModel.name ?? "",

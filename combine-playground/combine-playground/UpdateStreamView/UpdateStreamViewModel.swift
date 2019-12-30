@@ -47,14 +47,17 @@ class UpdateStreamViewModel: ObservableObject {
     init(streamModel: StreamModel<String>) {
         self.streamModel = streamModel
         self.streamNumberOptions = (1...8).map {
+            print($0)
             return CircularTextViewModel(value: String($0))
         }
         self.streamLetterOptions = ("A"..."H").characters.map {
+            print($0)
             return CircularTextViewModel(value: String($0))
         }
         self.streamName = streamModel.name ?? ""
         self.streamDescription = streamModel.sequenceDescription
         self.values = streamModel.stream.map {
+            print($0.value)
             return TimeSeriesValue(value: $0.value)
         }
         self.setupDataBinding()

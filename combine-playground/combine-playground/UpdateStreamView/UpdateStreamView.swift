@@ -17,8 +17,9 @@ struct UpdateStreamView: View {
 
     var body: some View {
         VStack {
-            VStack(alignment: .center, spacing: 10) {
+            VStack(alignment: .leading, spacing: 10) {
                 TextField("Stream Name", text: $viewModel.streamName).font(.headline).padding()
+                //TextField("Description", text: $viewModel.streamDescription).font(.subheadline).padding()
                 Text(viewModel.sequenceDescription).font(.body).padding()
                 BallTunnelView(values: self.$viewModel.values, color: .red, padding: 5)
                     .overlayPreferenceValue(TunnelPreferenceKey.self) { preferences in
