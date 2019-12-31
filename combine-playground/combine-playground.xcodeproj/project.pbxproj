@@ -10,6 +10,8 @@
 		310DCEBA23A8163E009265C4 /* CombineExtensions.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 31189C4A238C57B70064B7EE /* CombineExtensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		31189C4B238C57BC0064B7EE /* CombineExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31189C4A238C57B70064B7EE /* CombineExtensions.framework */; };
 		31189C4F238C687A0064B7EE /* MultiStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */; };
+		311DA03C23BC08540074265A /* PlaygroundStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311DA03B23BC08540074265A /* PlaygroundStreamView.swift */; };
+		311DA04223BC0CE90074265A /* PlaygroundStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311DA04123BC0CE90074265A /* PlaygroundStreamViewModel.swift */; };
 		313593912384B802007F52A5 /* OperatorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593902384B802007F52A5 /* OperatorExtensions.swift */; };
 		313593952384C61C007F52A5 /* StreamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313593942384C61C007F52A5 /* StreamStore.swift */; };
 		31383ABE2385C45600EC9A95 /* UpdateJoinStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383ABD2385C45600EC9A95 /* UpdateJoinStreamView.swift */; };
@@ -68,6 +70,13 @@
 			remoteGlobalIDString = 31383A9D2385BE4700EC9A95;
 			remoteInfo = CombineExtensions;
 		};
+		311DA03E23BC08550074265A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 311DA02723B687A90074265A;
+			remoteInfo = CombineExtensionsTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,6 +94,8 @@
 
 /* Begin PBXFileReference section */
 		31189C4E238C687A0064B7EE /* MultiStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiStreamViewModel.swift; sourceTree = "<group>"; };
+		311DA03B23BC08540074265A /* PlaygroundStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundStreamView.swift; sourceTree = "<group>"; };
+		311DA04123BC0CE90074265A /* PlaygroundStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundStreamViewModel.swift; sourceTree = "<group>"; };
 		313593902384B802007F52A5 /* OperatorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorExtensions.swift; sourceTree = "<group>"; };
 		313593942384C61C007F52A5 /* StreamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamStore.swift; sourceTree = "<group>"; };
 		31383AB42385C1B600EC9A95 /* CombineExtensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CombineExtensions.xcodeproj; path = "../combine-extensions/CombineExtensions.xcodeproj"; sourceTree = "<group>"; };
@@ -147,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				31189C4A238C57B70064B7EE /* CombineExtensions.framework */,
+				311DA03F23BC08550074265A /* CombineExtensionsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -247,6 +259,8 @@
 				31880C2B23A83A8A005D69E0 /* UpdateUnifyingStreamView */,
 				31383ABC2385C42B00EC9A95 /* UpdateJoinStreamView */,
 				31CD20A8237490D8001793FC /* Preview Content */,
+				311DA03B23BC08540074265A /* PlaygroundStreamView.swift */,
+				311DA04123BC0CE90074265A /* PlaygroundStreamViewModel.swift */,
 			);
 			path = "combine-playground";
 			sourceTree = "<group>";
@@ -424,6 +438,13 @@
 			remoteRef = 31189C49238C57B70064B7EE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		311DA03F23BC08550074265A /* CombineExtensionsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CombineExtensionsTests.xctest;
+			remoteRef = 311DA03E23BC08550074265A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -485,6 +506,7 @@
 				31880C2D23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift in Sources */,
 				31CD212A237491D9001793FC /* ContentViewModel.swift in Sources */,
 				31CD212E237491D9001793FC /* OperationStreamListView.swift in Sources */,
+				311DA04223BC0CE90074265A /* PlaygroundStreamViewModel.swift in Sources */,
 				31CD20A1237490D6001793FC /* AppDelegate.swift in Sources */,
 				31CD2197237494BB001793FC /* MultiStreamView.swift in Sources */,
 				31CD2104237491D8001793FC /* UpdateStreamView.swift in Sources */,
@@ -498,6 +520,7 @@
 				31CD212D237491D9001793FC /* ModelExtensions.swift in Sources */,
 				313C095523B5751E00F89E79 /* NewStreamViewModel.swift in Sources */,
 				313C095323B574DB00F89E79 /* NewStreamView.swift in Sources */,
+				311DA03C23BC08540074265A /* PlaygroundStreamView.swift in Sources */,
 				31383AC52385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift in Sources */,
 				31CD2107237491D8001793FC /* DataModels.swift in Sources */,
 				31CD2102237491D8001793FC /* ButtonModifier.swift in Sources */,

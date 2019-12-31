@@ -9,7 +9,6 @@
 import SwiftUI
 import Combine
 struct ContentView: View {
-    @EnvironmentObject var streamStore: StreamStore
 
     var viewModel = ContentViewModel()
 
@@ -28,6 +27,11 @@ struct ContentView: View {
                     }
                     Section(header: Text("Join Operators")) {
                         JoinOperationListStreamView()
+                    }
+                    Section(header: Text("Playground")) {
+                        NavigationLink(destination: PlaygroundStreamView()) {
+                                MenuRow(detailViewName: "Playground")
+                        }
                     }
                 }
                 Button("Reset") {

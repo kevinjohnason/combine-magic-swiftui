@@ -97,8 +97,23 @@ extension Operator {
         switch self {
         case .delay(let seconds):
             return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
+        case .dropFirst(let count):
+            return publisher.dropFirst(count).eraseToAnyPublisher()
         default:
             return publisher
+        }
+    }
+
+    func applyTransformPublisher<T, U>(_ publisher: AnyPublisher<T, Never>) -> AnyPublisher<U, Never> {
+        switch self {
+        case .map(let expression):
+            return publisher.map { NSExpression(format: expression,
+                                            argumentArray: [$0])
+            .expressionValue(with: nil, context: nil) as? U }
+            .unwrap()
+            .eraseToAnyPublisher()
+        default:
+            return Empty().eraseToAnyPublisher()
         }
     }
 }
