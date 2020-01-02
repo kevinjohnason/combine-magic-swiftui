@@ -11,9 +11,17 @@ import Combine
 class PlaygroundStreamViewModel: ObservableObject {
     var multiStreamViewModel: MultiStreamViewModel
 
+    let streamStore: StreamStore
+
     init(streamStore: StreamStore) {
-        let sourceStreamModel = streamStore.sourceStreams[0]
-        let publisher = sourceStreamModel.toPublisher()
+        self.streamStore = streamStore
+
+        let streamA = (1...4).map { StreamItem(value: $0,
+                                               operators: [.delay(seconds: 1)]) }
+        let serialStreamA = StreamModel(id: UUID(), name: "Serial Stream A",
+                                        description: nil, stream: streamA, isDefault: true)
+
+        let publisher = serialStreamA.toPublisher()
         let sourceStreamViewModel = StreamViewModel(title: "Source Stream", publisher: publisher)
 
         let playgroundStreamViewModel = StreamViewModel(title: "Playground Result",
@@ -24,8 +32,8 @@ class PlaygroundStreamViewModel: ObservableObject {
 
     }
 
-    static func applyToPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        return publisher.map { (Int($0) ?? 0) + 1 }.map { String($0) }.eraseToAnyPublisher()
+    static func applyToPublisher<T>(_ publisher: AnyPublisher<T, Never>) -> AnyPublisher<T, Never> {
+        Operator.map(expression: "%d * 2").applyPublisher(publisher)
     }
 
 }

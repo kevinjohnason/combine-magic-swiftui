@@ -27,9 +27,9 @@ class MultiStreamViewModel: ObservableObject {
     var title: String
     var disposeBag = DisposeSet()
 
-    init(title: String, streamViewModels: [StreamViewModel<String>]) {
+    init<T>(title: String, streamViewModels: [StreamViewModel<T>]) {
         self.title = title
-        self.streamViewModels = streamViewModels.map { $0.toArrayViewModel() }
+        self.streamViewModels = streamViewModels.map { $0.toStringArrayViewModel() }
     }
 
     init(title: String, streamViewModels: [StreamViewModel<[String]>]) {

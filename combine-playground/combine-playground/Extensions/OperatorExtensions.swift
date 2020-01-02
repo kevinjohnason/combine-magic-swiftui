@@ -69,36 +69,39 @@ extension Operator {
         }
     }
 
-    func applyPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        switch self {
-        case .delay(let seconds):
-            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
-        case .filter(let expression):
-            return publisher.filter {
-                NSPredicate(format: expression,
-                            argumentArray: [Int($0) ?? 0])
-                    .evaluate(with: nil) }.eraseToAnyPublisher()
-        case .dropFirst(let count):
-            return publisher.dropFirst(count).eraseToAnyPublisher()
-        case .map(let expression):
-            return publisher.map { NSExpression(format: expression,
-                                                argumentArray: [Int($0) ?? 0])
-                .expressionValue(with: nil, context: nil) as? Int }
-                .map { String($0 ?? 0) }.eraseToAnyPublisher()
-        case .scan(let expression):
-            return publisher.scan(0) { NSExpression(format: expression,
-                                                    argumentArray: [$0, Int($1) ?? 0])
-                .expressionValue(with: nil, context: nil) as? Int ?? 0 }
-                .map { String($0) }.eraseToAnyPublisher()
-        }
-    }
-
     func applyPublisher<T>(_ publisher: AnyPublisher<T, Never>) -> AnyPublisher<T, Never> {
         switch self {
         case .delay(let seconds):
             return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
         case .dropFirst(let count):
             return publisher.dropFirst(count).eraseToAnyPublisher()
+        case .filter(let expression):
+            return publisher.filter { value in
+                var argumentArray: [Any] = [value]
+                if let strValue = value as? String {
+                    argumentArray = [Double(strValue) ?? 0]
+                }
+                return NSPredicate(format: expression,
+                                   argumentArray: argumentArray)
+                    .evaluate(with: nil) }.eraseToAnyPublisher()
+        case .map(let expression):
+            return publisher.map { value in
+                var argumentArray: [Any] = [value]
+                if let strValue = value as? String {
+                    argumentArray = [Double(strValue) ?? 0]
+                }
+                let expressionValue =
+                    NSExpression(format: expression,
+                                 argumentArray: argumentArray)
+                        .expressionValue(with: nil, context: nil)
+
+                if value is String {
+                    return "\(expressionValue ?? 0)" as? T
+                }
+                return expressionValue as? T
+            }
+            .unwrap()
+            .eraseToAnyPublisher()
         default:
             return publisher
         }
@@ -108,10 +111,10 @@ extension Operator {
         switch self {
         case .map(let expression):
             return publisher.map { NSExpression(format: expression,
-                                            argumentArray: [$0])
-            .expressionValue(with: nil, context: nil) as? U }
-            .unwrap()
-            .eraseToAnyPublisher()
+                                                argumentArray: [$0])
+                .expressionValue(with: nil, context: nil) as? U }
+                .unwrap()
+                .eraseToAnyPublisher()
         default:
             return Empty().eraseToAnyPublisher()
         }

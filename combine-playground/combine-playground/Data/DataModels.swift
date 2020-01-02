@@ -60,6 +60,7 @@ enum UnifyOparator: String, Codable {
     case append
 }
 
+/// Basic Operator only modify publishers' behavior without casting types
 enum Operator: Codable {
 
     private struct DelayParameters: Codable {
