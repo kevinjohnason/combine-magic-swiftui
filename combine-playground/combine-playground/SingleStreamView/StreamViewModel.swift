@@ -71,6 +71,7 @@ struct TimeSeriesValue<T>: Identifiable {
     init(value: T) {
         self.id = Date()
         self.value = value
+        print("--delay on Purpose--new time series with value: \(value)--")
     }
 }
 
