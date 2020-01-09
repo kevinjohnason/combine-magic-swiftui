@@ -108,7 +108,7 @@ extension Operator {
     }
 
     func applyPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        switch self {        
+        switch self {
         case .dropFirst(let count):
             return publisher.dropFirst(count).eraseToAnyPublisher()
         case .filter:
