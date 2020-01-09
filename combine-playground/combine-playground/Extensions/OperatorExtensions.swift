@@ -53,11 +53,26 @@ extension JoinOperator {
     }
 }
 
-extension Operator {
+extension UtilityOperator {
     var description: String {
         switch self {
         case .delay(let seconds):
             return ".delay(for: .seconds(\(seconds)), scheduler: DispatchQueue.main)"
+        }
+    }
+
+    func applyPublisher<Numeric>(_ publisher: AnyPublisher<Numeric, Never>) -> AnyPublisher<Numeric, Never> {
+        switch self {
+        case .delay(let seconds):
+            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
+        }
+    }
+
+}
+
+extension Operator {
+    var description: String {
+        switch self {
         case .filter(let expression):
             return ".filter { \(expression) }"
         case .dropFirst(let count):
@@ -71,8 +86,6 @@ extension Operator {
 
     func applyPublisher<Numeric>(_ publisher: AnyPublisher<Numeric, Never>) -> AnyPublisher<Numeric, Never> {
         switch self {
-        case .delay(let seconds):
-            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
         case .dropFirst(let count):
             return publisher.dropFirst(count).eraseToAnyPublisher()
         case .filter(let expression):
@@ -95,9 +108,7 @@ extension Operator {
     }
 
     func applyPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        switch self {
-        case .delay(let seconds):
-            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
+        switch self {        
         case .dropFirst(let count):
             return publisher.dropFirst(count).eraseToAnyPublisher()
         case .filter:
