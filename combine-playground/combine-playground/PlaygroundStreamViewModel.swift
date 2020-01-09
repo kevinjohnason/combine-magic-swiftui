@@ -32,7 +32,7 @@ class PlaygroundStreamViewModel: ObservableObject {
 
     }
 
-    static func applyToPublisher<T>(_ publisher: AnyPublisher<T, Never>) -> AnyPublisher<T, Never> {
+    static func applyToPublisher<String>(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
         Operator.map(expression: "%d * 2").applyPublisher(publisher)
     }
 

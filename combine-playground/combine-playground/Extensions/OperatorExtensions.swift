@@ -69,7 +69,7 @@ extension Operator {
         }
     }
 
-    func applyPublisher<T>(_ publisher: AnyPublisher<T, Never>) -> AnyPublisher<T, Never> {
+    func applyPublisher<Numeric>(_ publisher: AnyPublisher<Numeric, Never>) -> AnyPublisher<Numeric, Never> {
         switch self {
         case .delay(let seconds):
             return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
@@ -77,31 +77,35 @@ extension Operator {
             return publisher.dropFirst(count).eraseToAnyPublisher()
         case .filter(let expression):
             return publisher.filter { value in
-                var argumentArray: [Any] = [value]
-                if let strValue = value as? String {
-                    argumentArray = [Double(strValue) ?? 0]
-                }
                 return NSPredicate(format: expression,
-                                   argumentArray: argumentArray)
+                                   argumentArray: [value])
                     .evaluate(with: nil) }.eraseToAnyPublisher()
         case .map(let expression):
             return publisher.map { value in
-                var argumentArray: [Any] = [value]
-                if let strValue = value as? String {
-                    argumentArray = [Double(strValue) ?? 0]
-                }
                 let expressionValue =
                     NSExpression(format: expression,
-                                 argumentArray: argumentArray)
+                                 argumentArray: [value])
                         .expressionValue(with: nil, context: nil)
-
-                if value is String {
-                    return "\(expressionValue ?? 0)" as? T
-                }
-                return expressionValue as? T
-            }
-            .unwrap()
+                return expressionValue as? Numeric
+            }.unwrap()
             .eraseToAnyPublisher()
+        default:
+            return publisher
+        }
+    }
+
+    func applyPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
+        switch self {
+        case .delay(let seconds):
+            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
+        case .dropFirst(let count):
+            return publisher.dropFirst(count).eraseToAnyPublisher()
+        case .filter:
+            return applyPublisher(publisher.map { Int($0) ?? 0 }
+                .eraseToAnyPublisher()).map { String($0) }.eraseToAnyPublisher()
+        case .map:
+            return applyPublisher(publisher.map { Int($0) ?? 0 }
+                .eraseToAnyPublisher()).map { String($0) }.print().eraseToAnyPublisher()
         default:
             return publisher
         }
