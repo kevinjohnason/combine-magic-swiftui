@@ -11,7 +11,7 @@ import Combine
 import CombineExtensions
 class MultiStreamViewModel: ObservableObject {
     @Published var streamViewModels: [StreamViewModel<[String]>] = []
-    var sourceStreamModels: [StreamModel<String>] = []
+    private var sourceStreamModels: [StreamModel<String>] = []
     @Published var operationStreamModel: OperationStreamModel?
 
     lazy var addOperationStreamViewModel: UpdateOperationStreamViewModel? = {
@@ -26,6 +26,16 @@ class MultiStreamViewModel: ObservableObject {
     @Published var unifyingStreamModel: UnifyingOperationStreamModel?
     var title: String
     var disposeBag = DisposeSet()
+
+    init<T>(title: String, streamViewModels: [StreamViewModel<T>]) {
+        self.title = title
+        self.streamViewModels = streamViewModels.map { $0.toStringArrayViewModel() }
+    }
+
+    init(title: String, streamViewModels: [StreamViewModel<[String]>]) {
+        self.title = title
+        self.streamViewModels = streamViewModels
+    }
 
     init(title: String, sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
         self.title = title

@@ -19,7 +19,7 @@ extension UnifyOparator {
             let initialPublisher: AnyPublisher<String, Never> = Just("").eraseToAnyPublisher()
             appliedPublisher = publishers.reduce(initialPublisher) { (initial, next) -> AnyPublisher<String, Never> in
                 initial.flatMap { _ in
-                     next
+                    next
                 }.eraseToAnyPublisher()
             }
         case .append:
@@ -53,11 +53,26 @@ extension JoinOperator {
     }
 }
 
-extension Operator {
+extension UtilityOperator {
     var description: String {
         switch self {
         case .delay(let seconds):
             return ".delay(for: .seconds(\(seconds)), scheduler: DispatchQueue.main)"
+        }
+    }
+
+    func applyPublisher<Numeric>(_ publisher: AnyPublisher<Numeric, Never>) -> AnyPublisher<Numeric, Never> {
+        switch self {
+        case .delay(let seconds):
+            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
+        }
+    }
+
+}
+
+extension Operator {
+    var description: String {
+        switch self {
         case .filter(let expression):
             return ".filter { \(expression) }"
         case .dropFirst(let count):
@@ -69,27 +84,54 @@ extension Operator {
         }
     }
 
-    func applyPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
+    func applyPublisher<Numeric>(_ publisher: AnyPublisher<Numeric, Never>) -> AnyPublisher<Numeric, Never> {
         switch self {
-        case .delay(let seconds):
-            return publisher.delay(for: .seconds(seconds), scheduler: DispatchQueue.main).eraseToAnyPublisher()
-        case .filter(let expression):
-            return publisher.filter {
-                NSPredicate(format: expression,
-                            argumentArray: [Int($0) ?? 0])
-                .evaluate(with: nil) }.eraseToAnyPublisher()
         case .dropFirst(let count):
             return publisher.dropFirst(count).eraseToAnyPublisher()
+        case .filter(let expression):
+            return publisher.filter { value in
+                 NSPredicate(format: expression,
+                                   argumentArray: [value])
+                    .evaluate(with: nil) }.eraseToAnyPublisher()
+        case .map(let expression):
+            return publisher.map { value in
+                let expressionValue =
+                    NSExpression(format: expression,
+                                 argumentArray: [value])
+                        .expressionValue(with: nil, context: nil)
+                return expressionValue as? Numeric
+            }.unwrap()
+            .eraseToAnyPublisher()
+        default:
+            return publisher
+        }
+    }
+
+    func applyPublisher(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
+        switch self {
+        case .dropFirst(let count):
+            return publisher.dropFirst(count).eraseToAnyPublisher()
+        case .filter:
+            return applyPublisher(publisher.map { Int($0) ?? 0 }
+                .eraseToAnyPublisher()).map { String($0) }.eraseToAnyPublisher()
+        case .map:
+            return applyPublisher(publisher.map { Int($0) ?? 0 }
+                .eraseToAnyPublisher()).map { String($0) }.print().eraseToAnyPublisher()
+        default:
+            return publisher
+        }
+    }
+
+    func applyTransformPublisher<T, U>(_ publisher: AnyPublisher<T, Never>) -> AnyPublisher<U, Never> {
+        switch self {
         case .map(let expression):
             return publisher.map { NSExpression(format: expression,
-                                                argumentArray: [Int($0) ?? 0])
-                .expressionValue(with: nil, context: nil) as? Int }
-                .map { String($0 ?? 0) }.eraseToAnyPublisher()
-        case .scan(let expression):
-            return publisher.scan(0) { NSExpression(format: expression,
-                                                    argumentArray: [$0, Int($1) ?? 0])
-                                        .expressionValue(with: nil, context: nil) as? Int ?? 0 }
-                .map { String($0) }.eraseToAnyPublisher()
+                                                argumentArray: [$0])
+                .expressionValue(with: nil, context: nil) as? U }
+                .unwrap()
+                .eraseToAnyPublisher()
+        default:
+            return Empty().eraseToAnyPublisher()
         }
     }
 }

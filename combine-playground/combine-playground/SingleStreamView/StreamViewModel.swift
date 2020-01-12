@@ -61,6 +61,11 @@ class StreamViewModel<T>: ObservableObject {
         StreamViewModel<[T]>(title: self.title, description: self.description,
                              publisher: self.publisher.map { [$0] }.eraseToAnyPublisher(), editable: self.editable)
     }
+
+    func toStringArrayViewModel() -> StreamViewModel<[String]> {
+        StreamViewModel<[String]>(title: self.title, description: self.description,
+                             publisher: self.publisher.map { ["\($0)"] }.eraseToAnyPublisher(), editable: self.editable)
+    }
 }
 
 struct TimeSeriesValue<T>: Identifiable {

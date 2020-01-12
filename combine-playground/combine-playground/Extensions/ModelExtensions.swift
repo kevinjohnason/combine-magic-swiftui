@@ -58,9 +58,39 @@ extension StreamModel where T == String {
     }
 }
 
+extension StreamModel {
+
+    func toPublisher() -> AnyPublisher<T, Never> {
+        let intervalPublishers =
+            self.stream.map { $0.toPublisher() }
+
+        var publisher: AnyPublisher<T, Never>?
+
+        for intervalPublisher in intervalPublishers {
+            if publisher == nil {
+                publisher = intervalPublisher
+                continue
+            }
+            publisher = publisher?.append(intervalPublisher).eraseToAnyPublisher()
+        }
+
+        return publisher ?? Empty().eraseToAnyPublisher()
+    }
+}
+
 extension StreamItem where T == String {
     func toPublisher()  -> AnyPublisher<String, Never> {
         var publisher: AnyPublisher<String, Never> = Just(value).eraseToAnyPublisher()
+        self.operators.forEach {
+            publisher = $0.applyPublisher(publisher)
+        }
+        return publisher
+    }
+}
+
+extension StreamItem {
+    func toPublisher() -> AnyPublisher<T, Never> {
+        var publisher: AnyPublisher<T, Never> = Just(value).eraseToAnyPublisher()
         self.operators.forEach {
             publisher = $0.applyPublisher(publisher)
         }

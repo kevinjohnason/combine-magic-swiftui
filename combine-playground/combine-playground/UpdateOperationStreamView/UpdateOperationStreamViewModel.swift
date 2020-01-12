@@ -57,8 +57,6 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
         if operationStreamModel.operators.count > updateIndex {
             switch operationStreamModel.operators[updateIndex] {
-            case .delay:
-                selectedOperator = "delay"
             case .dropFirst(let count):
                 selectedOperator = "dropFirst"
                 parameter = String(count)
