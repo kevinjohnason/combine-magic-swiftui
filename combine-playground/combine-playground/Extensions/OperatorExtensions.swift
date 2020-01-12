@@ -90,7 +90,7 @@ extension Operator {
             return publisher.dropFirst(count).eraseToAnyPublisher()
         case .filter(let expression):
             return publisher.filter { value in
-                return NSPredicate(format: expression,
+                 NSPredicate(format: expression,
                                    argumentArray: [value])
                     .evaluate(with: nil) }.eraseToAnyPublisher()
         case .map(let expression):
