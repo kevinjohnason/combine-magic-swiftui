@@ -22,7 +22,7 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
 
     lazy var updateOperationStreamViewModel: UpdateOperationStreamViewModel? = {
         guard let stringStreamModel = sourceStreamModel as? StreamModel<[String]>,
-        let updateStreamModel = updateStreamModel as? OperationStreamModel else {
+        let updateStreamModel = updateStreamModel as? OperationStreamModel<String> else {
             return nil
         }
         let updateStreamViewModel = UpdateOperationStreamViewModel(
@@ -82,7 +82,7 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
         self.updateStreamModel = updatableStreamModel
         self.sourceStreamModel = streamModel
         self.updatableIndex = updatableIndex
-        if let operationStreamModel = updatableStreamModel as? OperationStreamModel,
+        if let operationStreamModel = updatableStreamModel as? OperationStreamModel<T>,
             operationStreamModel.operators.count > updatableIndex {
             super.init(title: operationStreamModel.operators[updatableIndex].description,
                               description: "", publisher: publisher, editable: true)

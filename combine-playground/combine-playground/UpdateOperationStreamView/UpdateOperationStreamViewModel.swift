@@ -27,23 +27,23 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     @Published var sourceStreamModel: StreamModel<String>
 
-    @Published var operationStreamModel: OperationStreamModel
+    @Published var operationStreamModel: OperationStreamModel<String>
 
-    var stagingOperationStreamModel: OperationStreamModel
+    var stagingOperationStreamModel: OperationStreamModel<String>
 
     let updateIndex: Int
 
     var disposables: DisposeSet = DisposeSet()
 
     convenience init(sourceStreamModel: StreamModel<String>) {
-        let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
+        let newOperationStreamModel = OperationStreamModel<String>(id: UUID(), name: nil,
                                                            description: nil,
                                                            operators: [])
         self.init(sourceStreamModel: sourceStreamModel,
                   operationStreamModel: newOperationStreamModel, updateIndex: 0)
     }
 
-    init(sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel, updateIndex: Int) {
+    init(sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel<String>, updateIndex: Int) {
         self.sourceStreamModel = sourceStreamModel
         self.operationStreamModel = operationStreamModel
         self.stagingOperationStreamModel = operationStreamModel
@@ -66,7 +66,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
             case .map(let expression):
                 selectedOperator = "map"
                 parameter = expression
-            case .scan(let expression):
+            case .scan(_, let expression):
                 selectedOperator = "scan"
                 parameter = expression
             }

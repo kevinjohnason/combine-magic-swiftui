@@ -12,7 +12,7 @@ import CombineExtensions
 class MultiStreamViewModel: ObservableObject {
     @Published var streamViewModels: [StreamViewModel<[String]>] = []
     private var sourceStreamModels: [StreamModel<String>] = []
-    @Published var operationStreamModel: OperationStreamModel?
+    @Published var operationStreamModel: OperationStreamModel<String>?
 
     lazy var addOperationStreamViewModel: UpdateOperationStreamViewModel? = {
         guard let operationStreamModel = self.operationStreamModel else {
@@ -37,7 +37,7 @@ class MultiStreamViewModel: ObservableObject {
         self.streamViewModels = streamViewModels
     }
 
-    init(title: String, sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel) {
+    init(title: String, sourceStreamModel: StreamModel<String>, operationStreamModel: OperationStreamModel<String>) {
         self.title = title
         self.operationStreamModel = operationStreamModel
         self.sourceStreamModels = [sourceStreamModel]

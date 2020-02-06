@@ -40,11 +40,11 @@ protocol Updatable {
     var description: String? { get set }
 }
 
-struct OperationStreamModel: Codable, Identifiable, Updatable {
+struct OperationStreamModel<T: Codable>: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
     var description: String?
-    var operators: [Operator]
+    var operators: [Operator<T>]
 }
 
 struct UnifyingOperationStreamModel: Codable, Identifiable, Updatable {
@@ -167,11 +167,17 @@ enum TransformOperator: Codable {
 }
 
 /// Basic Operator only modify publishers' behavior without casting types
-enum Operator: Codable {
+enum Operator<Output: Codable>: Codable {
 
     private struct ExpressionParameters: Codable {
            let expression: String
     }
+
+    private struct ScanParameters: Codable {
+        let initialValue: Output
+        let expression: String
+    }
+
     case filter(expression: String)
 
     private struct DropFirstParameters: Codable {
@@ -181,7 +187,7 @@ enum Operator: Codable {
 
     case map(expression: String)
 
-    case scan(expression: String)
+    case scan(initialValue: Output, expression: String)
 
     enum CodingKeys: CodingKey {
         case filter
@@ -201,8 +207,8 @@ enum Operator: Codable {
           return
         } else if let mapParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .map) {
             self = .map(expression: mapParameters.expression)
-        } else if let scanParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .scan) {
-            self = .scan(expression: scanParameters.expression)
+        } else if let scanParameters = try? container.decodeIfPresent(ScanParameters.self, forKey: .scan) {
+            self = .scan(initialValue: scanParameters.initialValue, expression: scanParameters.expression)
         } else {
             throw CodingError.decoding("Decoding Failed. \(dump(container))")
         }
@@ -217,8 +223,8 @@ enum Operator: Codable {
             try container.encode(DropFirstParameters(count: count), forKey: .dropFirst)
         case .map(let expression):
             try container.encode(ExpressionParameters(expression: expression), forKey: .map)
-        case .scan(let expression):
-            try container.encode(ExpressionParameters(expression: expression), forKey: .scan)
+        case .scan(let initialValue, let expression):
+            try container.encode(ScanParameters(initialValue: initialValue, expression: expression), forKey: .scan)
         }
     }
 }

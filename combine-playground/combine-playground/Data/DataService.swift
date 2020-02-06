@@ -25,12 +25,12 @@ class DataService {
         }
     }
 
-    var storedOperationStreams: [OperationStreamModel] {
+    var storedOperationStreams: [OperationStreamModel<String>] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedOperationStreams") else {
                 return self.appendDefaultOperationStreamsIfNeeded(streams: [])
             }
-            guard let streams = try? JSONDecoder().decode([OperationStreamModel].self, from: data) else {
+            guard let streams = try? JSONDecoder().decode([OperationStreamModel<String>].self, from: data) else {
                 return self.appendDefaultOperationStreamsIfNeeded(streams: [])
             }
             return self.appendDefaultOperationStreamsIfNeeded(streams: streams)
@@ -107,29 +107,29 @@ class DataService {
         return newStreams
     }
 
-    func appendDefaultOperationStreamsIfNeeded(streams: [OperationStreamModel]) -> [OperationStreamModel] {
+    func appendDefaultOperationStreamsIfNeeded(streams: [OperationStreamModel<String>]) -> [OperationStreamModel<String>] {
         guard streams.count == 0 else {
             return streams
         }
 
-        let filterStreamModel = OperationStreamModel(id: UUID(),
+        let filterStreamModel = OperationStreamModel<String>(id: UUID(),
                                                      name: "Filter Stream", description: "filter { $0 != 3 )",
                                                      operators: [.filter(expression: "%d != 3")])
 
-        let dropStreamModel = OperationStreamModel(id: UUID(), name: "Drop Stream", description: "dropFirst(2)",
+        let dropStreamModel = OperationStreamModel<String>(id: UUID(), name: "Drop Stream", description: "dropFirst(2)",
                                                    operators: [.dropFirst(count: 2)])
 
-        let mapStreamModel = OperationStreamModel(id: UUID(), name: "Map Stream", description: "map { $0 * 2 }",
+        let mapStreamModel = OperationStreamModel<String>(id: UUID(), name: "Map Stream", description: "map { $0 * 2 }",
                                                   operators: [.map(expression: "%d * 2")])
 
-        let scanStreamModel = OperationStreamModel(id: UUID(), name: "Scan Stream",
+        let scanStreamModel = OperationStreamModel<String>(id: UUID(), name: "Scan Stream",
                                                    description: "scan(0) { $0 + $1 }",
-                                                   operators: [.scan(expression: "%d + %d")])
+                                                   operators: [.scan(initialValue: "0", expression: "%d + %d")])
 
-        let mixedStreamModel = OperationStreamModel(id: UUID(), name: "Map then Scan",
+        let mixedStreamModel = OperationStreamModel<String>(id: UUID(), name: "Map then Scan",
                                                   description: "map { $0 * 2 }.scan(0) { $0 + $1 }",
                                                   operators: [.map(expression: "%d * 2"),
-                                                              .scan(expression: "%d + %d")])
+                                                              .scan(initialValue: "0", expression: "%d + %d")])
 
         var newStreams = streams
         newStreams.append(filterStreamModel)

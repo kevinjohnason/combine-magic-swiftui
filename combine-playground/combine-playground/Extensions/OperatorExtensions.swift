@@ -95,15 +95,20 @@ extension Operator {
                     .evaluate(with: nil) }.eraseToAnyPublisher()
         case .map(let expression):
             return publisher.map { value in
-                let expressionValue =
                     NSExpression(format: expression,
                                  argumentArray: [value])
-                        .expressionValue(with: nil, context: nil)
-                return expressionValue as? Numeric
+                    .expressionValue(with: nil, context: nil) as? Numeric
             }.unwrap()
             .eraseToAnyPublisher()
-        default:
-            return publisher
+        case .scan(let expression):
+            return publisher.first().flatMap { initial -> AnyPublisher<Numeric, Never> in                
+                return publisher.scan(initial) { (prefix, value) in
+                    let expressionValue =
+                    NSExpression(format: expression, argumentArray: [prefix ?? 0, value])
+                        .expressionValue(with: nil, context: nil)
+                    return expressionValue as? Numeric
+                }.unwrap().eraseToAnyPublisher()
+            }.eraseToAnyPublisher()
         }
     }
 
@@ -117,8 +122,9 @@ extension Operator {
         case .map:
             return applyPublisher(publisher.map { Int($0) ?? 0 }
                 .eraseToAnyPublisher()).map { String($0) }.print().eraseToAnyPublisher()
-        default:
-            return publisher
+        case .scan:
+            return applyPublisher(publisher.map { Int($0) ?? 0 }
+                .eraseToAnyPublisher()).map { String($0) }.print().eraseToAnyPublisher()
         }
     }
 

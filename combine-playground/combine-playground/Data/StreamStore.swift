@@ -68,7 +68,7 @@ class StreamStore: ObservableObject {
         streams = storedStreams
     }
 
-    func save(_ operationStreamModel: OperationStreamModel) {
+    func save(_ operationStreamModel: OperationStreamModel<String>) {
         var storedOperations = operationStreams
         if let storedStreamIndex = storedOperations.firstIndex(where: { $0.id == operationStreamModel.id }) {
             storedOperations[storedStreamIndex] = operationStreamModel
