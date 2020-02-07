@@ -131,9 +131,9 @@ enum FilterOperator: Codable {
     }
 }
 
-enum TransformOperator: Codable {
+enum TransformOperator<Output: Codable>: Codable {
     case map(expression: String)
-    case scan(expression: String)
+    case scan(initialValue: Output, expression: String)
 
     enum CodingKeys: CodingKey {
         case map
@@ -144,12 +144,17 @@ enum TransformOperator: Codable {
         let expression: String
     }
 
+    private struct ScanParameters: Codable {
+        let initialValue: Output
+        let expression: String
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let mapParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .map) {
             self = .map(expression: mapParameters.expression)
-        } else if let scanParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .scan) {
-            self = .scan(expression: scanParameters.expression)
+        } else if let scanParameters = try? container.decodeIfPresent(ScanParameters.self, forKey: .scan) {
+            self = .scan(initialValue:scanParameters.initialValue, expression: scanParameters.expression)
         } else {
             throw CodingError.decoding("Decoding Failed. \(dump(container))")
         }
@@ -160,8 +165,9 @@ enum TransformOperator: Codable {
         switch self {
         case .map(let expression):
             try container.encode(ExpressionParameters(expression: expression), forKey: .map)
-        case .scan(let expression):
-            try container.encode(ExpressionParameters(expression: expression), forKey: .scan)
+        case .scan(let initialValue, let expression):
+            try container.encode(ScanParameters(initialValue: initialValue, expression: expression),
+                                 forKey: .scan)
         }
     }
 }

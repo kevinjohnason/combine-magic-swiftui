@@ -24,16 +24,14 @@ class PlaygroundStreamViewModel: ObservableObject {
         let publisher = serialStreamA.toPublisher()
         let sourceStreamViewModel = StreamViewModel(title: "Source Stream", publisher: publisher)
 
-        let playgroundStreamViewModel = StreamViewModel(title: "Playground Result",
-                                                    publisher: PlaygroundStreamViewModel.applyToPublisher(publisher))
+        let scanPublisher = TransformOperator.scan(initialValue: 0, expression: "%d + %d").applyPublisher(publisher)
+        let scanStreamViewModel = StreamViewModel(title: "Scan Result",
+                                                  description: ".scan(0) { %d + %d }", publisher: scanPublisher)
+        let mapPublisher = TransformOperator.map(expression: "%d * 2").applyPublisher(scanPublisher)
+        let mapStreamViewModel = StreamViewModel(title: "Map Result",
+                                                 description: ".map { %d * 2 }", publisher: mapPublisher)
         multiStreamViewModel = MultiStreamViewModel(title: "Playground",
                                                     streamViewModels: [sourceStreamViewModel,
-                                                                       playgroundStreamViewModel])
-
+                                                                       scanStreamViewModel, mapStreamViewModel])
     }
-
-    static func applyToPublisher<String>(_ publisher: AnyPublisher<String, Never>) -> AnyPublisher<String, Never> {
-        Operator.map(expression: "%d * 2").applyPublisher(publisher)
-    }
-
 }

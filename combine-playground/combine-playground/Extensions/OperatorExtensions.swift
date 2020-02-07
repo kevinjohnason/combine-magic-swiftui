@@ -135,3 +135,29 @@ extension Operator {
         }
     }
 }
+
+extension TransformOperator {
+    func applyPublisher(_ publisher: AnyPublisher<Output, Never>) -> AnyPublisher<Output, Never> {
+        switch self {
+        case .map(let expression):
+            return publisher.map { value in
+                let expressionValue =
+                    NSExpression(format: expression,
+                                 argumentArray: [value])
+                        .expressionValue(with: nil, context: nil)
+                return expressionValue as? Output
+            }.unwrap()
+            .eraseToAnyPublisher()
+
+        case .scan(let initialValue, let expression):
+            return publisher.scan(initialValue) { (sum, num) -> Output in
+                let expressionValue =
+                    NSExpression(format: expression,
+                                 argumentArray: [sum, num])
+                        .expressionValue(with: nil, context: nil)
+                // swiftlint:disable:next force_cast
+                return expressionValue as! Output
+                }.eraseToAnyPublisher()
+        }
+    }
+}
