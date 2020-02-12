@@ -23,8 +23,6 @@ class MultiStreamViewModel: ObservableObject {
                                               updateIndex: operationStreamModel.operators.count)
     }()
 
-    @Published var transformingOperationStreamModel: TransformingOperationStreamModel<Int>?
-
     @Published var unifyingStreamModel: UnifyingOperationStreamModel?
     var title: String
     var disposeBag = DisposeSet()
@@ -59,35 +57,6 @@ class MultiStreamViewModel: ObservableObject {
                                                                  streamModel: sourceStreamModel,
                                                                  publisher: newPublisher).toArrayViewModel())
                 currentPublisher = newPublisher
-            }
-            return streamViewModels
-        }.assign(to: \MultiStreamViewModel.streamViewModels, on: self)
-        .store(in: &disposeBag)
-    }
-
-    init(title: String, sourceStreamModel: StreamModel<String>,
-         operationStreamModel: TransformingOperationStreamModel<Int>) {
-        self.title = title
-        self.transformingOperationStreamModel = operationStreamModel
-        self.sourceStreamModels = [sourceStreamModel]
-        $transformingOperationStreamModel
-            .unwrap()
-            .map { operationStreamModel -> [StreamViewModel<[String]>] in
-            let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
-                                                       description: sourceStreamModel.sequenceDescription,
-                                                       publisher: sourceStreamModel.toPublisher()).toArrayViewModel()
-            var streamViewModels: [StreamViewModel<[String]>] = [sourceViewModel]
-            var currentPublisher: AnyPublisher<String, Never> = sourceStreamModel.toPublisher()
-
-            operationStreamModel.operators.enumerated().forEach {
-                let newPublisher = $0.element.applyPublisher(currentPublisher
-                    .map { Int($0) ?? 0 }.eraseToAnyPublisher())
-                let stringPublisher = newPublisher.map { String($0) }.eraseToAnyPublisher()
-                streamViewModels.append(UpdatableStreamViewModel(updatableStreamModel: operationStreamModel,
-                                                                 updatableIndex: $0.offset,
-                                                                 streamModel: sourceStreamModel,
-                                                                 publisher: stringPublisher).toArrayViewModel())
-                currentPublisher = stringPublisher
             }
             return streamViewModels
         }.assign(to: \MultiStreamViewModel.streamViewModels, on: self)

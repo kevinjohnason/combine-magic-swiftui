@@ -11,7 +11,7 @@ import SwiftUI
 struct TransformingOperationStreamListView: View {
     @EnvironmentObject var streamStore: StreamStore
 
-     func streamView(streamModel: TransformingOperationStreamModel<Int>) -> some View {
+     func streamView(streamModel: OperationStreamModel) -> some View {
          let multiStreamViewModel = MultiStreamViewModel(title: streamModel.name ?? "",
                                                          sourceStreamModel: streamStore.streamAModel,
                                                          operationStreamModel: streamModel)

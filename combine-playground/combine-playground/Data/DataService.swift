@@ -40,12 +40,12 @@ class DataService {
         }
     }
 
-    var storedTransformingOperationStreams: [TransformingOperationStreamModel<Int>] {
+    var storedTransformingOperationStreams: [OperationStreamModel] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedTransformingOperationStreams") else {
                 return self.appendDefaultTransformingOperationStreamsIfNeeded(streams: [])
             }
-            guard let streams = try? JSONDecoder().decode([TransformingOperationStreamModel<Int>].self,
+            guard let streams = try? JSONDecoder().decode([OperationStreamModel].self,
                                                           from: data) else {
                 return self.appendDefaultTransformingOperationStreamsIfNeeded(streams: [])
             }
@@ -123,24 +123,20 @@ class DataService {
         return newStreams
     }
 
-    func appendDefaultTransformingOperationStreamsIfNeeded(streams: [TransformingOperationStreamModel<Int>])
-        -> [TransformingOperationStreamModel<Int>] {
+    func appendDefaultTransformingOperationStreamsIfNeeded(streams: [OperationStreamModel])
+        -> [OperationStreamModel] {
         guard streams.count == 0 else {
             return streams
         }
-        let mapStreamModel = TransformingOperationStreamModel<Int>(id: UUID(),
-                                                                   name: "Map Stream", description: "map { $0 * 2 }",
-                                                                   operators: [.map(expression: "%d * 2")])
+        let mapStreamModel = OperationStreamModel(id: UUID(),
+                                                  name: "Map Stream", description: "map { $0 * 2 }",
+                                                  operators: [.transforming(.map(expression: "%d * 2"))])
 
-        let scanStreamModel = TransformingOperationStreamModel<Int>(id: UUID(), name: "Scan Stream",
+        let scanStreamModel = OperationStreamModel(id: UUID(), name: "Scan Stream",
                                                    description: "scan(0) { $0 + $1 }",
-                                                   operators: [.scan(initialValue: 0, expression: "%d + %d")])
-
-        let mixedStreamModel = TransformingOperationStreamModel<Int>(id: UUID(), name: "Map then Scan",
-                                                      description: "map { $0 * 2 }.scan(0) { $0 + $1 }",
-                                                      operators: [.map(expression: "%d * 2"),
-                                                                  .scan(initialValue: 0, expression: "%d + %d")])
-        return [mapStreamModel, scanStreamModel, mixedStreamModel]
+                                                   operators: [.transforming(.scan(initialValue: 0,
+                                                                                   expression: "%d + %d"))])
+        return [mapStreamModel, scanStreamModel]
     }
 
     func appendDefaultOperationStreamsIfNeeded(streams: [OperationStreamModel]) -> [OperationStreamModel] {

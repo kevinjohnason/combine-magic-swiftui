@@ -42,10 +42,15 @@ protocol Updatable {
 
 enum Operator: Codable {
     case filtering(FilteringOperator)
+    case transforming(TransformingOperator<Int>)
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let filteringOperator = try? container.decode(FilteringOperator.self) {
             self = .filtering(filteringOperator)
+            return
+        }
+        if let transformingOperator = try? container.decode(TransformingOperator<Int>.self) {
+            self = .transforming(transformingOperator)
             return
         }
         throw CodingError.decoding("Decoding Failed. \(dump(container))")
@@ -56,13 +61,15 @@ enum Operator: Codable {
         switch self {
         case .filtering(let filteringOperator):
             try container.encode(filteringOperator)
+        case .transforming(let transformingOperator):
+            try container.encode(transformingOperator)
         }
      }
 }
 
 enum FilterOperator: Codable {
     private struct ExpressionParameters: Codable {
-           let expression: String
+        let expression: String
     }
     case filter(expression: String)
 
@@ -106,13 +113,6 @@ struct OperationStreamModel: Codable, Identifiable, Updatable {
     var name: String?
     var description: String?
     var operators: [Operator]
-}
-
-struct TransformingOperationStreamModel<T: Codable>: Codable, Identifiable, Updatable {
-    var id: UUID
-    var name: String?
-    var description: String?
-    var operators: [TransformingOperator<T>]
 }
 
 struct UnifyingOperationStreamModel: Codable, Identifiable, Updatable {
