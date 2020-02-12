@@ -90,7 +90,6 @@ class UpdateOperationStreamViewModel: ObservableObject {
                 case "dropFirst":
                     return .filtering(.dropFirst(count: Int(parameter) ?? 0))
                 case "map":
-                    print("new parameter: \(parameter)")
                     return .transforming(.map(expression: parameter))
                 case "scan":
                     return .transforming(.scan(initialValue: 0, expression: parameter))

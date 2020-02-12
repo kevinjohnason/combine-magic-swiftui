@@ -89,9 +89,10 @@ class DataService {
         guard (streams.filter { $0.isDefault }).count == 0 else {
             return streams
         }
-
+        
         let streamA = (1...4).map { StreamItem(value: String($0),
                                                operators: [.delay(seconds: 1)]) }
+
         let serialStreamA = StreamModel(id: UUID(), name: "Serial Stream A",
                                         description: nil, stream: streamA, isDefault: true)
 
