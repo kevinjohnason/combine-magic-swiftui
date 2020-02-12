@@ -56,6 +56,12 @@ extension StreamModel where T == String {
 
         return publisher ?? Empty().eraseToAnyPublisher()
     }
+
+    func toIntModel() -> StreamModel<Int> {
+        let streamItems = self.stream.map { StreamItem(value: Int($0.value) ?? 0, operators: $0.operators) }
+        return StreamModel<Int>(id: id, name: name, description: description,
+                                stream: streamItems, isDefault: isDefault)
+    }
 }
 
 extension StreamModel {

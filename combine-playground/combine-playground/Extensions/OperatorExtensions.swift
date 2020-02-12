@@ -136,7 +136,7 @@ extension Operator {
     }
 }
 
-extension TransformOperator {
+extension TransformingOperator {
     func applyPublisher(_ publisher: AnyPublisher<Output, Never>) -> AnyPublisher<Output, Never> {
         switch self {
         case .map(let expression):

@@ -47,6 +47,13 @@ struct OperationStreamModel: Codable, Identifiable, Updatable {
     var operators: [Operator]
 }
 
+struct TransformingOperationStreamModel<T: Codable>: Codable, Identifiable, Updatable {
+    var id: UUID
+    var name: String?
+    var description: String?
+    var operators: [TransformingOperator<T>]
+}
+
 struct UnifyingOperationStreamModel: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
@@ -131,7 +138,7 @@ enum FilterOperator: Codable {
     }
 }
 
-enum TransformOperator<Output: Codable>: Codable {
+enum TransformingOperator<Output: Codable>: Codable {
     case map(expression: String)
     case scan(initialValue: Output, expression: String)
 

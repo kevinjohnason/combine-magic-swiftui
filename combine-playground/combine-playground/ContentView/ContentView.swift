@@ -19,8 +19,11 @@ struct ContentView: View {
                     Section(header: Text("Stream data")) {
                         StreamListView()
                     }
-                    Section(header: Text("Basic Operators")) {
+                    Section(header: Text("Filtering Operators")) {
                         OperationStreamListView()
+                    }
+                    Section(header: Text("Transforming Operators")) {
+                        TransformingOperationStreamListView()
                     }
                     Section(header: Text("Unifying Operators")) {
                         UnifyingOperationListStreamView()
