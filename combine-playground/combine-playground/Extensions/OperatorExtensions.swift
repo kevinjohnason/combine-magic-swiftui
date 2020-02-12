@@ -132,8 +132,8 @@ extension TransformingOperator {
         switch self {
         case .map(let expression):
             return ".map { \(expression) }"
-        case .scan(let expression):
-            return ".scan(0) { \(expression) }"
+        case .scan(let initialValue, let expression):
+            return ".scan(\(initialValue)) { \(expression) }"
         }
     }
 

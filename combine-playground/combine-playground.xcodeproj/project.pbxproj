@@ -209,6 +209,15 @@
 			path = NewStreamView;
 			sourceTree = "<group>";
 		};
+		3179102E23F41B9B007E9308 /* PlaygroundStreamView */ = {
+			isa = PBXGroup;
+			children = (
+				311DA03B23BC08540074265A /* PlaygroundStreamView.swift */,
+				311DA04123BC0CE90074265A /* PlaygroundStreamViewModel.swift */,
+			);
+			path = PlaygroundStreamView;
+			sourceTree = "<group>";
+		};
 		31880C2B23A83A8A005D69E0 /* UpdateUnifyingStreamView */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,8 +268,7 @@
 				31880C2B23A83A8A005D69E0 /* UpdateUnifyingStreamView */,
 				31383ABC2385C42B00EC9A95 /* UpdateJoinStreamView */,
 				31CD20A8237490D8001793FC /* Preview Content */,
-				311DA03B23BC08540074265A /* PlaygroundStreamView.swift */,
-				311DA04123BC0CE90074265A /* PlaygroundStreamViewModel.swift */,
+				3179102E23F41B9B007E9308 /* PlaygroundStreamView */,
 			);
 			path = "combine-playground";
 			sourceTree = "<group>";

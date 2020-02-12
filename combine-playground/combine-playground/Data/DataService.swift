@@ -89,7 +89,6 @@ class DataService {
         guard (streams.filter { $0.isDefault }).count == 0 else {
             return streams
         }
-        
         let streamA = (1...4).map { StreamItem(value: String($0),
                                                operators: [.delay(seconds: 1)]) }
 
