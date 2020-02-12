@@ -27,7 +27,7 @@ class UpdateUnifyingStreamViewModel: ObservableObject {
 
     private var stagingStreamModel: UnifyingOperationStreamModel
 
-    var disposables: DisposeSet = DisposeSet()
+    var disposables: CancellableSet = CancellableSet()
 
     convenience init(sourceStreamModels: [StreamModel<String>]) {
         self.init(sourceStreamModels: sourceStreamModels,

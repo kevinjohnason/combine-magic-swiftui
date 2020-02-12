@@ -18,7 +18,7 @@ class StreamStore: ObservableObject {
 
     @Published var joinStreams = DataService.shared.storedJoinOperationStreams
 
-    var disposeBag = DisposeSet()
+    var disposeBag = CancellableSet()
 
     init() {
         $streams.dropFirst().sink {
