@@ -40,6 +40,67 @@ protocol Updatable {
     var description: String? { get set }
 }
 
+enum Operator: Codable {
+    case filtering(FilteringOperator)
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let filteringOperator = try? container.decode(FilteringOperator.self) {
+            self = .filtering(filteringOperator)
+            return
+        }
+        throw CodingError.decoding("Decoding Failed. \(dump(container))")
+     }
+
+     func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .filtering(let filteringOperator):
+            try container.encode(filteringOperator)
+        }
+     }
+}
+
+enum FilterOperator: Codable {
+    private struct ExpressionParameters: Codable {
+           let expression: String
+    }
+    case filter(expression: String)
+
+    private struct DropFirstParameters: Codable {
+        let count: Int
+    }
+    case dropFirst(count: Int)
+
+    enum CodingKeys: CodingKey {
+        case filter
+        case dropFirst
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let filterParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .filter) {
+            self = .filter(expression: filterParameters.expression)
+          return
+        } else if let dropFirstParameters =
+            try? container.decodeIfPresent(DropFirstParameters.self, forKey: .dropFirst) {
+            self = .dropFirst(count: dropFirstParameters.count)
+          return
+        } else {
+            throw CodingError.decoding("Decoding Failed. \(dump(container))")
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .filter(let expression):
+            try container.encode(ExpressionParameters(expression: expression), forKey: .filter)
+        case .dropFirst(let count):
+            try container.encode(DropFirstParameters(count: count), forKey: .dropFirst)
+        }
+    }
+}
+
 struct OperationStreamModel: Codable, Identifiable, Updatable {
     var id: UUID
     var name: String?
@@ -97,47 +158,6 @@ enum UtilityOperator: Codable {
     }
 }
 
-enum FilterOperator: Codable {
-    private struct ExpressionParameters: Codable {
-           let expression: String
-    }
-    case filter(expression: String)
-
-    private struct DropFirstParameters: Codable {
-        let count: Int
-    }
-    case dropFirst(count: Int)
-
-    enum CodingKeys: CodingKey {
-        case filter
-        case dropFirst
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let filterParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .filter) {
-            self = .filter(expression: filterParameters.expression)
-          return
-        } else if let dropFirstParameters =
-            try? container.decodeIfPresent(DropFirstParameters.self, forKey: .dropFirst) {
-            self = .dropFirst(count: dropFirstParameters.count)
-          return
-        } else {
-            throw CodingError.decoding("Decoding Failed. \(dump(container))")
-        }
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-        case .filter(let expression):
-            try container.encode(ExpressionParameters(expression: expression), forKey: .filter)
-        case .dropFirst(let count):
-            try container.encode(DropFirstParameters(count: count), forKey: .dropFirst)
-        }
-    }
-}
-
 enum TransformingOperator<Output: Codable>: Codable {
     case map(expression: String)
     case scan(initialValue: Output, expression: String)
@@ -180,10 +200,10 @@ enum TransformingOperator<Output: Codable>: Codable {
 }
 
 /// Basic Operator only modify publishers' behavior without casting types
-enum Operator: Codable {
+enum FilteringOperator: Codable {
 
     private struct ExpressionParameters: Codable {
-           let expression: String
+        let expression: String
     }
     case filter(expression: String)
 
@@ -192,15 +212,9 @@ enum Operator: Codable {
     }
     case dropFirst(count: Int)
 
-    case map(expression: String)
-
-    case scan(expression: String)
-
     enum CodingKeys: CodingKey {
         case filter
         case dropFirst
-        case map
-        case scan
     }
 
     init(from decoder: Decoder) throws {
@@ -212,10 +226,6 @@ enum Operator: Codable {
             try? container.decodeIfPresent(DropFirstParameters.self, forKey: .dropFirst) {
             self = .dropFirst(count: dropFirstParameters.count)
           return
-        } else if let mapParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .map) {
-            self = .map(expression: mapParameters.expression)
-        } else if let scanParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .scan) {
-            self = .scan(expression: scanParameters.expression)
         } else {
             throw CodingError.decoding("Decoding Failed. \(dump(container))")
         }
@@ -228,10 +238,6 @@ enum Operator: Codable {
             try container.encode(ExpressionParameters(expression: expression), forKey: .filter)
         case .dropFirst(let count):
             try container.encode(DropFirstParameters(count: count), forKey: .dropFirst)
-        case .map(let expression):
-            try container.encode(ExpressionParameters(expression: expression), forKey: .map)
-        case .scan(let expression):
-            try container.encode(ExpressionParameters(expression: expression), forKey: .scan)
         }
     }
 }

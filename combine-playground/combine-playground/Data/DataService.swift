@@ -150,10 +150,10 @@ class DataService {
 
         let filterStreamModel = OperationStreamModel(id: UUID(),
                                                      name: "Filter Stream", description: "filter { $0 != 3 )",
-                                                     operators: [.filter(expression: "%d != 3")])
+                                                     operators: [.filtering(.filter(expression: "%d != 3"))])
 
         let dropStreamModel = OperationStreamModel(id: UUID(), name: "Drop Stream", description: "dropFirst(2)",
-                                                   operators: [.dropFirst(count: 2)])
+                                                   operators: [.filtering(.dropFirst(count: 2))])
 
         return [filterStreamModel, dropStreamModel]
     }

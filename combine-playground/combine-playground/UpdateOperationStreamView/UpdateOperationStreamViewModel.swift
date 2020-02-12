@@ -57,18 +57,21 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
         if operationStreamModel.operators.count > updateIndex {
             switch operationStreamModel.operators[updateIndex] {
+            case .filtering(let filteringOperator):
+                switch filteringOperator {
             case .dropFirst(let count):
                 selectedOperator = "dropFirst"
                 parameter = String(count)
             case .filter(let expression):
                 selectedOperator = "filter"
                 parameter = expression
-            case .map(let expression):
-                selectedOperator = "map"
-                parameter = expression
-            case .scan(let expression):
-                selectedOperator = "scan"
-                parameter = expression
+//            case .map(let expression):
+//                selectedOperator = "map"
+//                parameter = expression
+//            case .scan(let expression):
+//                selectedOperator = "scan"
+//                parameter = expression
+                }            
             }
         }
         setupBindings()
@@ -76,16 +79,16 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     func setupBindings() {
         let opt = $selectedOperator.combineLatest($parameter)
-            .map { (selectedOperator, parameter) -> Operator in
+            .map { (selectedOperator, parameter) -> FilteringOperator in
                 switch selectedOperator {
                 case "filter":
                     return .filter(expression: parameter)
                 case "dropFirst":
                     return .dropFirst(count: Int(parameter) ?? 0)
-                case "map":
-                    return .map(expression: parameter)
-                case "scan":
-                    return .scan(expression: parameter)
+//                case "map":
+//                    return .map(expression: parameter)
+//                case "scan":
+//                    return .scan(expression: parameter)
                 default:
                     return .filter(expression: parameter)
                 }
@@ -94,9 +97,9 @@ class UpdateOperationStreamViewModel: ObservableObject {
             .map {
                 var currentOperators = self.operationStreamModel.operators
                 if currentOperators.count > self.updateIndex {
-                    currentOperators[self.updateIndex] = $0.2
+                    currentOperators[self.updateIndex] = .filtering($0.2)
                 } else {
-                    currentOperators.append($0.2)
+                    currentOperators.append(.filtering($0.2))
                 }
                 return OperationStreamModel(id: self.operationStreamModel.id,
                                             name: $0.0, description: $0.1, operators: currentOperators)
