@@ -40,22 +40,6 @@ class DataService {
         }
     }
 
-    var storedTransformingOperationStreams: [OperationStreamModel] {
-        get {
-            guard let data = UserDefaults.standard.data(forKey: "storedTransformingOperationStreams") else {
-                return self.appendDefaultTransformingOperationStreamsIfNeeded(streams: [])
-            }
-            guard let streams = try? JSONDecoder().decode([OperationStreamModel].self,
-                                                          from: data) else {
-                return self.appendDefaultTransformingOperationStreamsIfNeeded(streams: [])
-            }
-            return self.appendDefaultTransformingOperationStreamsIfNeeded(streams: streams)
-        } set {
-            // swiftlint:disable:next force_try
-            UserDefaults.standard.set(try! JSONEncoder().encode(newValue), forKey: "storedTransformingOperationStreams")
-        }
-    }
-
     var storedUnifyingOperationStreams: [UnifyingOperationStreamModel] {
         get {
             guard let data = UserDefaults.standard.data(forKey: "storedUnifyingOperationStreams") else {
@@ -123,22 +107,6 @@ class DataService {
         return newStreams
     }
 
-    func appendDefaultTransformingOperationStreamsIfNeeded(streams: [OperationStreamModel])
-        -> [OperationStreamModel] {
-        guard streams.count == 0 else {
-            return streams
-        }
-        let mapStreamModel = OperationStreamModel(id: UUID(),
-                                                  name: "Map Stream", description: "map { $0 * 2 }",
-                                                  operators: [.transforming(.map(expression: "%d * 2"))])
-
-        let scanStreamModel = OperationStreamModel(id: UUID(), name: "Scan Stream",
-                                                   description: "scan(0) { $0 + $1 }",
-                                                   operators: [.transforming(.scan(initialValue: 0,
-                                                                                   expression: "%d + %d"))])
-        return [mapStreamModel, scanStreamModel]
-    }
-
     func appendDefaultOperationStreamsIfNeeded(streams: [OperationStreamModel]) -> [OperationStreamModel] {
         guard streams.count == 0 else {
             return streams
@@ -151,7 +119,16 @@ class DataService {
         let dropStreamModel = OperationStreamModel(id: UUID(), name: "Drop Stream", description: "dropFirst(2)",
                                                    operators: [.filtering(.dropFirst(count: 2))])
 
-        return [filterStreamModel, dropStreamModel]
+        let mapStreamModel = OperationStreamModel(id: UUID(),
+                                                       name: "Map Stream", description: "map { $0 * 2 }",
+                                                       operators: [.transforming(.map(expression: "%d * 2"))])
+
+        let scanStreamModel = OperationStreamModel(id: UUID(), name: "Scan Stream",
+                                                        description: "scan(0) { $0 + $1 }",
+                                                        operators: [.transforming(.scan(initialValue: 0,
+                                                                                        expression: "%d + %d"))])
+
+        return [filterStreamModel, dropStreamModel, mapStreamModel, scanStreamModel]
     }
 
     func appendDefaultUnifyingOperationStreamsIfNeeded(streams: [UnifyingOperationStreamModel])
@@ -183,7 +160,6 @@ class DataService {
     func resetStoredStream() {
         storedStreams = appendDefaultStreamsIfNeeded(streams: [])
         storedOperationStreams = appendDefaultOperationStreamsIfNeeded(streams: [])
-        storedTransformingOperationStreams = appendDefaultTransformingOperationStreamsIfNeeded(streams: [])
         storedUnifyingOperationStreams = appendDefaultUnifyingOperationStreamsIfNeeded(streams: [])
         storedJoinOperationStreams = appendDefaultJoinOperationStreamsIfNeeded(streams: [])
     }

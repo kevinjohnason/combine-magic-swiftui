@@ -14,8 +14,6 @@ class StreamStore: ObservableObject {
 
     @Published var operationStreams = DataService.shared.storedOperationStreams
 
-    @Published var transformingOperationStreams = DataService.shared.storedTransformingOperationStreams
-
     @Published var unifyingStreams = DataService.shared.storedUnifyingOperationStreams
 
     @Published var joinStreams = DataService.shared.storedJoinOperationStreams
@@ -29,10 +27,6 @@ class StreamStore: ObservableObject {
 
         $operationStreams.dropFirst().sink {
             DataService.shared.storedOperationStreams = $0
-        }.store(in: &disposeBag)
-
-        $transformingOperationStreams.dropFirst().sink {
-            DataService.shared.storedTransformingOperationStreams = $0
         }.store(in: &disposeBag)
 
         $unifyingStreams.dropFirst().sink {

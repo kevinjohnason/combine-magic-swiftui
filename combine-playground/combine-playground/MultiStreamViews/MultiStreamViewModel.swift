@@ -42,8 +42,8 @@ class MultiStreamViewModel: ObservableObject {
         self.operationStreamModel = operationStreamModel
         self.sourceStreamModels = [sourceStreamModel]
         $operationStreamModel
-            .unwrap()
-            .map { operationStreamModel -> [StreamViewModel<[String]>] in
+        .unwrap()
+        .map { operationStreamModel -> [StreamViewModel<[String]>] in
             let sourceViewModel = StreamViewModel(title: sourceStreamModel.name ?? "",
                                                        description: sourceStreamModel.sequenceDescription,
                                                        publisher: sourceStreamModel.toPublisher()).toArrayViewModel()

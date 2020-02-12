@@ -20,7 +20,6 @@
 		31383AC52385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */; };
 		313C095323B574DB00F89E79 /* NewStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313C095223B574DA00F89E79 /* NewStreamView.swift */; };
 		313C095523B5751E00F89E79 /* NewStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313C095423B5751E00F89E79 /* NewStreamViewModel.swift */; };
-		3179102523ED0378007E9308 /* TransformingOperationStreamListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3179102423ED0378007E9308 /* TransformingOperationStreamListView.swift */; };
 		31880C2D23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31880C2C23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift */; };
 		31880C2F23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31880C2E23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift */; };
 		31C6339C23B2980E00745A12 /* UpdatableStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C6339B23B2980E00745A12 /* UpdatableStreamViewModel.swift */; };
@@ -106,7 +105,6 @@
 		31383AC42385F4D800EC9A95 /* UpdateOperationStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOperationStreamViewModel.swift; sourceTree = "<group>"; };
 		313C095223B574DA00F89E79 /* NewStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStreamView.swift; sourceTree = "<group>"; };
 		313C095423B5751E00F89E79 /* NewStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStreamViewModel.swift; sourceTree = "<group>"; };
-		3179102423ED0378007E9308 /* TransformingOperationStreamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformingOperationStreamListView.swift; sourceTree = "<group>"; };
 		31880C2C23A83AB3005D69E0 /* UpdateUnifyingStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnifyingStreamView.swift; sourceTree = "<group>"; };
 		31880C2E23A83ACC005D69E0 /* UpdateUnifyingStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnifyingStreamViewModel.swift; sourceTree = "<group>"; };
 		31C6339B23B2980E00745A12 /* UpdatableStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatableStreamViewModel.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 				313C095623B5753800F89E79 /* NewStreamView */,
 				31CD20B4237491D7001793FC /* StreamListView.swift */,
 				31CD20F4237491D8001793FC /* OperationStreamListView.swift */,
-				3179102423ED0378007E9308 /* TransformingOperationStreamListView.swift */,
 				31CD20BE237491D7001793FC /* UnifyingOperationListStreamView.swift */,
 				31CD20EC237491D8001793FC /* JoinOperationListStreamView.swift */,
 			);
@@ -499,7 +496,6 @@
 				31CD2129237491D9001793FC /* JoinOperationListStreamView.swift in Sources */,
 				31CD2136237491D9001793FC /* SingleStreamView.swift in Sources */,
 				31383AC32385CCC500EC9A95 /* UpdateOperationStreamView.swift in Sources */,
-				3179102523ED0378007E9308 /* TransformingOperationStreamListView.swift in Sources */,
 				31383AC02385C47300EC9A95 /* UpdateJoinStreamViewModel.swift in Sources */,
 				31CD2135237491D9001793FC /* DataStreamViewModel.swift in Sources */,
 				313593952384C61C007F52A5 /* StreamStore.swift in Sources */,
