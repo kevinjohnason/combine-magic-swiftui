@@ -167,7 +167,7 @@ enum TransformingOperator<Output: Codable>: Codable {
         case scan
     }
 
-    private struct ExpressionParameters: Codable {
+    private struct MapParameters: Codable {
         let expression: String
     }
 
@@ -178,7 +178,7 @@ enum TransformingOperator<Output: Codable>: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let mapParameters = try? container.decodeIfPresent(ExpressionParameters.self, forKey: .map) {
+        if let mapParameters = try? container.decodeIfPresent(MapParameters.self, forKey: .map) {
             self = .map(expression: mapParameters.expression)
         } else if let scanParameters = try? container.decodeIfPresent(ScanParameters.self, forKey: .scan) {
             self = .scan(initialValue:scanParameters.initialValue, expression: scanParameters.expression)
@@ -191,7 +191,7 @@ enum TransformingOperator<Output: Codable>: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
         case .map(let expression):
-            try container.encode(ExpressionParameters(expression: expression), forKey: .map)
+            try container.encode(MapParameters(expression: expression), forKey: .map)
         case .scan(let initialValue, let expression):
             try container.encode(ScanParameters(initialValue: initialValue, expression: expression),
                                  forKey: .scan)

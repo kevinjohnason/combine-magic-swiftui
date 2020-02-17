@@ -13,7 +13,7 @@ struct MultiBallTunnelView: View {
     var color: Color = .green
     var animationSecond: Double = 2
 
-    var ballRadius: CGFloat = 48
+    var ballRadius: CGFloat = 49
 
     var body: some View {
         GeometryReader { tunnelGeometry in
@@ -25,7 +25,7 @@ struct MultiBallTunnelView: View {
                         .frame(width: self.ballRadius * CGFloat(value.value.count),
                                height: self.ballRadius, alignment: .center)
                         .transition(.asymmetric(insertion:
-                            .offset(x: -tunnelGeometry.size.width, y: 0),
+                        .offset(x: -tunnelGeometry.size.width, y: 0),
                                                 removal: .offset(x: tunnelGeometry.size.width, y: 0)))
                 }
             }
@@ -42,6 +42,6 @@ struct MultiBallTunnelView: View {
 
 struct MultiBallTunnelView_Previews: PreviewProvider {
     static var previews: some View {
-        MultiBallTunnelView(values: .constant([]))
+        MultiBallTunnelView(values: .constant([IdentifiableValue(value: ["14"])]))
     }
 }
