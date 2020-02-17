@@ -52,14 +52,22 @@ class MultiStreamViewModel: ObservableObject {
 
             operationStreamModel.operators.enumerated().forEach {
                 let newPublisher = $0.element.applyPublisher(currentPublisher)
-                streamViewModels.append(UpdatableStreamViewModel(updatableStreamModel: operationStreamModel,
-                                                                 updatableIndex: $0.offset,
-                                                                 streamModel: sourceStreamModel,
-                                                                 publisher: newPublisher).toArrayViewModel())
+                let updatableStreamViewModel = UpdatableStreamViewModel(updatableStreamModel: operationStreamModel,
+                                                                        updatableIndex: $0.offset,
+                                                                        streamModel: sourceStreamModel,
+                                                                        publisher: newPublisher)
+                                              // swiftlint:disable:next force_cast
+                                              .toArrayViewModel() as! UpdatableStreamViewModel
+
+                updatableStreamViewModel.updateOperationStreamViewModel?.$operationStreamModel.dropFirst()
+                    .sink { [weak self] operationStreamModel in
+                        self?.operationStreamModel = operationStreamModel
+                }.store(in: &self.disposeBag)
+                streamViewModels.append(updatableStreamViewModel)
                 currentPublisher = newPublisher
             }
             return streamViewModels
-        }.assign(to: \MultiStreamViewModel.streamViewModels, on: self)
+        }.assign(to: \.streamViewModels, on: self)
         .store(in: &disposeBag)
     }
 
