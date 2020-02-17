@@ -18,22 +18,17 @@ class UpdatableStreamViewModel<T: Codable>: StreamViewModel<T> {
 
     var updatableIndex: Int
 
-    private var disposables = DisposeSet()
+    private var disposables = CancellableSet()
 
     lazy var updateOperationStreamViewModel: UpdateOperationStreamViewModel? = {
         guard let stringStreamModel = sourceStreamModel as? StreamModel<[String]>,
         let updateStreamModel = updateStreamModel as? OperationStreamModel else {
             return nil
         }
-        let updateStreamViewModel = UpdateOperationStreamViewModel(
+        return UpdateOperationStreamViewModel(
             sourceStreamModel: stringStreamModel.flatMapModel(),
             operationStreamModel: updateStreamModel,
             updateIndex: self.updatableIndex)
-        updateStreamViewModel.$operationStreamModel.map {
-            $0.operators.count > self.updatableIndex ?
-                $0.operators[self.updatableIndex].description : ""
-        }.assign(to: \.title, on: self).store(in: &disposables)
-        return updateStreamViewModel
     }()
 
     lazy var updateUnifyingStreamViewModel: UpdateUnifyingStreamViewModel? = {

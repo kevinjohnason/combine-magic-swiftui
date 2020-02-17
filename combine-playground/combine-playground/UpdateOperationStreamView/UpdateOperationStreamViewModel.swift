@@ -33,7 +33,7 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
     let updateIndex: Int
 
-    var disposables: DisposeSet = DisposeSet()
+    var disposables: CancellableSet = CancellableSet()
 
     convenience init(sourceStreamModel: StreamModel<String>) {
         let newOperationStreamModel = OperationStreamModel(id: UUID(), name: nil,
@@ -57,18 +57,25 @@ class UpdateOperationStreamViewModel: ObservableObject {
 
         if operationStreamModel.operators.count > updateIndex {
             switch operationStreamModel.operators[updateIndex] {
-            case .dropFirst(let count):
-                selectedOperator = "dropFirst"
-                parameter = String(count)
-            case .filter(let expression):
-                selectedOperator = "filter"
-                parameter = expression
-            case .map(let expression):
-                selectedOperator = "map"
-                parameter = expression
-            case .scan(let expression):
-                selectedOperator = "scan"
-                parameter = expression
+            case .filtering(let filteringOperator):
+                switch filteringOperator {
+                case .dropFirst(let count):
+                    selectedOperator = "dropFirst"
+                    parameter = String(count)
+                case .filter(let expression):
+                    selectedOperator = "filter"
+                    parameter = expression
+
+                }
+            case .transforming(let transformingOperator):
+                switch transformingOperator {
+                case .map(let expression):
+                    selectedOperator = "map"
+                    parameter = expression
+                case .scan(_, let expression):
+                    selectedOperator = "scan"
+                    parameter = expression
+                }
             }
         }
         setupBindings()
@@ -79,15 +86,15 @@ class UpdateOperationStreamViewModel: ObservableObject {
             .map { (selectedOperator, parameter) -> Operator in
                 switch selectedOperator {
                 case "filter":
-                    return .filter(expression: parameter)
+                    return .filtering(.filter(expression: parameter))
                 case "dropFirst":
-                    return .dropFirst(count: Int(parameter) ?? 0)
+                    return .filtering(.dropFirst(count: Int(parameter) ?? 0))
                 case "map":
-                    return .map(expression: parameter)
+                    return .transforming(.map(expression: parameter))
                 case "scan":
-                    return .scan(expression: parameter)
+                    return .transforming(.scan(initialValue: 0, expression: parameter))
                 default:
-                    return .filter(expression: parameter)
+                    return .filtering(.filter(expression: parameter))
                 }
         }
         Publishers.CombineLatest3($title, $description, opt)

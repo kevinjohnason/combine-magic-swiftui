@@ -25,6 +25,7 @@ struct MultiBallView: View {
 
 struct MultiBallView_Previews: PreviewProvider {
     static var previews: some View {
-        MultiBallView(forgroundColor: .red, backgroundColor: .red, viewModel: .constant(MultiBallViewModel(values: [])))
+        MultiBallView(forgroundColor: .white, backgroundColor: .red,
+                      viewModel: .constant(MultiBallViewModel(values: ["14"])))
     }
 }

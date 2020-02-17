@@ -13,7 +13,7 @@ import CombineExtensions
 class NewStreamViewModel: ObservableObject {
     let streamTitles: [String] = ["Stream Source", "Basic Operator", "Unifying Operator", "Join Operator"]
     @Published var selectedTitle: String = ""
-    private var disposebles = DisposeSet()
+    private var disposebles = CancellableSet()
 
     lazy var newStreamViewModel: UpdateStreamViewModel = {
         UpdateStreamViewModel(streamModel: StreamModel<String>.new())

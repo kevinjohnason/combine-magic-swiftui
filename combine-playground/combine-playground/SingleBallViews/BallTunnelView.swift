@@ -22,7 +22,7 @@ struct TunnelPreferenceKey: PreferenceKey {
 }
 
 struct BallTunnelView: View {
-    @Binding var values: [TimeSeriesValue<String>]
+    @Binding var values: [IdentifiableValue<String>]
     var color: Color = .green
 
     var animationSecond: Double = 2

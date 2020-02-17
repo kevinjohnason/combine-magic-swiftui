@@ -27,7 +27,7 @@ class StreamViewModel<T>: ObservableObject {
     // Simply to work around XCode bug that doesn't comipled a publishable description
     @Published var updatableDescription: String
     var publisher: AnyPublisher<T, Never>
-    @Published var values: [TimeSeriesValue<T>] = []
+    @Published var values: [IdentifiableValue<T>] = []
     let animationSeconds: Double = 1.5
     var cancellable: Cancellable?
     var editable: Bool
@@ -42,9 +42,10 @@ class StreamViewModel<T>: ObservableObject {
     }
 
     func subscribe() {
+        cancellable?.cancel()
         cancellable = publisher
             .sink(receiveValue: { [weak self] (value) in
-                self?.values.append(TimeSeriesValue(value: value))
+                self?.values.append(IdentifiableValue(value: value))
             })
     }
 
@@ -68,15 +69,14 @@ class StreamViewModel<T>: ObservableObject {
     }
 }
 
-struct TimeSeriesValue<T>: Identifiable {
+struct IdentifiableValue<T>: Identifiable {
     var value: T
     // swiftlint:disable identifier_name
-    var id: Date
+    var id: UUID
 
     init(value: T) {
-        self.id = Date()
+        self.id = UUID()
         self.value = value
-        print("--delay on Purpose--new time series with value: \(value)--")
     }
 }
 

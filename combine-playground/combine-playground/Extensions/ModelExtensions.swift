@@ -40,21 +40,10 @@ extension StreamModel where T == String {
         return desc
     }
 
-    func toPublisher()  -> AnyPublisher<String, Never> {
-        let intervalPublishers =
-            self.stream.map { $0.toPublisher() }
-
-        var publisher: AnyPublisher<String, Never>?
-
-        for intervalPublisher in intervalPublishers {
-            if publisher == nil {
-                publisher = intervalPublisher
-                continue
-            }
-            publisher = publisher?.append(intervalPublisher).eraseToAnyPublisher()
-        }
-
-        return publisher ?? Empty().eraseToAnyPublisher()
+    func toIntModel() -> StreamModel<Int> {
+        let streamItems = self.stream.map { StreamItem(value: Int($0.value) ?? 0, operators: $0.operators) }
+        return StreamModel<Int>(id: id, name: name, description: description,
+                                stream: streamItems, isDefault: isDefault)
     }
 }
 
@@ -64,27 +53,12 @@ extension StreamModel {
         let intervalPublishers =
             self.stream.map { $0.toPublisher() }
 
-        var publisher: AnyPublisher<T, Never>?
-
-        for intervalPublisher in intervalPublishers {
-            if publisher == nil {
-                publisher = intervalPublisher
-                continue
-            }
-            publisher = publisher?.append(intervalPublisher).eraseToAnyPublisher()
+        guard intervalPublishers.count > 0 else {
+            return Empty().eraseToAnyPublisher()
         }
-
-        return publisher ?? Empty().eraseToAnyPublisher()
-    }
-}
-
-extension StreamItem where T == String {
-    func toPublisher()  -> AnyPublisher<String, Never> {
-        var publisher: AnyPublisher<String, Never> = Just(value).eraseToAnyPublisher()
-        self.operators.forEach {
-            publisher = $0.applyPublisher(publisher)
+        return intervalPublishers[1...].reduce(intervalPublishers[0]) {
+            $0.append($1).eraseToAnyPublisher()
         }
-        return publisher
     }
 }
 

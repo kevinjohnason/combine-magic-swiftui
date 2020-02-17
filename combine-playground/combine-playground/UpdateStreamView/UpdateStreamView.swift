@@ -71,7 +71,7 @@ struct UpdateStreamView: View {
                 guard reader.frame(in: .global).contains(gestureValue.location) else {
                     return
                 }
-                self.viewModel.values.append(TimeSeriesValue(value: ballViewModel.value))
+                self.viewModel.values.append(IdentifiableValue(value: ballViewModel.value))
                 ballViewModel.isHidden = true
                 let presentAnimation =  Animation.default.delay(0.5)
                 withAnimation(presentAnimation) {
