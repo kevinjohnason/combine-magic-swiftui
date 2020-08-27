@@ -43,10 +43,11 @@ class StreamViewModel<T>: ObservableObject {
 
     func subscribe() {
         cancellable?.cancel()
-        cancellable = publisher
-            .sink(receiveValue: { [weak self] (value) in
-                self?.values.append(IdentifiableValue(value: value))
-            })
+        cancellable = publisher.map { value in
+            var newValues = self.values
+            newValues.append(IdentifiableValue(value: value))
+            return newValues
+        }.assign(to: \.values, on: self)
     }
 
     func cancel() {
